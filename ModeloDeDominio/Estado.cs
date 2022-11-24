@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace ModeloDeDominio
 {
-    internal class Estado
+    public enum Estado
     {
+        Finalizado = 0,
+        EnProceso = 1
     }
 }
