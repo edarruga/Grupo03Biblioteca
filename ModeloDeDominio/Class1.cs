@@ -8,5 +8,6 @@ namespace ModeloDeDominio
 {
     public class Class1
     {
+        //Pinga
     }
 }
