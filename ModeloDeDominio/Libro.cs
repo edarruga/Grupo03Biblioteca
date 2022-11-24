@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModeloDeDominio
 {
-    public class Class1
+    internal class Libro
     {
-        //Pinga
     }
 }
