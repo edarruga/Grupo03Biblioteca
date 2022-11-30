@@ -11,12 +11,14 @@ namespace ModeloDeDominio
         private DateTime fecha;
         private Usuario usuario;
         private Estado estado;
+        private List<Ejemplar> ejemPrestados;
 
-        public Prestamo(Usuario us)
+        public Prestamo(Usuario us, List<Ejemplar> ejemPrestados)
         {
             this.fecha = DateTime.Now;
             this.usuario = us;
             this.estado = Estado.EnProceso;
+            this.ejemPrestados = ejemPrestados;
         }
 
         public DateTime Fecha
@@ -30,6 +32,11 @@ namespace ModeloDeDominio
         { 
             get { return estado; }
             set { this.estado = value; } 
+        }
+
+        public List<Ejemplar> EjemPrestados
+        {
+            get { return ejemPrestados; }
         }
     }
 }

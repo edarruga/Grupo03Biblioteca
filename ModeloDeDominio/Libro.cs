@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModeloDeDominio
 {
-    internal class Libro
+    public class Libro
     {
         private string isbn;
         private string titulo;

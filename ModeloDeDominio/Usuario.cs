@@ -8,29 +8,29 @@ namespace ModeloDeDominio
 {
     public class Usuario
     {
-        private String dni;
-        private String nombre;
-        private String apellidos;
+        private string dni;
+        private string nombre;
+        private string apellidos;
 
-        public Usuario(String dni, String nombre, String apellidos)
+        public Usuario(string dni, string nombre, string apellidos)
         {
             this.dni = dni;
             this.nombre = nombre;
             this.apellidos = apellidos;
         }
 
-        public String Dni
+        public string Dni
         {
             get { return dni; }
         }
 
-        public String Nombre
+        public string Nombre
         {
             get { return nombre; }
             set { nombre = value; }
         }
 
-        public String Apellidos
+        public string Apellidos
         {
             get { return apellidos; }
             set { apellidos = value; }
