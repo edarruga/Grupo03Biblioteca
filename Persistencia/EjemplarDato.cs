@@ -9,11 +9,11 @@ namespace Persistencia
     internal class EjemplarDato : Entity<string>
     {
         private bool prestado;
-        private LibroDato ld;
-        public EjemplarDato(string id, bool prestado, LibroDato ld) : base(id)
+        private String isbnLibro;
+        public EjemplarDato(string id, bool prestado, String isbnLibro) : base(id)
         {
             this.prestado = prestado;
-            this.ld = ld;
+            this.isbnLibro = isbnLibro;
         }
     }
 }

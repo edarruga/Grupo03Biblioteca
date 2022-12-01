@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModeloDeDominio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,10 @@ namespace Persistencia
 {
     internal class PrestamoDato : Entity<ClavePrestamo>
     {
-        public PrestamoDato(ClavePrestamo id) : base(id)
+        private Estado Estado;
+        public PrestamoDato(ClavePrestamo id,Estado estado) : base(id)
         {
+            Estado = estado;
         }
     }
 }
