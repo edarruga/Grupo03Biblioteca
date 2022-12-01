@@ -42,10 +42,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BBDD.cs" />
+    <Compile Include="ClavePrestamo.cs" />
+    <Compile Include="EjemplarDato.cs" />
+    <Compile Include="PrestamoDato.cs" />
     <Compile Include="Table.cs" />
     <Compile Include="LibroDato.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ModeloDeDominio\ModeloDeDominio.csproj">
+      <Project>{B4BEE6FE-EF01-4E8B-8E73-1D1CDA3C2D6D}</Project>
+      <Name>ModeloDeDominio</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
