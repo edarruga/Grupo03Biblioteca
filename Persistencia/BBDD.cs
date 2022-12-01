@@ -8,5 +8,13 @@ namespace Persistencia
 {
     internal class BBDD
     {
+        private static Table<string, LibroDato> tablaLibro = new Table<string, LibroDato>;
+
+        public static Table<string, LibroDato> TablaLibro
+        {
+            get { return tablaLibro; }
+        }
+
+        private BBDD(){}
     }
 }
