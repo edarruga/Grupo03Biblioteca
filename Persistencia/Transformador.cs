@@ -14,7 +14,7 @@ namespace Persistencia
             return new LibroDato(l.Isbn, l.Autor, l.Editorial, l.Titulo);
         }
 
-        public static Libro LibroDatoToLibro(LibroDato ld)
+        public static Libro LibroDatoALibro(LibroDato ld)
         {
             return new Libro(ld.Isbn, ld.Titulo, ld.Autor, ld.Editorial);
         }

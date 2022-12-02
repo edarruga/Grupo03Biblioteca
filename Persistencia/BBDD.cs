@@ -19,15 +19,38 @@ namespace Persistencia
 
         private BBDD(){}
 
-        public static bool Add(Libro l) 
+        public static bool CreateLibro(Libro l) 
         {
-            if (!tablaLibro.Contains(l.Isbn) && l!=null)
+            if (l!=null && !tablaLibro.Contains(l.Isbn))
             {
                 tablaLibro.Add(Transformador.LibroALibroDato(l));
                 return true;
             }
             return false;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="isbn"></param>
+        /// <returns>El libro con isbn "isbn", o en caso de no existir en la tabla devuelve nulo</returns>
+        public static Libro ReadLibro(string isbn)
+        {
+            if(tablaLibro.Contains(isbn) && isbn!=null) return Transformador.LibroDatoALibro(tablaLibro[isbn]);
+            return null;
+        }
+
+        public static void UpdateLibro(Libro l)
+        {
+            if (l != null && tablaLibro.Remove(l.Isbn)) tablaLibro.Add(Transformador.LibroALibroDato(l));
+        }
+
+        public static bool RemoveLibro(string isbn)
+        {
+            return tablaLibro.Remove(isbn);
+        }
+
+
 
         //public static bool Add(Usuario u)
         //{
