@@ -9,8 +9,8 @@ namespace Persistencia
     internal class ClavePrestamo
     {
         private DateTime fecha;
-        private String dni;
-        public ClavePrestamo(DateTime fecha, String dni)
+        private string dni;
+        public ClavePrestamo(DateTime fecha, string dni)
         {
             this.fecha = fecha;
             this.dni = dni;

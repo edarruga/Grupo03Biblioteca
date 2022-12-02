@@ -9,10 +9,20 @@ namespace Persistencia
 {
     internal class PrestamoDato : Entity<ClavePrestamo>
     {
-        private Estado Estado;
+        private Estado estado;
+        private ClavePrestamo clavePrestamo;
         public PrestamoDato(ClavePrestamo id,Estado estado) : base(id)
         {
-            Estado = estado;
+            this.clavePrestamo = id;
+            this.estado = estado;
+        }
+        public Estado Estado
+        {
+            get { return this.estado; }
+        }
+        public ClavePrestamo ClavePrestamo
+        {
+            get { return this.clavePrestamo;}
         }
     }
 }
