@@ -23,7 +23,8 @@ namespace Persistencia
         {
             if (!tablaLibro.Contains(l.Isbn) && l!=null)
             {
-                tablaLibro.Add(new LibroDato(l.Isbn, l.Autor, l.Editorial));
+                tablaLibro.Add(Transformador.LibroALibroDato(l));
+                return true;
             }
             return false;
         }
