@@ -19,6 +19,13 @@ namespace ModeloDeDominio
             prestado = false;
         }
 
+        public Ejemplar(string codigo, Boolean prestado, Libro libro)
+        {
+            this.codigo = codigo;
+            this.libro = libro;
+            this.prestado = prestado;
+        }
+
         public string Codigo
         {
             get { return codigo; }

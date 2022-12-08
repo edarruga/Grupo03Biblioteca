@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BBDD.cs" />
+    <Compile Include="Clave.cs" />
+    <Compile Include="ClaveLibro.cs" />
     <Compile Include="ClavePrestamo.cs" />
     <Compile Include="EjemplarDato.cs" />
     <Compile Include="PrestamoDato.cs" />

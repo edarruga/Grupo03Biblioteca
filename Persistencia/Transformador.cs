@@ -11,7 +11,7 @@ namespace Persistencia
     {
         public static LibroDato LibroALibroDato(Libro l)
         {
-            return new LibroDato(l.Isbn, l.Autor, l.Editorial, l.Titulo);
+            return new LibroDato(l.Isbn, l.Autor, l.Titulo, l.Editorial);
         }
 
         public static Libro LibroDatoALibro(LibroDato ld)
@@ -19,6 +19,24 @@ namespace Persistencia
             return new Libro(ld.Isbn, ld.Titulo, ld.Autor, ld.Editorial);
         }
 
+        public static UsuarioDato UsuarioAUsuarioDato(Usuario u)
+        {
+            return new UsuarioDato(u.Dni, u.Nombre, u.Apellidos);
+        }
 
+        public static Usuario UsuarioDatoAUsuario(UsuarioDato ud)
+        {
+            return new Usuario(ud.Dni, ud.Nombre, ud.Apellidos);
+        }
+
+        public static EjemplarDato EjemplarAEjemplarDato(Ejemplar e)
+        {
+            return new EjemplarDato(e.Codigo, e.Prestado, e.Libro.Isbn);
+        }
+
+        public static Ejemplar EjemplarDatoAEjemplar(EjemplarDato ed)
+        {
+            return new Ejemplar(ed.Id, ed.Prestado, BBDD.ReadLibro(ed.Id) as Libro);
+        }
     }
 }

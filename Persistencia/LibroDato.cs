@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    internal class LibroDato : Entity<String>
+    internal class LibroDato : Entity<ClaveLibro>
     {
         private string isbn;
         private string autor;
         private string editorial;
         private string titulo;
-        public LibroDato(string isbn, string autor, string titulo, string editorial) : base(isbn)
+        public LibroDato(string isbn, string autor, string titulo, string editorial) : base(new ClaveLibro(isbn))
         {
             this.isbn = isbn;
             this.autor = autor;
