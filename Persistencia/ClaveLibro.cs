@@ -15,7 +15,7 @@ namespace Persistencia
             this.isbn = isbn;
         }
 
-        public string Isbn { get; }
+        public string Isbn { get { return this.isbn;} }
 
         public bool Equals(Clave other)
         {

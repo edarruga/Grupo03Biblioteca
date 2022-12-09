@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    internal class UsuarioDato : Entity<string>
+    internal class UsuarioDato : Entity<ClaveUsuario>
     {
         private string dni;
         private string nombre;
         private string apellidos;
-        public UsuarioDato(string id,string nombre,string apellidos) : base(id)
+        public UsuarioDato(string id,string nombre,string apellidos) : base(new ClaveUsuario(id))
         {
             this.nombre = nombre;
             this.apellidos = apellidos;

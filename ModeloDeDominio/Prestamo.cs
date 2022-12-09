@@ -21,6 +21,14 @@ namespace ModeloDeDominio
             this.ejemPrestados = ejemPrestados;
         }
 
+        public Prestamo(Usuario us, List<Ejemplar> ejemPrestados, Estado estado, DateTime fecha)
+        {
+            this.usuario = us;
+            this.ejemPrestados = ejemPrestados;
+            this.estado = estado;
+            this.fecha = fecha;
+        }
+
         public DateTime Fecha
         {
             get { return fecha; }

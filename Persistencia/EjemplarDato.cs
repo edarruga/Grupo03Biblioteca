@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    internal class EjemplarDato : Entity<string>
+    internal class EjemplarDato : Entity<ClaveEjemplar>
     {
-        private string id;
+        private string codigo;
         private bool prestado;
         private String isbnLibro;
-        public EjemplarDato(string id, bool prestado, String isbnLibro) : base(id)
+        public EjemplarDato(string id, bool prestado, String isbnLibro) : base(new ClaveEjemplar(id))
         {
-            this.id = id;
+            this.codigo = id;
             this.prestado = prestado;
             this.isbnLibro = isbnLibro;
         }
-        public string Id
+        public string Codigo
         {
-            get { return id; }
+            get { return codigo; }
         }
         public bool Prestado
         {

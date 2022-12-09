@@ -1,5 +1,6 @@
 ﻿using ModeloDeDominio;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,7 +37,22 @@ namespace Persistencia
 
         public static Ejemplar EjemplarDatoAEjemplar(EjemplarDato ed)
         {
-            return new Ejemplar(ed.Id, ed.Prestado, BBDD.ReadLibro(ed.Id) as Libro);
+            return new Ejemplar(ed.Codigo, ed.Prestado, BBDD.Read(ed.Id) as Libro);
+        }
+
+        public static PrestamoDato PrestamoAPrestamoDato(Prestamo p)
+        {
+            return new PrestamoDato(p.Usuario.Dni, p.EjemPrestados, p.Fecha, p.Estado);
+        }
+
+        public static Prestamo PrestamoDatoAPrestamo(PrestamoDato pd)
+        {
+            List<Ejemplar> ejemplares = new List<Ejemplar>();
+            foreach (ClaveEjemplar ce in pd.EjemPrestados)
+            {
+                ejemplares.Add(BBDD.Read(ce) as Ejemplar);
+            }
+            return new Prestamo(BBDD.Read(new ClaveUsuario(pd.Dni)) as Usuario,ejemplares, pd.Estado, pd.Fecha);
         }
     }
 }
