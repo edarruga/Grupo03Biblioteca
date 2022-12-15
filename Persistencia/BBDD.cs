@@ -14,64 +14,70 @@ namespace Persistencia
         private static Table<ClaveUsuario, UsuarioDato> tablaUsuario = new Table<ClaveUsuario, UsuarioDato>();
         private static Table<ClaveEjemplar, EjemplarDato> tablaEjemplar = new Table<ClaveEjemplar, EjemplarDato>();
         private static Table<ClavePrestamo, PrestamoDato> tablaPrestamo = new Table<ClavePrestamo, PrestamoDato>();
+        private static Table<ClavePrestamoEjemplar, PrestamoEjemplarDato> tablaPrestamoEjemplar = new Table<ClavePrestamoEjemplar, PrestamoEjemplarDato>();
 
+        private BBDD() { }
 
-        public static Table<ClaveLibro, LibroDato> TablaLibro
+        public static Table<ClaveLibro, LibroDato> TablaLibro { get { return tablaLibro; } }
+
+        public static Table<ClaveUsuario, UsuarioDato> TablaUsuario { get { return tablaUsuario; } }
+
+        public static Table<ClaveEjemplar, EjemplarDato> TablaEjemplar { get { return tablaEjemplar; } }
+
+        public static Table<ClavePrestamo, PrestamoDato> TablaPrestamo { get { return tablaPrestamo; } }
+
+        public static Table<ClavePrestamoEjemplar, PrestamoEjemplarDato> TablaPrestamoEjemplar { get { return tablaPrestamoEjemplar; } }
+
+        public static bool Create<T, U>(U u) where U : Entity<T> where T : Clave
         {
-            get { return tablaLibro; }
-        }
-
-        public static Table<ClaveUsuario, UsuarioDato> TablaUsuario
-        {
-            get { return tablaUsuario; }
-        }
-
-        public static Table<ClaveEjemplar, EjemplarDato> TablaEjemplar
-        {
-            get { return tablaEjemplar; }
-        }
-
-        public static Table<ClavePrestamo, PrestamoDato> TablaPrestamo
-        {
-            get { return tablaPrestamo; }
-        }
-
-        private BBDD(){}
-
-
-        public static bool Create(Object o)
-        {
-            if (o != null)
+            if (u != null)
             {
-                if (o is Libro)
+                if (u is LibroDato)
                 {
-                    if (!tablaLibro.Contains(new ClaveLibro((o as Libro).Isbn)))
+                    if (!tablaLibro.Contains(new ClaveLibro((u as LibroDato).Isbn)))
                     {
-                        tablaLibro.Add(Transformador.LibroALibroDato(o as Libro));
+                        tablaLibro.Add(u as LibroDato);
                         return true;
                     }
                 }
-                if (o is Usuario)
+                if (u is UsuarioDato)
                 {
-                    if (!tablaUsuario.Contains(new ClaveUsuario((o as Usuario).Dni)))
+                    if (!tablaUsuario.Contains(new ClaveUsuario((u as UsuarioDato).Dni)))
                     {
-                        tablaUsuario.Add(Transformador.UsuarioAUsuarioDato(o as Usuario));
+                        tablaUsuario.Add(u as UsuarioDato);
                         return true;
                     }
                 }
-                if (o is Prestamo)
+                if (u is PrestamoDato)
                 {
-                    if (!tablaPrestamo.Contains(new ClavePrestamo((o as Prestamo).Fecha, (o as Prestamo).Usuario.Dni)))
+                    //TERMINAR
+                    //
+                    //IMPORTANTE
+                    if (!tablaPrestamo.Contains(new ClavePrestamo((u as PrestamoDato).Fecha, (u as PrestamoDato).DniUsuario)))
                     {
-                        tablaPrestamo.Add(Transformador.PrestamoAPrestamoDato(o as Prestamo));
+                        PrestamoDato pd = u as PrestamoDato;
+                        tablaPrestamo.Add(pd);
+                        foreach (PrestamoEjemplarDato ped in TablaPrestamoEjemplar)
+                        {
+                            tablaPrestamoEjemplar.Add(new PrestamoEjemplarDato(pd.Fecha, pd.DniUsuario, ped.Id.Ejemplar.Codigo));//
+                        }
                         return true;
                     }
                 }
-                if (o is Ejemplar)
+                if (u is EjemplarDato)
                 {
-                    if (!tablaEjemplar.Contains(new ClaveEjemplar((o as Ejemplar).Codigo)))
+                    if (!tablaEjemplar.Contains(new ClaveEjemplar((u as EjemplarDato).Codigo)))
                     {
-                        tablaEjemplar.Add(Transformador.EjemplarAEjemplarDato(o as Ejemplar));
+                        tablaEjemplar.Add(u as EjemplarDato);
+                        return true;
+                    }
+                }
+                if (u is PrestamoEjemplarDato)
+                {
+                    PrestamoEjemplarDato pd = u as PrestamoEjemplarDato;
+                    if (!tablaPrestamoEjemplar.Contains(new ClavePrestamoEjemplar(pd.Id.Prestamo, pd.Id.Ejemplar)))
+                    {
+                        tablaPrestamoEjemplar.Add(pd);
                         return true;
                     }
                 }
@@ -84,15 +90,9 @@ namespace Persistencia
         /// </summary>
         /// <param name="isbn"></param>
         /// <returns>El libro con ISBN "isbn", o en caso de no existir en la tabla devuelve nulo</returns>
-        //public static Libro ReadLibro(string isbn)
-        //{
-        //    if(tablaLibro.Contains(isbn) && isbn!=null) return Transformador.LibroDatoALibro(tablaLibro[isbn]);
-        //    return null;
-        //}
-
-        public static object Read(Clave c)
+        public static Object Read(Clave c)
         {
-            if (c!=null)
+            if (c != null)
             {
                 if (c is ClaveLibro && tablaLibro.Contains(c as ClaveLibro))
                 {
@@ -110,13 +110,40 @@ namespace Persistencia
                 {
                     return tablaPrestamo[c as ClavePrestamo];
                 }
+                if (c is ClavePrestamoEjemplar && tablaPrestamoEjemplar.Contains(c as ClavePrestamoEjemplar))
+                {
+                    return tablaPrestamoEjemplar[c as ClavePrestamoEjemplar];
+                }
             }
             return null;
         }
 
-        //public static void UpdateLibro(Libro l)
+        //public static U Read<T, U>(T t) where U : Entity<T>
         //{
-        //    if (l != null && tablaLibro.Remove(l.Isbn)) tablaLibro.Add(Transformador.LibroALibroDato(l));
+        //    if (t != null)
+        //    {
+        //        if (t is ClaveLibro && tablaLibro.Contains(t as ClaveLibro))
+        //        {
+        //            return tablaLibro[t as ClaveLibro];
+        //        }
+        //        if (t is ClaveUsuario && tablaUsuario.Contains(t as ClaveUsuario))
+        //        {
+        //            return tablaUsuario[t as ClaveUsuario];
+        //        }
+        //        if (t is ClaveEjemplar && tablaEjemplar.Contains(t as ClaveEjemplar))
+        //        {
+        //            return tablaEjemplar[t as ClaveEjemplar];
+        //        }
+        //        if (t is ClavePrestamo && tablaPrestamo.Contains(t as ClavePrestamo))
+        //        {
+        //            return tablaPrestamo[t as ClavePrestamo];
+        //        }
+        //        if (t is ClavePrestamoEjemplar && tablaPrestamoEjemplar.Contains(t as ClavePrestamoEjemplar))
+        //        {
+        //            return tablaPrestamoEjemplar[t as ClavePrestamoEjemplar];
+        //        }
+        //    }
+        //    return null;
         //}
 
         /// <summary>
@@ -124,70 +151,67 @@ namespace Persistencia
         /// </summary>
         /// <param name="o">Tiene que ser parte del sistema de persistencia</param>
         /// <returns>verdadero si ha modificado el objeto introducido o falso si no lo introduce</returns>
-        public static bool Update(object o)
+        public static bool Update<T, U>(U u) where U: Entity<T> where T : Clave
         {
-            if (o!=null)
+            if (u!=null)
             {
-                if (o is Libro && tablaLibro.Remove(new ClaveLibro((o as Libro).Isbn)))
+                if (u is LibroDato && tablaLibro.Remove(new ClaveLibro((u as LibroDato).Isbn)))
                 {
-                    tablaLibro.Add(Transformador.LibroALibroDato(o as Libro));
+                    tablaLibro.Add(u as LibroDato);
                     return true;
                 }
-                if (o is Usuario && tablaUsuario.Remove(new ClaveUsuario((o as Usuario).Dni)))
+                if (u is UsuarioDato && tablaUsuario.Remove(new ClaveUsuario((u as UsuarioDato).Dni)))
                 {
-                    tablaUsuario.Add(Transformador.UsuarioAUsuarioDato(o as Usuario));
+                    tablaUsuario.Add(u as UsuarioDato);
                     return true;
                 }
-                if (o is Ejemplar && tablaEjemplar.Remove(new ClaveEjemplar((o as Ejemplar).Codigo)))
+                if (u is EjemplarDato && tablaEjemplar.Remove(new ClaveEjemplar((u as EjemplarDato).Codigo)))
                 {
-                    tablaEjemplar.Add(Transformador.EjemplarAEjemplarDato(o as Ejemplar));
+                    tablaEjemplar.Add(u as EjemplarDato);
                     return true;
                 }
-                if (o is Prestamo && tablaPrestamo.Remove(new ClavePrestamo((o as Prestamo).Fecha, (o as Prestamo).Usuario.Dni)))
+                if (u is PrestamoDato && tablaPrestamo.Remove(new ClavePrestamo((u as PrestamoDato).Fecha, (u as PrestamoDato).DniUsuario)))
                 {
-                    tablaPrestamo.Add(Transformador.PrestamoAPrestamoDato(o as Prestamo));
+                    tablaPrestamo.Add(u as PrestamoDato);
                     return true;
+                }
+                if (u is PrestamoEjemplarDato && tablaPrestamoEjemplar.Remove(new ClavePrestamoEjemplar((u as PrestamoEjemplarDato).Id.Prestamo, (u as PrestamoEjemplarDato).Id.Ejemplar)))
+                {
+                    tablaPrestamoEjemplar.Add(u as PrestamoEjemplarDato);
                 }
             }
             return false;
         }
 
-        //public static bool RemoveLibro(string isbn)
-        //{
-        //    return tablaLibro.Remove(isbn);
-        //}
-
-        public static bool Remove(Clave c)
+        public static bool Delete(Clave t)
         {
-            if (c != null)
+            if (t != null)
             {
-                if (c is ClaveLibro)
+                if (t is ClaveLibro)
                 {
-                    return tablaLibro.Remove(c as ClaveLibro);
+                    return tablaLibro.Remove(t as ClaveLibro);
                 }
-                if (c is ClaveUsuario)
+                if (t is ClaveUsuario)
                 {
-                    return tablaUsuario.Remove(c as ClaveUsuario);
+                    return tablaUsuario.Remove(t as ClaveUsuario);
                 }
-                if (c is ClaveEjemplar)
+                if (t is ClaveEjemplar)
                 {
-                    return tablaEjemplar.Remove(c as ClaveEjemplar);
+                    return tablaEjemplar.Remove(t as ClaveEjemplar);
                 }
-                if (c is ClavePrestamo)
+                if (t is ClavePrestamo)
                 {
-                    return tablaPrestamo.Remove(c as ClavePrestamo);
+                    foreach(PrestamoEjemplarDato ped in tablaPrestamoEjemplar)
+                    {
+                        if (ped.Id.Prestamo.Equals(t as ClavePrestamo))
+                        {
+                            tablaPrestamoEjemplar.Remove(ped.Id);
+                        }
+                    }
+                    return tablaPrestamo.Remove(t as ClavePrestamo);
                 }
             }
             return false;
         }
-
-        //public static bool Add(Usuario u)
-        //{
-        //    if (!tablaUsuario.Contains(u.Isbn) && u != null)
-        //    {
-        //        tablaLibro.Add(new LibroDato());
-        //    }
-        //    return false;
-        //}
     }
 }

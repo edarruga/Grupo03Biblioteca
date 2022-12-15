@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    internal class ClaveUsuario : Clave
+    public class ClaveUsuario : Clave
     {
         private string dni;
 

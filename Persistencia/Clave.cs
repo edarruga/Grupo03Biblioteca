@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    internal interface Clave : IEquatable<Clave>
+    public interface Clave : IEquatable<Clave>
     {
         
     }

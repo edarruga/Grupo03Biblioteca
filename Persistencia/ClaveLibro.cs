@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    internal class ClaveLibro : Clave
+    public class ClaveLibro : Clave
     {
         private string isbn;
 

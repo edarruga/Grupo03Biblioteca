@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    internal class EjemplarDato : Entity<ClaveEjemplar>
+    public class EjemplarDato : Entity<ClaveEjemplar>
     {
         private string codigo;
         private bool prestado;

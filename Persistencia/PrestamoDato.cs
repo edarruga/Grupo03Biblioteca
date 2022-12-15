@@ -7,34 +7,35 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    internal class PrestamoDato : Entity<ClavePrestamo>
+    public class PrestamoDato : Entity<ClavePrestamo>
     {
         private Estado estado;
         private DateTime fecha;
-        private string dni;
-        private List<ClaveEjemplar> ejemPrestados;
+        private string dniUsuario;
         public PrestamoDato(string dni, List<Ejemplar> ejemPrestados, DateTime fecha ,Estado estado) : base(new ClavePrestamo(fecha, dni))
         {
-            this.dni = dni;
+            this.dniUsuario = dni;
             this.fecha = fecha;
             this.estado = estado;
-            this.ejemPrestados = new List<ClaveEjemplar>();
+            //this.ejemPrestados = new List<ClaveEjemplar>();
             foreach(Ejemplar ejemplar in ejemPrestados)
             {
-                this.ejemPrestados.Add(new ClaveEjemplar(ejemplar.Codigo));
+                //BBDD.Create();
+                //this.ejemPrestados.Add(new ClaveEjemplar(ejemplar.Codigo));
+                BBDD.Create<ClavePrestamoEjemplar, PrestamoEjemplarDato>(new PrestamoEjemplarDato(fecha, dni, ejemplar.Codigo));
             }
         }
         public Estado Estado
         {
             get { return this.estado; }
         }
-        public string Dni
+        public string DniUsuario
         {
-            get { return this.dni;}
+            get { return this.dniUsuario;}
         }
 
         public DateTime Fecha { get { return this.fecha; } }
 
-        public List<ClaveEjemplar> EjemPrestados { get { return this.ejemPrestados; } }
+        //public List<ClaveEjemplar> EjemPrestados { get { return this.ejemPrestados; } }
     }
 }

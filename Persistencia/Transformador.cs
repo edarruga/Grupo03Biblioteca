@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    internal static class Transformador
+    public static class Transformador
     {
         public static LibroDato LibroALibroDato(Libro l)
         {
@@ -42,17 +42,26 @@ namespace Persistencia
 
         public static PrestamoDato PrestamoAPrestamoDato(Prestamo p)
         {
+
             return new PrestamoDato(p.Usuario.Dni, p.EjemPrestados, p.Fecha, p.Estado);
         }
 
-        public static Prestamo PrestamoDatoAPrestamo(PrestamoDato pd)
+        public static Prestamo PrestamoDatoAPrestamo(PrestamoDato pd) 
         {
             List<Ejemplar> ejemplares = new List<Ejemplar>();
-            foreach (ClaveEjemplar ce in pd.EjemPrestados)
+            foreach (PrestamoEjemplarDato ped in BBDD.TablaPrestamoEjemplar)
             {
-                ejemplares.Add(BBDD.Read(ce) as Ejemplar);
+                if (ped.Id.Prestamo.Equals(pd.Id))
+                {
+                    ejemplares.Add(BBDD.Read(ped.Id.Ejemplar) as Ejemplar);
+                }
             }
-            return new Prestamo(BBDD.Read(new ClaveUsuario(pd.Dni)) as Usuario,ejemplares, pd.Estado, pd.Fecha);
+            return new Prestamo(BBDD.Read(new ClaveUsuario(pd.DniUsuario)) as Usuario, ejemplares, pd.Estado, pd.Fecha);
+        }
+
+        public static PrestamoEjemplarDato PrestamoAPrestamoEjemplarDato(Prestamo p, Ejemplar e)
+        {
+            return new PrestamoEjemplarDato(p.Fecha, p.Usuario.Dni, e.Codigo);
         }
     }
 }

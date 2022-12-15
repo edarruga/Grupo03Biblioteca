@@ -4,16 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8EB5F428-EB2D-4714-8465-3881E24EBE90}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Persistencia</RootNamespace>
-    <AssemblyName>Persistencia</AssemblyName>
+    <ProjectGuid>{0DA4AE03-7800-4238-829F-A3B3E09F87C0}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>PruebasMN</RootNamespace>
+    <AssemblyName>PruebasMN</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -41,34 +43,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BBDD.cs" />
-    <Compile Include="Clave.cs" />
-    <Compile Include="ClaveEjemplar.cs" />
-    <Compile Include="ClaveLibro.cs" />
-    <Compile Include="ClavePrestamo.cs" />
-    <Compile Include="ClavePrestamoEjemplar.cs" />
-    <Compile Include="ClaveUsuario.cs" />
-    <Compile Include="EjemplarDato.cs" />
-    <Compile Include="GestorBD.cs" />
-    <Compile Include="PrestamoDato.cs" />
-    <Compile Include="PrestamoEjemplarDato.cs" />
-    <Compile Include="Table.cs" />
-    <Compile Include="LibroDato.cs" />
-    <Compile Include="Entity.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Transformador.cs" />
-    <Compile Include="UsuarioDato.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ModeloDeDominio\ModeloDeDominio.csproj">
-      <Project>{B4BEE6FE-EF01-4E8B-8E73-1D1CDA3C2D6D}</Project>
+      <Project>{b4bee6fe-ef01-4e8b-8e73-1d1cda3c2d6d}</Project>
       <Name>ModeloDeDominio</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ModeloDeDominio\ModeloDeDominio.csproj">
-      <Project>{B4BEE6FE-EF01-4E8B-8E73-1D1CDA3C2D6D}</Project>
-      <Name>ModeloDeDominio</Name>
+    <ProjectReference Include="..\ModeloDeNegocio\ModeloDeNegocio.csproj">
+      <Project>{a3ed2bc5-3fb5-48ea-a8db-fe800b50ddf8}</Project>
+      <Name>ModeloDeNegocio</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

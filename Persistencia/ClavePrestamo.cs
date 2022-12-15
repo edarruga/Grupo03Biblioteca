@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    internal class ClavePrestamo : Clave
+    public class ClavePrestamo : Clave
     {
         private DateTime fecha;
         private string dni;
