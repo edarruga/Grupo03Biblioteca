@@ -14,7 +14,8 @@ namespace PruebasMN
         {
             Usuario u = new Usuario("18082353Y","David", "Armas");
             Personal p = new Personal("daarmas", "1305");
-            p.DarAltaUsuario(u); 
+            p.DarAltaUsuario(u);
+            Usuario u2 = p.ObtenerUsuario("18082353Y");
 
         }
     }

@@ -32,9 +32,9 @@ namespace ModeloDeNegocio
         //    return false;
         //}
 
-        //public Usuario ObtenerUsuario(string dniUsuario)
-        //{
-        //    return BBDD.Read(Transformador.DniUsuarioAClaveUsuario(dniUsuario));
-        //}
+        public Usuario ObtenerUsuario(string dniUsuario)
+        {
+            return GestorBD.getUsuario(dniUsuario);
+        }
     }
 }

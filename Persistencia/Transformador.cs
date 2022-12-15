@@ -37,7 +37,7 @@ namespace Persistencia
 
         public static Ejemplar EjemplarDatoAEjemplar(EjemplarDato ed)
         {
-            return new Ejemplar(ed.Codigo, ed.Prestado, BBDD.Read(ed.Id) as Libro);
+            return new Ejemplar(ed.Codigo, ed.Prestado, Transformador.LibroDatoALibro( BBDD.Read<ClaveLibro,LibroDato>(new ClaveLibro(ed.IsbnLibro))));
         }
 
         public static PrestamoDato PrestamoAPrestamoDato(Prestamo p)
@@ -53,10 +53,10 @@ namespace Persistencia
             {
                 if (ped.Id.Prestamo.Equals(pd.Id))
                 {
-                    ejemplares.Add(BBDD.Read(ped.Id.Ejemplar) as Ejemplar);
+                    ejemplares.Add(Transformador.EjemplarDatoAEjemplar(BBDD.Read<ClaveEjemplar,EjemplarDato>(ped.Id.Ejemplar)));
                 }
             }
-            return new Prestamo(BBDD.Read(new ClaveUsuario(pd.DniUsuario)) as Usuario, ejemplares, pd.Estado, pd.Fecha);
+            return new Prestamo(Transformador.UsuarioDatoAUsuario(BBDD.Read<ClaveUsuario,UsuarioDato>(new ClaveUsuario(pd.DniUsuario))), ejemplares, pd.Estado, pd.Fecha);
         }
 
         public static PrestamoEjemplarDato PrestamoAPrestamoEjemplarDato(Prestamo p, Ejemplar e)

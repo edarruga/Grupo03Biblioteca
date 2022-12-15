@@ -143,6 +143,7 @@ namespace Persistencia
                     return tablaPrestamoEjemplar[t as ClavePrestamoEjemplar] as U;
                 }
             }
+            return tablaUsuario[t as ClaveUsuario] as U;
             return null;
         }
 
