@@ -90,61 +90,61 @@ namespace Persistencia
         /// </summary>
         /// <param name="isbn"></param>
         /// <returns>El libro con ISBN "isbn", o en caso de no existir en la tabla devuelve nulo</returns>
-        public static Object Read(Clave c)
-        {
-            if (c != null)
-            {
-                if (c is ClaveLibro && tablaLibro.Contains(c as ClaveLibro))
-                {
-                    return tablaLibro[c as ClaveLibro];
-                }
-                if (c is ClaveUsuario && tablaUsuario.Contains(c as ClaveUsuario))
-                {
-                    return tablaUsuario[c as ClaveUsuario];
-                }
-                if (c is ClaveEjemplar && tablaEjemplar.Contains(c as ClaveEjemplar))
-                {
-                    return tablaEjemplar[c as ClaveEjemplar];
-                }
-                if (c is ClavePrestamo && tablaPrestamo.Contains(c as ClavePrestamo))
-                {
-                    return tablaPrestamo[c as ClavePrestamo];
-                }
-                if (c is ClavePrestamoEjemplar && tablaPrestamoEjemplar.Contains(c as ClavePrestamoEjemplar))
-                {
-                    return tablaPrestamoEjemplar[c as ClavePrestamoEjemplar];
-                }
-            }
-            return null;
-        }
-
-        //public static U Read<T, U>(T t) where U : Entity<T>
+        //public static Object Read(Clave c)
         //{
-        //    if (t != null)
+        //    if (c != null)
         //    {
-        //        if (t is ClaveLibro && tablaLibro.Contains(t as ClaveLibro))
+        //        if (c is ClaveLibro && tablaLibro.Contains(c as ClaveLibro))
         //        {
-        //            return tablaLibro[t as ClaveLibro];
+        //            return tablaLibro[c as ClaveLibro];
         //        }
-        //        if (t is ClaveUsuario && tablaUsuario.Contains(t as ClaveUsuario))
+        //        if (c is ClaveUsuario && tablaUsuario.Contains(c as ClaveUsuario))
         //        {
-        //            return tablaUsuario[t as ClaveUsuario];
+        //            return tablaUsuario[c as ClaveUsuario];
         //        }
-        //        if (t is ClaveEjemplar && tablaEjemplar.Contains(t as ClaveEjemplar))
+        //        if (c is ClaveEjemplar && tablaEjemplar.Contains(c as ClaveEjemplar))
         //        {
-        //            return tablaEjemplar[t as ClaveEjemplar];
+        //            return tablaEjemplar[c as ClaveEjemplar];
         //        }
-        //        if (t is ClavePrestamo && tablaPrestamo.Contains(t as ClavePrestamo))
+        //        if (c is ClavePrestamo && tablaPrestamo.Contains(c as ClavePrestamo))
         //        {
-        //            return tablaPrestamo[t as ClavePrestamo];
+        //            return tablaPrestamo[c as ClavePrestamo];
         //        }
-        //        if (t is ClavePrestamoEjemplar && tablaPrestamoEjemplar.Contains(t as ClavePrestamoEjemplar))
+        //        if (c is ClavePrestamoEjemplar && tablaPrestamoEjemplar.Contains(c as ClavePrestamoEjemplar))
         //        {
-        //            return tablaPrestamoEjemplar[t as ClavePrestamoEjemplar];
+        //            return tablaPrestamoEjemplar[c as ClavePrestamoEjemplar];
         //        }
         //    }
         //    return null;
         //}
+
+        public static U Read<T, U>(T t) where U : Entity<T> where T : Clave
+        {
+            if (t != null)
+            {
+                if (t is ClaveLibro && tablaLibro.Contains(t as ClaveLibro))
+                {
+                    return tablaLibro[t as ClaveLibro] as U;
+                }
+                if (t is ClaveUsuario && tablaUsuario.Contains(t as ClaveUsuario))
+                {
+                    return tablaUsuario[t as ClaveUsuario] as U;
+                }
+                if (t is ClaveEjemplar && tablaEjemplar.Contains(t as ClaveEjemplar))
+                {
+                    return tablaEjemplar[t as ClaveEjemplar] as U;
+                }
+                if (t is ClavePrestamo && tablaPrestamo.Contains(t as ClavePrestamo))
+                {
+                    return tablaPrestamo[t as ClavePrestamo] as U;
+                }
+                if (t is ClavePrestamoEjemplar && tablaPrestamoEjemplar.Contains(t as ClavePrestamoEjemplar))
+                {
+                    return tablaPrestamoEjemplar[t as ClavePrestamoEjemplar] as U;
+                }
+            }
+            return null;
+        }
 
         /// <summary>
         /// 
