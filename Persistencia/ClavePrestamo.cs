@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    public class ClavePrestamo : Clave
+    public class ClavePrestamo : Clave, IEquatable<ClavePrestamo>
     {
         private DateTime fecha;
         private string dni;
@@ -27,6 +27,11 @@ namespace Persistencia
                 return (other as ClavePrestamo).fecha.Equals(this.fecha) && (other as ClavePrestamo).dni.Equals(this.dni);
             }
             return false;
+        }
+
+        public bool Equals(ClavePrestamo other)
+        {
+            return this.Equals(other as Clave);
         }
     }
 }

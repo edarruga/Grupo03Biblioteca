@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    public class ClavePrestamoEjemplar : Clave
+    public class ClavePrestamoEjemplar : Clave, IEquatable<ClavePrestamoEjemplar>
     {
         private ClavePrestamo prestamo;
         private ClaveEjemplar ejemplar;
@@ -34,6 +34,11 @@ namespace Persistencia
                 return this.Prestamo.Equals((other as ClavePrestamoEjemplar).Prestamo) && this.Ejemplar.Equals((other as ClavePrestamoEjemplar).Ejemplar);
             }
             return false;
+        }
+
+        public bool Equals(ClavePrestamoEjemplar other)
+        {
+            return this.Equals(other as Clave);
         }
     }
 }
