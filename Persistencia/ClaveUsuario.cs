@@ -21,14 +21,18 @@ namespace Persistencia
         {
             if (other != null)
             {
-                if (other is ClaveUsuario) return this.Dni.Equals((other as ClaveUsuario).Dni);
+                if (other is ClaveUsuario) return this.dni.Equals((other as ClaveUsuario).dni);
             }
             return false;
         }
 
         public bool Equals(ClaveUsuario other)
         {
-            return this.Equals(other as Clave);
+            if (other != null)
+            {
+                return this.dni.Equals((other as ClaveUsuario).dni);
+            }
+            return false;
         }
     }
 }

@@ -28,13 +28,13 @@ namespace Persistencia
 
         public static Table<ClavePrestamoEjemplar, PrestamoEjemplarDato> TablaPrestamoEjemplar { get { return tablaPrestamoEjemplar; } }
 
-        public static bool Create<T, U>(U u) where U : Entity<T> where T : Clave
+        public static bool Create<T, U>(U u) where U : Entity<T> where T : IEquatable<T>, Clave
         {
             if (u != null)
             {
                 if (u is LibroDato)
                 {
-                    if (!tablaLibro.Contains(new ClaveLibro((u as LibroDato).Isbn)))
+                    if (!tablaLibro.Contains((u as LibroDato).Id))
                     {
                         tablaLibro.Add(u as LibroDato);
                         return true;
@@ -42,7 +42,7 @@ namespace Persistencia
                 }
                 if (u is UsuarioDato)
                 {
-                    if (!tablaUsuario.Contains(new ClaveUsuario((u as UsuarioDato).Dni)))
+                    if (!tablaUsuario.Contains((u as UsuarioDato).Id))
                     {
                         tablaUsuario.Add(u as UsuarioDato);
                         return true;
@@ -53,7 +53,7 @@ namespace Persistencia
                     //TERMINAR
                     //
                     //IMPORTANTE
-                    if (!tablaPrestamo.Contains(new ClavePrestamo((u as PrestamoDato).Fecha, (u as PrestamoDato).DniUsuario)))
+                    if (!tablaPrestamo.Contains((u as PrestamoDato).Id))
                     {
                         PrestamoDato pd = u as PrestamoDato;
                         tablaPrestamo.Add(pd);
@@ -66,7 +66,7 @@ namespace Persistencia
                 }
                 if (u is EjemplarDato)
                 {
-                    if (!tablaEjemplar.Contains(new ClaveEjemplar((u as EjemplarDato).Codigo)))
+                    if (!tablaEjemplar.Contains((u as EjemplarDato).Id))
                     {
                         tablaEjemplar.Add(u as EjemplarDato);
                         return true;
@@ -75,7 +75,7 @@ namespace Persistencia
                 if (u is PrestamoEjemplarDato)
                 {
                     PrestamoEjemplarDato pd = u as PrestamoEjemplarDato;
-                    if (!tablaPrestamoEjemplar.Contains(new ClavePrestamoEjemplar(pd.Id.Prestamo, pd.Id.Ejemplar)))
+                    if (!tablaPrestamoEjemplar.Contains(pd.Id))
                     {
                         tablaPrestamoEjemplar.Add(pd);
                         return true;
@@ -118,7 +118,7 @@ namespace Persistencia
         //    return null;
         //}
 
-        public static U Read<T, U>(T t) where U : Entity<T> where T : Clave
+        public static U Read<T, U>(T t) where U : Entity<T> where T : Clave, IEquatable<T>
         {
             if (t != null)
             {
@@ -143,7 +143,7 @@ namespace Persistencia
                     return tablaPrestamoEjemplar[t as ClavePrestamoEjemplar] as U;
                 }
             }
-            return tablaUsuario[t as ClaveUsuario] as U;
+            //return tablaUsuario[t as ClaveUsuario] as U;
             return null;
         }
 
@@ -152,7 +152,7 @@ namespace Persistencia
         /// </summary>
         /// <param name="o">Tiene que ser parte del sistema de persistencia</param>
         /// <returns>verdadero si ha modificado el objeto introducido o falso si no lo introduce</returns>
-        public static bool Update<T, U>(U u) where U: Entity<T> where T : Clave
+        public static bool Update<T, U>(U u) where U: Entity<T> where T : Clave, IEquatable<T>
         {
             if (u!=null)
             {
@@ -184,7 +184,38 @@ namespace Persistencia
             return false;
         }
 
-        public static bool Delete(Clave t)
+        //public static bool Delete(Clave t)
+        //{
+        //    if (t != null)
+        //    {
+        //        if (t is ClaveLibro)
+        //        {
+        //            return tablaLibro.Remove(t as ClaveLibro);
+        //        }
+        //        if (t is ClaveUsuario)
+        //        {
+        //            return tablaUsuario.Remove(t as ClaveUsuario);
+        //        }
+        //        if (t is ClaveEjemplar)
+        //        {
+        //            return tablaEjemplar.Remove(t as ClaveEjemplar);
+        //        }
+        //        if (t is ClavePrestamo)
+        //        {
+        //            foreach(PrestamoEjemplarDato ped in tablaPrestamoEjemplar)
+        //            {
+        //                if (ped.Id.Prestamo.Equals(t as ClavePrestamo))
+        //                {
+        //                    tablaPrestamoEjemplar.Remove(ped.Id);
+        //                }
+        //            }
+        //            return tablaPrestamo.Remove(t as ClavePrestamo);
+        //        }
+        //    }
+        //    return false;
+        //}
+
+        public static bool Delete<T, U>(T t) where U: Entity<T> where T : Clave, IEquatable<T>
         {
             if (t != null)
             {
@@ -202,7 +233,7 @@ namespace Persistencia
                 }
                 if (t is ClavePrestamo)
                 {
-                    foreach(PrestamoEjemplarDato ped in tablaPrestamoEjemplar)
+                    foreach (PrestamoEjemplarDato ped in tablaPrestamoEjemplar)
                     {
                         if (ped.Id.Prestamo.Equals(t as ClavePrestamo))
                         {

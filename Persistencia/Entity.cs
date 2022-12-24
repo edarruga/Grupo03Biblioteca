@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    public class Entity<T> : IEquatable<Entity<T>>
+    public class Entity<T> : IEquatable<Entity<T>> where T : IEquatable<T>
     {
         private T id;
         public Entity(T id) { this.id = id; }
