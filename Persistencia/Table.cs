@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    internal class Table<T, U> : KeyedCollection<T, U> where U : Entity<T> where T : Clave, IEquatable<T>
+    internal class Table<T, U> : KeyedCollection<T, U> where U : Entity<T> where T : IEquatable<T>
     {
         protected override T GetKeyForItem(U item)
         {

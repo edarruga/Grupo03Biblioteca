@@ -16,7 +16,6 @@ namespace PruebasMN
             Personal p = new Personal("daarmas", "1305");
             p.DarAltaUsuario(u);
             Usuario u2 = p.ObtenerUsuario("18082353Y");
-
         }
     }
 }

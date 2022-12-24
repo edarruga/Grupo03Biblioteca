@@ -28,7 +28,7 @@ namespace Persistencia
 
         public static Table<ClavePrestamoEjemplar, PrestamoEjemplarDato> TablaPrestamoEjemplar { get { return tablaPrestamoEjemplar; } }
 
-        public static bool Create<T, U>(U u) where U : Entity<T> where T : IEquatable<T>, Clave
+        public static bool Create<T, U>(U u) where U : Entity<T> where T : IEquatable<T>
         {
             if (u != null)
             {
@@ -118,7 +118,7 @@ namespace Persistencia
         //    return null;
         //}
 
-        public static U Read<T, U>(T t) where U : Entity<T> where T : Clave, IEquatable<T>
+        public static U Read<T, U>(T t) where U : Entity<T> where T : IEquatable<T>
         {
             if (t != null)
             {
@@ -152,7 +152,7 @@ namespace Persistencia
         /// </summary>
         /// <param name="o">Tiene que ser parte del sistema de persistencia</param>
         /// <returns>verdadero si ha modificado el objeto introducido o falso si no lo introduce</returns>
-        public static bool Update<T, U>(U u) where U: Entity<T> where T : Clave, IEquatable<T>
+        public static bool Update<T, U>(U u) where U: Entity<T> where T : IEquatable<T>
         {
             if (u!=null)
             {
@@ -215,7 +215,7 @@ namespace Persistencia
         //    return false;
         //}
 
-        public static bool Delete<T, U>(T t) where U: Entity<T> where T : Clave, IEquatable<T>
+        public static bool Delete<T, U>(T t) where U: Entity<T> where T : IEquatable<T>
         {
             if (t != null)
             {

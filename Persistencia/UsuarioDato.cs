@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    public class UsuarioDato : Entity<ClaveUsuario>
+    public class UsuarioDato : Entity<ClaveUsuario>, IEquatable<UsuarioDato>
     {
         private string dni;
         private string nombre;
@@ -28,6 +28,11 @@ namespace Persistencia
         public string Apellidos
         {
             get { return apellidos; }
+        }
+
+        public bool Equals(UsuarioDato other)
+        {
+            return base.Equals(other);
         }
     }
 }
