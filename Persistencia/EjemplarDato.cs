@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    public class EjemplarDato : Entity<ClaveEjemplar>
+    public class EjemplarDato : Entity<ClaveEjemplar>, IEquatable<EjemplarDato>
     {
         private string codigo;
         private bool prestado;
@@ -28,6 +28,11 @@ namespace Persistencia
         public String IsbnLibro
         {
             get { return isbnLibro; }
+        }
+
+        public bool Equals(EjemplarDato other)
+        {
+            return this.Id.Equals(other.Id);
         }
     }
 }

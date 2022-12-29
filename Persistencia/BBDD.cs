@@ -53,13 +53,14 @@ namespace Persistencia
                     //TERMINAR
                     //
                     //IMPORTANTE
-                    if (!tablaPrestamo.Contains((u as PrestamoDato).Id))
+                    if (!tablaPrestamo.Contains((u as PrestamoDato).Id) && tablaUsuario.Contains(new ClaveUsuario((u as PrestamoDato).DniUsuario)))
                     {
                         PrestamoDato pd = u as PrestamoDato;
                         tablaPrestamo.Add(pd);
-                        foreach (PrestamoEjemplarDato ped in TablaPrestamoEjemplar)
+                        Prestamo p = Transformador.PrestamoDatoAPrestamo(pd);
+                        foreach (Ejemplar e in p.EjemPrestados)
                         {
-                            tablaPrestamoEjemplar.Add(new PrestamoEjemplarDato(pd.Fecha, pd.DniUsuario, ped.Id.Ejemplar.Codigo));//
+                            BBDD.Create<ClavePrestamoEjemplar, PrestamoEjemplarDato>(Transformador.PrestamoAPrestamoEjemplarDato(p, e));
                         }
                         return true;
                     }
@@ -130,6 +131,7 @@ namespace Persistencia
                 {
                     return tablaUsuario[t as ClaveUsuario] as U;
                 }
+                //CHECKIAR ESTO
                 if (t is ClaveEjemplar && tablaEjemplar.Contains(t as ClaveEjemplar))
                 {
                     return tablaEjemplar[t as ClaveEjemplar] as U;
@@ -143,7 +145,6 @@ namespace Persistencia
                     return tablaPrestamoEjemplar[t as ClavePrestamoEjemplar] as U;
                 }
             }
-            //return tablaUsuario[t as ClaveUsuario] as U;
             return null;
         }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    public class PrestamoEjemplarDato : Entity<ClavePrestamoEjemplar>
+    public class PrestamoEjemplarDato : Entity<ClavePrestamoEjemplar>, IEquatable<PrestamoEjemplarDato>
     {
         private DateTime fecha;
         private string dniUsuario;
@@ -32,6 +32,11 @@ namespace Persistencia
         public string Codigo
         {
             get { return codigo; }
+        }
+
+        public bool Equals(PrestamoEjemplarDato other)
+        {
+            return this.Id.Equals(other.Id);
         }
     }
 }

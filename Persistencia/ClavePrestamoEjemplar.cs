@@ -40,5 +40,15 @@ namespace Persistencia
         {
             return this.Equals(other as Clave);
         }
+
+        public override int GetHashCode()
+        {
+            int hashCode = -2131777850;
+            hashCode = hashCode * -1521134295 + EqualityComparer<ClavePrestamo>.Default.GetHashCode(prestamo);
+            hashCode = hashCode * -1521134295 + EqualityComparer<ClaveEjemplar>.Default.GetHashCode(ejemplar);
+            hashCode = hashCode * -1521134295 + EqualityComparer<ClavePrestamo>.Default.GetHashCode(Prestamo);
+            hashCode = hashCode * -1521134295 + EqualityComparer<ClaveEjemplar>.Default.GetHashCode(Ejemplar);
+            return hashCode;
+        }
     }
 }

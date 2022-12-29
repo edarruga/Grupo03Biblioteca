@@ -50,7 +50,7 @@
       <Name>ModeloDeDominio</Name>
     </ProjectReference>
     <ProjectReference Include="..\Persistencia\Persistencia.csproj">
-      <Project>{8eb5f428-eb2d-4714-8465-3881e24ebe90}</Project>
+      <Project>{8EB5F428-EB2D-4714-8465-3881E24EBE90}</Project>
       <Name>Persistencia</Name>
     </ProjectReference>
   </ItemGroup>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    public class LibroDato : Entity<ClaveLibro>
+    public class LibroDato : Entity<ClaveLibro>, IEquatable<LibroDato>
     {
         private string isbn;
         private string autor;
@@ -39,6 +39,11 @@ namespace Persistencia
         public string Titulo
         {
             get { return titulo; }
+        }
+
+        public bool Equals(LibroDato other)
+        {
+            return this.Id.Equals(other.Id);
         }
     }
 }

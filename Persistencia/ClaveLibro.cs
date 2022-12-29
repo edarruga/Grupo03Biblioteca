@@ -30,5 +30,13 @@ namespace Persistencia
         {
             return this.Equals(other as Clave);
         }
+
+        public override int GetHashCode()
+        {
+            int hashCode = -1790538230;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(isbn);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Isbn);
+            return hashCode;
+        }
     }
 }

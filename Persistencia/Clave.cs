@@ -9,6 +9,5 @@ namespace Persistencia
 {
     public interface Clave : IEquatable<Clave>
     {
-        
     }
 }

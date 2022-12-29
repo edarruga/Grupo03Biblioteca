@@ -10,18 +10,24 @@ namespace Persistencia
 {
     public class program
     {
+
+        private static IEqualityComparer<ClaveUsuario> comparer= EqualityComparer<ClaveUsuario>.Default;
+
         static void Main(string[] args)
         {
-            Usuario u = new Usuario("18082353Y", "David", "Armas");
-            Usuario u2 = new Usuario("18082353Y", "j", "Armas");
-            UsuarioDato ud = Transformador.UsuarioAUsuarioDato(u);
-            UsuarioDato ud2 = Transformador.UsuarioAUsuarioDato(u2);
-            BBDD.Create<ClaveUsuario, UsuarioDato>(ud);
+            //Usuario u = new Usuario("a","a","a");
+            //List<Ejemplar> lEjemp = new List<Ejemplar>();
+            //lEjemp.Add(new Ejemplar("22222", new Libro("111", "111", "111", "111")));
+            //lEjemp.Add(new Ejemplar("33333", new Libro("111", "111", "111", "111")));
+            //Prestamo p = new Prestamo(u, lEjemp);
 
-            Console.WriteLine(BBDD.TablaUsuario.Contains(ud2.Id));
-            Console.WriteLine(BBDD.TablaUsuario.Contains(ud2));
-            UsuarioDato ud3 = BBDD.TablaUsuario[ud2.Id];
-            //UsuarioDato ud3 = BBDD.Read<ClaveUsuario, UsuarioDato>(new ClaveUsuario("18082353Y"));
+            //BBDD.Create<ClaveUsuario, UsuarioDato>(Transformador.UsuarioAUsuarioDato(u));
+            //BBDD.Create<ClavePrestamo, PrestamoDato>(Transformador.PrestamoAPrestamoDato(p));
+
+            Ejemplar e = new Ejemplar("22222", new Libro("111", "111", "111", "111"));
+            BBDD.Create<ClaveEjemplar, EjemplarDato>(Transformador.EjemplarAEjemplarDato(e));
+            EjemplarDato ed = BBDD.Read<ClaveEjemplar, EjemplarDato>(Transformador.EjemplarAEjemplarDato(e).Id);
+
             Console.ReadLine();
         }
     }
