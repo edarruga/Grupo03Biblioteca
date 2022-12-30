@@ -8,18 +8,16 @@ namespace Persistencia
 {
     public class UsuarioDato : Entity<ClaveUsuario>, IEquatable<UsuarioDato>
     {
-        private string dni;
         private string nombre;
         private string apellidos;
         public UsuarioDato(string id,string nombre,string apellidos) : base(new ClaveUsuario(id))
         {
             this.nombre = nombre;
             this.apellidos = apellidos;
-            this.dni = id;
         }
         public string Dni
         {
-            get { return dni; }
+            get { return this.Id.Dni; }
         }
         public string Nombre
         {

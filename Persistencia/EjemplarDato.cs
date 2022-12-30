@@ -8,18 +8,16 @@ namespace Persistencia
 {
     public class EjemplarDato : Entity<ClaveEjemplar>, IEquatable<EjemplarDato>
     {
-        private string codigo;
         private bool prestado;
         private String isbnLibro;
         public EjemplarDato(string id, bool prestado, String isbnLibro) : base(new ClaveEjemplar(id))
         {
-            this.codigo = id;
             this.prestado = prestado;
             this.isbnLibro = isbnLibro;
         }
         public string Codigo
         {
-            get { return codigo; }
+            get { return this.Id.Codigo; }
         }
         public bool Prestado
         {

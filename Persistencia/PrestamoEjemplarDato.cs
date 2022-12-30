@@ -8,30 +8,23 @@ namespace Persistencia
 {
     public class PrestamoEjemplarDato : Entity<ClavePrestamoEjemplar>, IEquatable<PrestamoEjemplarDato>
     {
-        private DateTime fecha;
-        private string dniUsuario;
-        private string codigo;
-
         public PrestamoEjemplarDato(DateTime fecha, string dniUsuario, string codigo) : base(new ClavePrestamoEjemplar(new ClavePrestamo(fecha, dniUsuario), new ClaveEjemplar(codigo)))
         {
-            this.fecha = fecha;
-            this.dniUsuario = dniUsuario;
-            this.codigo = codigo;
         }
 
         public DateTime Fecha
         {
-            get { return fecha; }
+            get { return this.Id.Prestamo.Fecha; }
         }
 
         public string DniUsuario
         {
-            get { return dniUsuario; }
+            get { return this.Id.Prestamo.DniUsuario; }
         }
 
         public string Codigo
         {
-            get { return codigo; }
+            get { return this.Id.Ejemplar.Codigo; }
         }
 
         public bool Equals(PrestamoEjemplarDato other)

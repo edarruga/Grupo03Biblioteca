@@ -21,14 +21,14 @@ namespace Persistencia
         {
             if (other !=null)
             {
-                if (other is ClaveEjemplar) return this.codigo.Equals(other as ClaveEjemplar);
+                if (other is ClaveEjemplar) return this.Equals(other as ClaveEjemplar);
             }
             return false;
         }
 
         public bool Equals(ClaveEjemplar other)
         {
-            return this.Equals(other as Clave);
+            return this.codigo.Equals(other.codigo);
         }
 
         public override int GetHashCode()

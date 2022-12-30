@@ -19,16 +19,17 @@ namespace Persistencia
 
         public bool Equals(Clave other)
         {
-            if (other != null)
-            {
-                if (other is ClaveUsuario) return this.Equals(other as ClaveUsuario);
-            }
+            if (other is ClaveUsuario) return this.Equals(other as ClaveUsuario);
             return false;
         }
 
         public bool Equals(ClaveUsuario other)
         {
-            return this.dni.Equals(other.dni);
+            if (other!=null)
+            {
+                return this.dni.Equals(other.dni);
+            }
+            return false;
         }
 
         public override int GetHashCode()

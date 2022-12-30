@@ -49,11 +49,18 @@ namespace Persistencia
         public static Prestamo PrestamoDatoAPrestamo(PrestamoDato pd) 
         {
             List<Ejemplar> ejemplares = new List<Ejemplar>();
+            //foreach (EjemplarDato ed in BBDD.TablaEjemplar)
+            //{
+            //    if (ed.Id.Equals(pd.Id))
+            //    {
+            //        ejemplares.Add(Transformador.EjemplarDatoAEjemplar(BBDD.Read<ClaveEjemplar,EjemplarDato>(ed.Id)));
+            //    }
+            //}
             foreach (PrestamoEjemplarDato ped in BBDD.TablaPrestamoEjemplar)
             {
                 if (ped.Id.Prestamo.Equals(pd.Id))
                 {
-                    ejemplares.Add(Transformador.EjemplarDatoAEjemplar(BBDD.Read<ClaveEjemplar,EjemplarDato>(ped.Id.Ejemplar)));
+                    ejemplares.Add(Transformador.EjemplarDatoAEjemplar(BBDD.Read<ClaveEjemplar, EjemplarDato>(ped.Id.Ejemplar)));
                 }
             }
             return new Prestamo(Transformador.UsuarioDatoAUsuario(BBDD.Read<ClaveUsuario,UsuarioDato>(new ClaveUsuario(pd.DniUsuario))), ejemplares, pd.Estado, pd.Fecha);

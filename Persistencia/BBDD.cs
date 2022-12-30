@@ -56,29 +56,20 @@ namespace Persistencia
                     if (!tablaPrestamo.Contains((u as PrestamoDato).Id) && tablaUsuario.Contains(new ClaveUsuario((u as PrestamoDato).DniUsuario)))
                     {
                         PrestamoDato pd = u as PrestamoDato;
-                        tablaPrestamo.Add(pd);
                         Prestamo p = Transformador.PrestamoDatoAPrestamo(pd);
-                        foreach (Ejemplar e in p.EjemPrestados)
-                        {
-                            BBDD.Create<ClavePrestamoEjemplar, PrestamoEjemplarDato>(Transformador.PrestamoAPrestamoEjemplarDato(p, e));
-                        }
+                        //foreach (Ejemplar e in p.EjemPrestados)
+                        //{
+                        //    BBDD.TablaPrestamoEjemplar.Add(Transformador.PrestamoAPrestamoEjemplarDato(p, e));
+                        //}
+                        tablaPrestamo.Add(pd);
                         return true;
                     }
                 }
                 if (u is EjemplarDato)
                 {
-                    if (!tablaEjemplar.Contains((u as EjemplarDato).Id))
+                    if (!tablaEjemplar.Contains((u as EjemplarDato).Id) && tablaLibro.Contains(new ClaveLibro((u as EjemplarDato).IsbnLibro)))
                     {
                         tablaEjemplar.Add(u as EjemplarDato);
-                        return true;
-                    }
-                }
-                if (u is PrestamoEjemplarDato)
-                {
-                    PrestamoEjemplarDato pd = u as PrestamoEjemplarDato;
-                    if (!tablaPrestamoEjemplar.Contains(pd.Id))
-                    {
-                        tablaPrestamoEjemplar.Add(pd);
                         return true;
                     }
                 }
@@ -131,7 +122,6 @@ namespace Persistencia
                 {
                     return tablaUsuario[t as ClaveUsuario] as U;
                 }
-                //CHECKIAR ESTO
                 if (t is ClaveEjemplar && tablaEjemplar.Contains(t as ClaveEjemplar))
                 {
                     return tablaEjemplar[t as ClaveEjemplar] as U;
@@ -159,27 +149,23 @@ namespace Persistencia
             {
                 if (u is LibroDato && tablaLibro.Remove(new ClaveLibro((u as LibroDato).Isbn)))
                 {
-                    tablaLibro.Add(u as LibroDato);
+                    BBDD.Create<ClaveLibro, LibroDato>(u as LibroDato);
                     return true;
                 }
                 if (u is UsuarioDato && tablaUsuario.Remove(new ClaveUsuario((u as UsuarioDato).Dni)))
                 {
-                    tablaUsuario.Add(u as UsuarioDato);
+                    BBDD.Create<ClaveUsuario, UsuarioDato>(u as UsuarioDato);
                     return true;
                 }
                 if (u is EjemplarDato && tablaEjemplar.Remove(new ClaveEjemplar((u as EjemplarDato).Codigo)))
                 {
-                    tablaEjemplar.Add(u as EjemplarDato);
+                    BBDD.Create<ClaveEjemplar, EjemplarDato>(u as EjemplarDato);
                     return true;
                 }
                 if (u is PrestamoDato && tablaPrestamo.Remove(new ClavePrestamo((u as PrestamoDato).Fecha, (u as PrestamoDato).DniUsuario)))
                 {
-                    tablaPrestamo.Add(u as PrestamoDato);
+                    BBDD.Create<ClavePrestamo, PrestamoDato>(u as PrestamoDato);
                     return true;
-                }
-                if (u is PrestamoEjemplarDato && tablaPrestamoEjemplar.Remove(new ClavePrestamoEjemplar((u as PrestamoEjemplarDato).Id.Prestamo, (u as PrestamoEjemplarDato).Id.Ejemplar)))
-                {
-                    tablaPrestamoEjemplar.Add(u as PrestamoEjemplarDato);
                 }
             }
             return false;
@@ -215,7 +201,8 @@ namespace Persistencia
         //    }
         //    return false;
         //}
-
+        
+        //IMPORTANTE: todos los elementos correspondientes en otras tablas.
         public static bool Delete<T, U>(T t) where U: Entity<T> where T : IEquatable<T>
         {
             if (t != null)

@@ -29,16 +29,20 @@ namespace Persistencia
 
         public bool Equals(Clave other)
         {
-            if (other != null && other is ClavePrestamoEjemplar)
+            if (other is ClavePrestamoEjemplar)
             {
-                return this.Prestamo.Equals((other as ClavePrestamoEjemplar).Prestamo) && this.Ejemplar.Equals((other as ClavePrestamoEjemplar).Ejemplar);
+                return Equals((ClavePrestamoEjemplar)other);
             }
             return false;
         }
 
         public bool Equals(ClavePrestamoEjemplar other)
         {
-            return this.Equals(other as Clave);
+            if (other!=null)
+            {
+                return this.ejemplar.Equals(other.ejemplar) && this.prestamo.Equals(other.prestamo);
+            }
+            return false;
         }
 
         public override int GetHashCode()

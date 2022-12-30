@@ -10,19 +10,14 @@ namespace Persistencia
     public class PrestamoDato : Entity<ClavePrestamo>, IEquatable<PrestamoDato>
     {
         private Estado estado;
-        private DateTime fecha;
-        private string dniUsuario;
+        
         public PrestamoDato(string dni, List<Ejemplar> ejemPrestados, DateTime fecha ,Estado estado) : base(new ClavePrestamo(fecha, dni))
         {
-            this.dniUsuario = dni;
-            this.fecha = fecha;
             this.estado = estado;
-            //this.ejemPrestados = new List<ClaveEjemplar>();
-            foreach(Ejemplar ejemplar in ejemPrestados)
+            foreach (Ejemplar ejemplar in ejemPrestados)
             {
-                //BBDD.Create();
-                //this.ejemPrestados.Add(new ClaveEjemplar(ejemplar.Codigo));
-                BBDD.Create<ClavePrestamoEjemplar, PrestamoEjemplarDato>(new PrestamoEjemplarDato(fecha, dni, ejemplar.Codigo));
+                PrestamoEjemplarDato ped = new PrestamoEjemplarDato(fecha, dni, ejemplar.Codigo);
+                if (!BBDD.TablaPrestamoEjemplar.Contains(ped.Id)) BBDD.TablaPrestamoEjemplar.Add(ped);
             }
         }
         public Estado Estado
@@ -31,10 +26,10 @@ namespace Persistencia
         }
         public string DniUsuario
         {
-            get { return this.dniUsuario;}
+            get { return this.Id.DniUsuario;}
         }
 
-        public DateTime Fecha { get { return this.fecha; } }
+        public DateTime Fecha { get { return this.Id.Fecha; } }
 
         public bool Equals(PrestamoDato other)
         {

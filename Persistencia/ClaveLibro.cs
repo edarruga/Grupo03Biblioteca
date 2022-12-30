@@ -19,16 +19,17 @@ namespace Persistencia
 
         public bool Equals(Clave other)
         {
-            if (other!=null && other is ClaveLibro)
-            {
-                return this.isbn.Equals((other as ClaveLibro).isbn);
-            }
+            if (other is ClaveLibro) return this.Equals(other as ClaveLibro);
             return false;
         }
 
         public bool Equals(ClaveLibro other)
         {
-            return this.Equals(other as Clave);
+            if (other!=null)
+            {
+                return this.isbn.Equals(other.isbn);
+            }
+            return false;
         }
 
         public override int GetHashCode()
