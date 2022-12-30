@@ -1,5 +1,6 @@
 ﻿using ModeloDeDominio;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -209,26 +210,52 @@ namespace Persistencia
             {
                 if (t is ClaveLibro)
                 {
-                    return tablaLibro.Remove(t as ClaveLibro);
+                    if (tablaLibro.Remove(t as ClaveLibro))
+                    {
+                        List<EjemplarDato> listaEjemp = tablaEjemplar.ToList();
+                        foreach (EjemplarDato ed in listaEjemp)
+                        {
+                            if ((t as ClaveLibro).Equals(new ClaveLibro(ed.IsbnLibro))) BBDD.Delete<ClaveEjemplar, EjemplarDato>(ed.Id);
+                        }
+                        return true;
+                    }
                 }
                 if (t is ClaveUsuario)
                 {
-                    return tablaUsuario.Remove(t as ClaveUsuario);
+                    if (tablaUsuario.Remove(t as ClaveUsuario))
+                    {
+                        List<PrestamoDato> lista = tablaPrestamo.ToList();
+                        foreach (PrestamoDato pd in lista)
+                        {
+                            if ((t as ClaveUsuario).Equals(new ClaveUsuario(pd.DniUsuario))) BBDD.Delete<ClavePrestamo, PrestamoDato>(pd.Id);
+                        }
+                        return true;
+                    }
                 }
                 if (t is ClaveEjemplar)
                 {
-                    return tablaEjemplar.Remove(t as ClaveEjemplar);
+                    if (tablaEjemplar.Remove(t as ClaveEjemplar))
+                    {
+                        foreach (PrestamoEjemplarDato ped in tablaPrestamoEjemplar)
+                        {
+                            if ((t as ClaveEjemplar).Equals(ped.Id.Ejemplar)) tablaPrestamoEjemplar.Remove(ped.Id);
+                        }
+                        return true;
+                    }
                 }
                 if (t is ClavePrestamo)
                 {
-                    foreach (PrestamoEjemplarDato ped in tablaPrestamoEjemplar)
+                    if (tablaPrestamo.Remove(t as ClavePrestamo))
                     {
-                        if (ped.Id.Prestamo.Equals(t as ClavePrestamo))
+                        foreach (PrestamoEjemplarDato ped in tablaPrestamoEjemplar)
                         {
-                            tablaPrestamoEjemplar.Remove(ped.Id);
+                            if (ped.Id.Prestamo.Equals(t as ClavePrestamo))
+                            {
+                                tablaPrestamoEjemplar.Remove(ped.Id);
+                            }
                         }
+                        return true;
                     }
-                    return tablaPrestamo.Remove(t as ClavePrestamo);
                 }
             }
             return false;
