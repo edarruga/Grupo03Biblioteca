@@ -44,6 +44,9 @@
     <Compile Include="Ejemplar.cs" />
     <Compile Include="Estado.cs" />
     <Compile Include="Libro.cs" />
+    <Compile Include="Personal.cs" />
+    <Compile Include="PersonalSala.cs" />
+    <Compile Include="PersonalServicioAdquisiciones.cs" />
     <Compile Include="Prestamo.cs" />
     <Compile Include="Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

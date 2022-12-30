@@ -48,11 +48,13 @@
     <Compile Include="Clave.cs" />
     <Compile Include="ClaveEjemplar.cs" />
     <Compile Include="ClaveLibro.cs" />
+    <Compile Include="ClavePersonal.cs" />
     <Compile Include="ClavePrestamo.cs" />
     <Compile Include="ClavePrestamoEjemplar.cs" />
     <Compile Include="ClaveUsuario.cs" />
     <Compile Include="EjemplarDato.cs" />
     <Compile Include="GestorBD.cs" />
+    <Compile Include="PersonalDato.cs" />
     <Compile Include="PrestamoDato.cs" />
     <Compile Include="PrestamoEjemplarDato.cs" />
     <Compile Include="program.cs" />

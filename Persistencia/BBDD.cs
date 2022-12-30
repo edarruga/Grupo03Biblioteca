@@ -16,6 +16,7 @@ namespace Persistencia
         private static Table<ClaveEjemplar, EjemplarDato> tablaEjemplar = new Table<ClaveEjemplar, EjemplarDato>();
         private static Table<ClavePrestamo, PrestamoDato> tablaPrestamo = new Table<ClavePrestamo, PrestamoDato>();
         private static Table<ClavePrestamoEjemplar, PrestamoEjemplarDato> tablaPrestamoEjemplar = new Table<ClavePrestamoEjemplar, PrestamoEjemplarDato>();
+        private static Table<ClavePersonal, PersonalDato> tablaPersonal = new Table<ClavePersonal, PersonalDato>();
 
         private BBDD() { }
 
@@ -28,6 +29,8 @@ namespace Persistencia
         public static Table<ClavePrestamo, PrestamoDato> TablaPrestamo { get { return tablaPrestamo; } }
 
         public static Table<ClavePrestamoEjemplar, PrestamoEjemplarDato> TablaPrestamoEjemplar { get { return tablaPrestamoEjemplar; } }
+
+        public static Table<ClavePersonal, PersonalDato> TablaPersonal { get { return tablaPersonal; } }
 
         public static bool Create<T, U>(U u) where U : Entity<T> where T : IEquatable<T>
         {
@@ -51,9 +54,6 @@ namespace Persistencia
                 }
                 if (u is PrestamoDato)
                 {
-                    //TERMINAR
-                    //
-                    //IMPORTANTE
                     if (!tablaPrestamo.Contains((u as PrestamoDato).Id) && tablaUsuario.Contains(new ClaveUsuario((u as PrestamoDato).DniUsuario)))
                     {
                         PrestamoDato pd = u as PrestamoDato;
@@ -71,6 +71,14 @@ namespace Persistencia
                     if (!tablaEjemplar.Contains((u as EjemplarDato).Id) && tablaLibro.Contains(new ClaveLibro((u as EjemplarDato).IsbnLibro)))
                     {
                         tablaEjemplar.Add(u as EjemplarDato);
+                        return true;
+                    }
+                }
+                if (u is PersonalDato)
+                {
+                    if (!tablaPersonal.Contains((u as PersonalDato).Id))
+                    {
+                        tablaPersonal.Add(u as PersonalDato);
                         return true;
                     }
                 }
@@ -135,6 +143,10 @@ namespace Persistencia
                 {
                     return tablaPrestamoEjemplar[t as ClavePrestamoEjemplar] as U;
                 }
+                if (t is ClavePersonal && tablaPersonal.Contains(t as ClavePersonal))
+                {
+                    return tablaPersonal[t as ClavePersonal] as U;
+                }
             }
             return null;
         }
@@ -148,22 +160,27 @@ namespace Persistencia
         {
             if (u!=null)
             {
-                if (u is LibroDato && tablaLibro.Remove(new ClaveLibro((u as LibroDato).Isbn)))
+                if (u is LibroDato && tablaLibro.Remove((u as LibroDato).Id))
                 {
                     BBDD.Create<ClaveLibro, LibroDato>(u as LibroDato);
                     return true;
                 }
-                if (u is UsuarioDato && tablaUsuario.Remove(new ClaveUsuario((u as UsuarioDato).Dni)))
+                if (u is UsuarioDato && tablaUsuario.Remove((u as UsuarioDato).Id))
                 {
                     BBDD.Create<ClaveUsuario, UsuarioDato>(u as UsuarioDato);
                     return true;
                 }
-                if (u is EjemplarDato && tablaEjemplar.Remove(new ClaveEjemplar((u as EjemplarDato).Codigo)))
+                if (u is EjemplarDato && tablaEjemplar.Remove((u as EjemplarDato).Id))
                 {
                     BBDD.Create<ClaveEjemplar, EjemplarDato>(u as EjemplarDato);
                     return true;
                 }
-                if (u is PrestamoDato && tablaPrestamo.Remove(new ClavePrestamo((u as PrestamoDato).Fecha, (u as PrestamoDato).DniUsuario)))
+                if (u is PrestamoDato && tablaPrestamo.Remove((u as PrestamoDato).Id))
+                {
+                    BBDD.Create<ClavePrestamo, PrestamoDato>(u as PrestamoDato);
+                    return true;
+                }
+                if (u is PersonalDato && tablaPersonal.Remove((u as PersonalDato).Id))
                 {
                     BBDD.Create<ClavePrestamo, PrestamoDato>(u as PrestamoDato);
                     return true;
@@ -256,6 +273,10 @@ namespace Persistencia
                         }
                         return true;
                     }
+                }
+                if (t is ClavePersonal)
+                {
+                    if (tablaPersonal.Remove(t as ClavePersonal)) return true;
                 }
             }
             return false;
