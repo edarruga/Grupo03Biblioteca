@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    internal class PersonalDato : Entity<ClavePersonal>, IEquatable<PersonalDato> 
+    public class PersonalDato : Entity<ClavePersonal>, IEquatable<PersonalDato> 
     {
-        private string pass;
+        private string contraseña;
         private string tipo;
 
         public PersonalDato(string name, string pass, string tipo) : base(new ClavePersonal(name))
         {
-            this.pass=pass;
+            this.contraseña=pass;
             this.tipo=tipo;
         }
 
@@ -27,7 +27,9 @@ namespace Persistencia
             return false;
         }
 
-        public string Pass { get { return this.pass; } }
+        public string Nombre { get { return this.Id.Nombre; } }
+
+        public string Contraseña { get { return this.contraseña; } }
         public string Tipo { get { return this.tipo; } }
     }
 }

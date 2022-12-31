@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    internal class ClavePersonal : Clave, IEquatable<ClavePersonal>
+    public class ClavePersonal : Clave, IEquatable<ClavePersonal>
     {
-        private string name;
+        private string nombre;
 
         public ClavePersonal(string name)
         {
-            this.name = name;
+            this.nombre = name;
         }
 
+        public string Nombre { get { return nombre; } }
         public bool Equals(Clave other)
         {
             if (other != null)
@@ -28,14 +29,14 @@ namespace Persistencia
         {
             if (other!=null)
             {
-                return this.name.Equals(other.name);
+                return this.nombre.Equals(other.nombre);
             }
             return false;
         }
 
         public override int GetHashCode()
         {
-            return 363513814 + EqualityComparer<string>.Default.GetHashCode(name);
+            return 363513814 + EqualityComparer<string>.Default.GetHashCode(nombre);
         }
     }
 }

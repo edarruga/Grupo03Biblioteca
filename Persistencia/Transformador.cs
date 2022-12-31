@@ -70,5 +70,26 @@ namespace Persistencia
         {
             return new PrestamoEjemplarDato(p.Fecha, p.Usuario.Dni, e.Codigo);
         }
+
+        public static PersonalDato PersonalAPersonalDato(Personal p)
+        {
+            return new PersonalDato(p.Name, p.Pass, p.GetType().Name);
+        }
+
+        public static Personal PersonalDatoAPersonal(PersonalDato pd)
+        {
+            if (pd.Tipo.Equals("PersonalSala"))
+            {
+                return new PersonalSala(pd.Nombre, pd.Contraseña);
+            }
+            else if (pd.Tipo.Equals("PersonalServicioAdquisiciones"))
+            {
+                return new PersonalServicioAdquisiciones(pd.Nombre, pd.Contraseña);
+            }
+            else
+            {
+                return new Personal(pd.Nombre, pd.Contraseña);
+            }
+        }
     }
 }

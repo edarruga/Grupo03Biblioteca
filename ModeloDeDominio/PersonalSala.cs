@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModeloDeDominio
 {
-    internal class PersonalSala : Personal
+    public class PersonalSala : Personal
     {
         public PersonalSala(string name, string pass) : base(name, pass)
         {
