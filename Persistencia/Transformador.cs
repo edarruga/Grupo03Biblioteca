@@ -73,7 +73,7 @@ namespace Persistencia
 
         public static PersonalDato PersonalAPersonalDato(Personal p)
         {
-            return new PersonalDato(p.Name, p.Pass, p.GetType().Name);
+            return new PersonalDato(p.Nombre, p.Contraseña, p.GetType().Name);
         }
 
         public static Personal PersonalDatoAPersonal(PersonalDato pd)

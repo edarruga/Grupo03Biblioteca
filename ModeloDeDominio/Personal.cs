@@ -8,16 +8,16 @@ namespace ModeloDeDominio
 {
     public class Personal
     {
-        private string name;
-        private string pass;
+        private string nombre;
+        private string contraseña;
 
         public Personal(string name, string pass)
         {
-            this.name = name;
-            this.pass = pass;
+            this.nombre  = name;
+            this.contraseña = pass;
         }
 
-        public string Name { get { return name; } }
-        public string Pass { get { return pass; } }
+        public string Nombre { get { return nombre; } }
+        public string Contraseña { get { return contraseña ; } }
     }
 }
