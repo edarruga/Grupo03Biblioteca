@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    public class GestorBD
+    public static class GestorBD
     {
         public static bool altaUsuario(Usuario u)
         {
