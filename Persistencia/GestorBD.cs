@@ -10,6 +10,10 @@ namespace Persistencia
 {
     public static class GestorBD
     {
+        public static bool AltaPersonal(Personal p)
+        {
+            return BBDD.Create<ClavePersonal, PersonalDato>(Transformador.PersonalAPersonalDato(p));
+        }
         public static bool AltaUsuario(Usuario u)
         {
             return BBDD.Create<ClaveUsuario, UsuarioDato>(Transformador.UsuarioAUsuarioDato(u));

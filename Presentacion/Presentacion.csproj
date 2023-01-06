@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{13A8AC20-6F30-4CBA-A43A-C294AAA247DC}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Presentacion</RootNamespace>
+    <AssemblyName>Presentacion</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="claveDesplegable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="claveDesplegable.Designer.cs">
+      <DependentUpon>claveDesplegable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="claveListado.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="claveListado.Designer.cs">
+      <DependentUpon>claveListado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="datos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="datos.Designer.cs">
+      <DependentUpon>datos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="alta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="alta.Designer.cs">
+      <DependentUpon>alta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="clave.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="clave.Designer.cs">
+      <DependentUpon>clave.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dato.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="dato.Designer.cs">
+      <DependentUpon>dato.cs</DependentUpon>
+    </Compile>
+    <Compile Include="listado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="listado.Designer.cs">
+      <DependentUpon>listado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="listadoUsuarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="listadoUsuarios.Designer.cs">
+      <DependentUpon>listadoUsuarios.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="gestionDeBiblioteca.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gestionDeBiblioteca.Designer.cs">
+      <DependentUpon>gestionDeBiblioteca.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Introducir.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Introducir.Designer.cs">
+      <DependentUpon>Introducir.cs</DependentUpon>
+    </Compile>
+    <Compile Include="login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="login.Designer.cs">
+      <DependentUpon>login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="claveDesplegable.resx">
+      <DependentUpon>claveDesplegable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="claveListado.resx">
+      <DependentUpon>claveListado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="datos.resx">
+      <DependentUpon>datos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="alta.resx">
+      <DependentUpon>alta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="clave.resx">
+      <DependentUpon>clave.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dato.resx">
+      <DependentUpon>dato.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="gestionDeBiblioteca.resx">
+      <DependentUpon>gestionDeBiblioteca.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Introducir.resx">
+      <DependentUpon>Introducir.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="listado.resx">
+      <DependentUpon>listado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="listadoUsuarios.resx">
+      <DependentUpon>listadoUsuarios.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="login.resx">
+      <DependentUpon>login.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ModeloDeDominio\ModeloDeDominio.csproj">
+      <Project>{B4BEE6FE-EF01-4E8B-8E73-1D1CDA3C2D6D}</Project>
+      <Name>ModeloDeDominio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModeloDeNegocio\ModeloDeNegocio.csproj">
+      <Project>{A3ED2BC5-3FB5-48EA-A8DB-FE800B50DDF8}</Project>
+      <Name>ModeloDeNegocio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Persistencia\Persistencia.csproj">
+      <Project>{8EB5F428-EB2D-4714-8465-3881E24EBE90}</Project>
+      <Name>Persistencia</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
