@@ -22,6 +22,7 @@ namespace Persistencia
         public bool Prestado
         {
             get { return prestado; }
+            set { prestado = value; }
         }
         public String IsbnLibro
         {
