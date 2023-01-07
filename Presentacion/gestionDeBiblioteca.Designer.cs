@@ -35,11 +35,12 @@
             this.búsquedaTsmi = new System.Windows.Forms.ToolStripMenuItem();
             this.introducirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.seleccionerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listadoDeUsuariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.librosTsmi = new System.Windows.Forms.ToolStripMenuItem();
             this.ejemplaresTsmi = new System.Windows.Forms.ToolStripMenuItem();
             this.prestamosTsmi = new System.Windows.Forms.ToolStripMenuItem();
             this.configuracionTsmi = new System.Windows.Forms.ToolStripMenuItem();
-            this.listadoDeUsuariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.recorridoUnoAUnoTsmi = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -66,7 +67,8 @@
             this.altaTsmi,
             this.bajaTsmi,
             this.búsquedaTsmi,
-            this.listadoDeUsuariosToolStripMenuItem});
+            this.listadoDeUsuariosToolStripMenuItem,
+            this.recorridoUnoAUnoTsmi});
             this.usuarioTsmi.Name = "usuarioTsmi";
             this.usuarioTsmi.Size = new System.Drawing.Size(156, 48);
             this.usuarioTsmi.Text = "Usuarios";
@@ -74,14 +76,14 @@
             // altaTsmi
             // 
             this.altaTsmi.Name = "altaTsmi";
-            this.altaTsmi.Size = new System.Drawing.Size(315, 54);
+            this.altaTsmi.Size = new System.Drawing.Size(455, 54);
             this.altaTsmi.Text = "Alta";
             this.altaTsmi.Click += new System.EventHandler(this.altaTsmi_Click);
             // 
             // bajaTsmi
             // 
             this.bajaTsmi.Name = "bajaTsmi";
-            this.bajaTsmi.Size = new System.Drawing.Size(315, 54);
+            this.bajaTsmi.Size = new System.Drawing.Size(455, 54);
             this.bajaTsmi.Text = "Baja";
             this.bajaTsmi.Click += new System.EventHandler(this.bajaTsmi_Click);
             // 
@@ -91,53 +93,60 @@
             this.introducirToolStripMenuItem,
             this.seleccionerToolStripMenuItem});
             this.búsquedaTsmi.Name = "búsquedaTsmi";
-            this.búsquedaTsmi.Size = new System.Drawing.Size(315, 54);
+            this.búsquedaTsmi.Size = new System.Drawing.Size(455, 54);
             this.búsquedaTsmi.Text = "Búsqueda";
             // 
             // introducirToolStripMenuItem
             // 
             this.introducirToolStripMenuItem.Name = "introducirToolStripMenuItem";
-            this.introducirToolStripMenuItem.Size = new System.Drawing.Size(334, 54);
+            this.introducirToolStripMenuItem.Size = new System.Drawing.Size(448, 54);
             this.introducirToolStripMenuItem.Text = "Introducir";
             this.introducirToolStripMenuItem.Click += new System.EventHandler(this.introducirToolStripMenuItem_Click);
             // 
             // seleccionerToolStripMenuItem
             // 
             this.seleccionerToolStripMenuItem.Name = "seleccionerToolStripMenuItem";
-            this.seleccionerToolStripMenuItem.Size = new System.Drawing.Size(334, 54);
+            this.seleccionerToolStripMenuItem.Size = new System.Drawing.Size(448, 54);
             this.seleccionerToolStripMenuItem.Text = "Seleccionar";
             this.seleccionerToolStripMenuItem.Click += new System.EventHandler(this.seleccionerToolStripMenuItem_Click);
+            // 
+            // listadoDeUsuariosToolStripMenuItem
+            // 
+            this.listadoDeUsuariosToolStripMenuItem.Name = "listadoDeUsuariosToolStripMenuItem";
+            this.listadoDeUsuariosToolStripMenuItem.Size = new System.Drawing.Size(455, 54);
+            this.listadoDeUsuariosToolStripMenuItem.Text = "Listado de usuarios";
+            this.listadoDeUsuariosToolStripMenuItem.Click += new System.EventHandler(this.listadoDeUsuariosToolStripMenuItem_Click);
             // 
             // librosTsmi
             // 
             this.librosTsmi.Name = "librosTsmi";
-            this.librosTsmi.Size = new System.Drawing.Size(122, 45);
+            this.librosTsmi.Size = new System.Drawing.Size(122, 48);
             this.librosTsmi.Text = "Libros";
             // 
             // ejemplaresTsmi
             // 
             this.ejemplaresTsmi.Name = "ejemplaresTsmi";
-            this.ejemplaresTsmi.Size = new System.Drawing.Size(185, 45);
+            this.ejemplaresTsmi.Size = new System.Drawing.Size(185, 48);
             this.ejemplaresTsmi.Text = "Ejemplares";
             // 
             // prestamosTsmi
             // 
             this.prestamosTsmi.Name = "prestamosTsmi";
-            this.prestamosTsmi.Size = new System.Drawing.Size(180, 45);
+            this.prestamosTsmi.Size = new System.Drawing.Size(180, 48);
             this.prestamosTsmi.Text = "Préstamos";
             // 
             // configuracionTsmi
             // 
             this.configuracionTsmi.Name = "configuracionTsmi";
-            this.configuracionTsmi.Size = new System.Drawing.Size(228, 45);
+            this.configuracionTsmi.Size = new System.Drawing.Size(228, 48);
             this.configuracionTsmi.Text = "Configuración";
             // 
-            // listadoDeUsuariosToolStripMenuItem
+            // recorridoUnoAUnoTsmi
             // 
-            this.listadoDeUsuariosToolStripMenuItem.Name = "listadoDeUsuariosToolStripMenuItem";
-            this.listadoDeUsuariosToolStripMenuItem.Size = new System.Drawing.Size(448, 54);
-            this.listadoDeUsuariosToolStripMenuItem.Text = "Listado de usuarios";
-            this.listadoDeUsuariosToolStripMenuItem.Click += new System.EventHandler(this.listadoDeUsuariosToolStripMenuItem_Click);
+            this.recorridoUnoAUnoTsmi.Name = "recorridoUnoAUnoTsmi";
+            this.recorridoUnoAUnoTsmi.Size = new System.Drawing.Size(455, 54);
+            this.recorridoUnoAUnoTsmi.Text = "Recorrido uno a uno";
+            this.recorridoUnoAUnoTsmi.Click += new System.EventHandler(this.recorridoUnoAUnoTsmi_Click);
             // 
             // gestionDeBiblioteca
             // 
@@ -170,5 +179,6 @@
         private System.Windows.Forms.ToolStripMenuItem introducirToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem seleccionerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem listadoDeUsuariosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem recorridoUnoAUnoTsmi;
     }
 }

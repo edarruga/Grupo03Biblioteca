@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModeloDeDominio;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,17 +11,25 @@ using System.Windows.Forms;
 
 namespace Presentacion
 {
-    public partial class datos : Form
+    public partial class datosDesplegables : Form
     {
-        public datos()
+        public datosDesplegables()
         {
             InitializeComponent();
             
         }
+        public Label ClaveL
+        {
+            get { return this.claveL; }
+        }
+        public ComboBox ClaveDesplegableCb
+        {
+            get { return this.claveDesplegableCb; }
+        }
 
         private void aceptarAlB_Click(object sender, EventArgs e)
         {
-            //this.Close();
+            this.Close();
         }
     }
 }

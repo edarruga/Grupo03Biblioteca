@@ -1,10 +1,12 @@
-﻿using ModeloDeNegocio;
+﻿using ModeloDeDominio;
+using ModeloDeNegocio;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -170,23 +172,36 @@ namespace Presentacion
 
         private void seleccionerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            datos datosUsuario = new datos();
+            List<string> dnis = MNBiblioteca.listaDNIs();
+            datosDesplegables datosUsuario = new datosDesplegables();
             datosUsuario.Text = "Datos del usuario";
-            claveDesplegable dniUC = new claveDesplegable(85, 50, "DNI:",)
-            //claveUC dniUC = new claveUC(85, 50, "DNI:", introducir.Clave);
             datoUC nombreUC = new datoUC(85, 100, "Nombre:");
             datoUC apellidosUC = new datoUC(85, 150, "Apellidos:");
-            nombreUC.Name = "nombreUC";
-            apellidosUC.Name = "apellidosUC";
             nombreUC.DatoTbUC.ReadOnly = true;
-            //nombreUC.DatoTbUC.Text = ModeloDeNegocio.MNBiblioteca.getNombreUsuario(introducir.Clave);
+            nombreUC.Name = "nombreUC";
             apellidosUC.DatoTbUC.ReadOnly = true;
-            //apellidosUC.DatoTbUC.Text = ModeloDeNegocio.MNBiblioteca.getApellidosUsuario(introducir.Clave);
-            datosUsuario.Controls.Add(dniUC);
+            apellidosUC.Name = "apellidosUC";
+            datosUsuario.ClaveDesplegableCb.DataSource = dnis;
+            datosUsuario.ClaveDesplegableCb.SelectedIndex = -1;
+            datosUsuario.ClaveDesplegableCb.SelectedIndexChanged += (s, ev) => cambiarDatosUsuario(sender, e, datosUsuario);
             datosUsuario.Controls.Add(nombreUC);
             datosUsuario.Controls.Add(apellidosUC);
             DialogResult usuario = datosUsuario.ShowDialog();
 
+        }
+        private void cambiarDatosUsuario(object sender,EventArgs e,datosDesplegables datosUsuario)
+        {
+            datoUC nombreUC = (datoUC)datosUsuario.Controls["nombreUC"];
+            datoUC apellidosUC = (datoUC)datosUsuario.Controls["apellidosUC"];
+            string dni = (string)datosUsuario.ClaveDesplegableCb.SelectedValue;
+            if (dni != null)
+            {
+                string nombre = MNBiblioteca.getNombreUsuario(dni);
+                nombreUC.DatoTbUC.Text = nombre;
+
+                string apellidos = MNBiblioteca.getApellidosUsuario(dni);
+                apellidosUC.DatoTbUC.Text= apellidos;
+            }
         }
 
         private void introducirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -262,6 +277,57 @@ namespace Presentacion
             listado.Controls.Add(apellidos);
             listado.ShowDialog();
             */
+        }
+
+        private void recorridoUnoAUnoTsmi_Click(object sender, EventArgs e)
+        {
+            rocorridoUnoaUno recorrido=new rocorridoUnoaUno();
+            List<Usuario> listaUsuarios=MNBiblioteca.listaUsuarios();
+            recorrido.Text = "Datos de un usuario";
+            claveUC dniUC = new claveUC(20,50, "DNI:");
+            datoUC nombreUC = new datoUC(20, 80, "Nombre:");
+            datoUC apellidosUC = new datoUC(20, 110, "Apellidos:");
+            datoUC numLibrosUC = new datoUC(20, 140, "Libros prestados:");
+            dniUC.Name = "dniUC";
+            nombreUC.DatoTbUC.ReadOnly = true;
+            nombreUC.Name = "nombreUC"; 
+            apellidosUC.DatoTbUC.ReadOnly = true;
+            apellidosUC.Name = "apellidosUC";
+            numLibrosUC.DatoTbUC.ReadOnly = true;
+            numLibrosUC.Name = "numLibrosUC";
+            foreach(Usuario u in listaUsuarios)
+            {
+                recorrido.BindingNavigator.BindingSource.Add(u);
+            }
+            recorrido.BindingNavigatorPositionItem.TextChanged += (s, ev) => cambiarDatosUsuarioUnoaUno(sender, e, recorrido);
+
+            recorrido.Controls.Add(dniUC);
+            recorrido.Controls.Add(nombreUC);
+            recorrido.Controls.Add(apellidosUC);
+            recorrido.Controls.Add(numLibrosUC);
+            
+            recorrido.ShowDialog();
+        }
+        private void cambiarDatosUsuarioUnoaUno(object sender, EventArgs e, rocorridoUnoaUno recorrido)
+        {
+            claveUC dniUC = (claveUC)recorrido.Controls["dniUC"];
+            datoUC nombreUC = (datoUC)recorrido.Controls["nombreUC"];
+            datoUC apellidosUC = (datoUC)recorrido.Controls["apellidosUC"];
+            datoUC numLibrosUC = (datoUC)recorrido.Controls["numLibrosUC"];
+
+            Usuario u=(Usuario)recorrido.BindingNavigator.BindingSource.Current;
+
+            string dni = u.Dni;
+            dniUC.ClaveTbUC.Text = dni;
+
+            string nombre = u.Nombre;
+            nombreUC.DatoTbUC.Text = nombre;
+
+            string apellidos = u.Apellidos;
+            apellidosUC.DatoTbUC.Text = apellidos;
+
+            int numLibros = MNBiblioteca.numLibrosPrestados(u.Dni);
+            numLibrosUC.DatoTbUC.Text = numLibros.ToString();
         }
     }
 }

@@ -20,5 +20,13 @@ namespace Presentacion
             this.claveLUC.Text = l;
             this.claveTbUC.Text = clave;
         }
+        public claveUC(int x, int y, string l)
+        {
+            InitializeComponent();
+            this.Left = x;
+            this.Top = y;
+            this.claveLUC.Text = l;
+        }
+        public TextBox ClaveTbUC { get { return this.claveTbUC; } }
     }
 }
