@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Persistencia
@@ -56,6 +58,18 @@ namespace Persistencia
         {
             var listaUsuarios = BBDD.TablaUsuario.Select((ud) => Transformador.UsuarioDatoAUsuario(ud));
             return listaUsuarios.ToList();
+        }
+
+        public static int NumLibrosPrestados(string dni)
+        {
+            var librosPrestados =
+                from pd in BBDD.TablaPrestamo.Where(prestamo => prestamo.DniUsuario == dni)
+                join ped in BBDD.TablaPrestamoEjemplar on pd.Id equals ped.Id.Prestamo
+                join ed in BBDD.TablaEjemplar on ped.Id.Ejemplar equals ed.Id
+                join ld in BBDD.TablaLibro on ed.IsbnLibro equals ld.Isbn
+                select ld;
+            var librosPrestadosDistintos = librosPrestados.Distinct();
+            return librosPrestadosDistintos.Count();
         }
 
         public static string Login(string nombre, string contraseña)
@@ -121,11 +135,20 @@ namespace Persistencia
             return fechaMayor.AddDays(15);
         }
 
-        //public static Libro LibroMasPrestado()
-        //{
-        //    var listaPrestamoEjemplar
-        //    return;
-        //}
+        public static Libro LibroMasPrestado()
+        {
+            var listaLibros =
+                from ped in BBDD.TablaPrestamoEjemplar
+                join pd in BBDD.TablaPrestamo on ped.Id.Prestamo equals pd.Id
+                group ped by pd into agrupacion
+                orderby agrupacion.Count() descending
+                select agrupacion.Key;
+            PrestamoDato prestDato = listaLibros.First();
+            PrestamoEjemplarDato prestEjempDato = BBDD.TablaPrestamoEjemplar.Where(ped => ped.Id.Prestamo.Equals(prestDato.Id)).First();
+            EjemplarDato ed = BBDD.TablaEjemplar.Where(ejemplar => ejemplar.Codigo == prestEjempDato.Codigo).First();
+            LibroDato ld = BBDD.TablaLibro.Where(libro => ed.IsbnLibro == libro.Isbn).First();
+            return Transformador.LibroDatoALibro(ld);
+        }
 
         public static List<Libro> ListaLibros()
         {
@@ -160,10 +183,25 @@ namespace Persistencia
             return BBDD.Read<ClavePrestamo, PrestamoDato>(new ClavePrestamo(fecha, dni)).Estado;
         }
 
-        //public static List<> VerLibrosNoDevueltos(DateTime fecha, string dni)
-        //{
-
-        //}
+        public static List<Libro> VerLibrosNoDevueltos(DateTime fecha, string dni)
+        {
+            ClavePrestamo cpe = new ClavePrestamo(fecha, dni);
+            var listaEjemplaresPrestamo = BBDD.TablaPrestamoEjemplar.Where(ped => ped.Id.Prestamo.Equals(cpe));
+            List<Libro> listaLibros = new List<Libro>();
+            foreach (PrestamoEjemplarDato ped in listaEjemplaresPrestamo)
+            {
+                EjemplarDato ed = BBDD.Read<ClaveEjemplar, EjemplarDato>(ped.Id.Ejemplar);
+                if (ed.Prestado)
+                {
+                    Ejemplar e = Transformador.EjemplarDatoAEjemplar(ed);
+                    if (listaLibros.Contains(e.Libro))
+                    {
+                        listaLibros.Add(e.Libro);
+                    }
+                }
+            }
+            return listaLibros;
+        }
 
         public static Prestamo GetPrestamo(DateTime fecha, string dni)
         {
@@ -181,14 +219,16 @@ namespace Persistencia
             return false;
         }
 
-        //public static List<Pretamo> GetPrestamosEnProceso()
-        //{
+        public static List<Prestamo> GetPrestamosEnProceso()
+        {
+            var listaEnProceso = BBDD.TablaPrestamo.Where(pd => pd.Estado == Estado.EnProceso);
+            return listaEnProceso.Select(pd=> Transformador.PrestamoDatoAPrestamo(pd)).ToList();
+        }
 
-        //}
-
-        //public static List<Ejemplar> EjemplaresNoDevueltos()
-        //{
-
-        //}
+        public static List<Ejemplar> EjemplaresPrestados()
+        {
+            var listaEjemplaresNoDevueltos = BBDD.TablaEjemplar.Where(ed => ed.Prestado);
+            return listaEjemplaresNoDevueltos.Select(ed => Transformador.EjemplarDatoAEjemplar(ed)).ToList();
+        }
     }
 }
