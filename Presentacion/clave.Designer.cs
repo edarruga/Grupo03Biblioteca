@@ -43,7 +43,7 @@
             // 
             // claveTbUC
             // 
-            this.claveTbUC.Location = new System.Drawing.Point(195, 3);
+            this.claveTbUC.Location = new System.Drawing.Point(250, 3);
             this.claveTbUC.Name = "claveTbUC";
             this.claveTbUC.ReadOnly = true;
             this.claveTbUC.Size = new System.Drawing.Size(237, 38);
@@ -56,7 +56,7 @@
             this.Controls.Add(this.claveTbUC);
             this.Controls.Add(this.claveLUC);
             this.Name = "claveUC";
-            this.Size = new System.Drawing.Size(468, 50);
+            this.Size = new System.Drawing.Size(501, 50);
             this.ResumeLayout(false);
             this.PerformLayout();
 

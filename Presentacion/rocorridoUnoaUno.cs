@@ -10,17 +10,19 @@ using System.Windows.Forms;
 
 namespace Presentacion
 {
-    public partial class datos : Form
+    public partial class rocorridoUnoaUno : Form
     {
-        public datos()
+        public rocorridoUnoaUno()
         {
             InitializeComponent();
-            
         }
-
-        private void aceptarAlB_Click(object sender, EventArgs e)
+        public BindingNavigator BindingNavigator
         {
-            //this.Close();
+            get { return this.bindingNavigator; }
+        }
+        public ToolStripTextBox BindingNavigatorPositionItem
+        {
+            get { return this.bindingNavigatorPositionItem; }
         }
     }
 }

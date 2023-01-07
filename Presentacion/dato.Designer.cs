@@ -43,7 +43,7 @@
             // 
             // datoTbUC
             // 
-            this.datoTbUC.Location = new System.Drawing.Point(195, 3);
+            this.datoTbUC.Location = new System.Drawing.Point(250, 3);
             this.datoTbUC.Name = "datoTbUC";
             this.datoTbUC.Size = new System.Drawing.Size(237, 38);
             this.datoTbUC.TabIndex = 2;
@@ -55,7 +55,7 @@
             this.Controls.Add(this.datoTbUC);
             this.Controls.Add(this.datoLUC);
             this.Name = "datoUC";
-            this.Size = new System.Drawing.Size(468, 50);
+            this.Size = new System.Drawing.Size(499, 50);
             this.ResumeLayout(false);
             this.PerformLayout();
 

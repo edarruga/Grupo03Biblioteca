@@ -38,5 +38,20 @@ namespace ModeloDeNegocio
         {
             return GestorBD.ListaUsuarios();
         }
+        public static List<string> listaDNIs()
+        {
+            List<string> lista = new List<string>();
+            List<Usuario> usuarios = MNBiblioteca.listaUsuarios();
+            foreach(Usuario usuario in usuarios)
+            {
+                lista.Add(usuario.Dni);
+            }
+            return lista;
+        }
+        public static int numLibrosPrestados(string dni)
+        {
+            //Falta
+            return 0;
+        }
     }
 }
