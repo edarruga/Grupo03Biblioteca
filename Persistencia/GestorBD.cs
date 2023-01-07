@@ -29,7 +29,7 @@ namespace Persistencia
 
         public static List<Ejemplar> EjemplaresUsuarioActivos(string dni)
         {
-            var prestamosActivosUsuario = BBDD.TablaPrestamo.Where((p)=>p.DniUsuario==dni && p.Estado==Estado.EnProceso);
+            var prestamosActivosUsuario = BBDD.TablaPrestamo.Where((p) => p.DniUsuario == dni && p.Estado == Estado.EnProceso);
             var clavePrestamos = prestamosActivosUsuario.Select((p) => p.Id);
             List<Ejemplar> lista = new List<Ejemplar>();
             foreach (ClavePrestamo cp in clavePrestamos)
@@ -39,7 +39,7 @@ namespace Persistencia
                     if (cp.Equals(ped.Id.Prestamo))
                     {
                         Ejemplar e = Transformador.EjemplarDatoAEjemplar(BBDD.Read<ClaveEjemplar, EjemplarDato>(ped.Id.Ejemplar));
-                        if (e!=null) lista.Add(e);
+                        if (e != null) lista.Add(e);
                     }
                 }
             }
@@ -48,13 +48,13 @@ namespace Persistencia
 
         public static bool TienePrestamoFueraPlazo(string dni)
         {
-            var prestamosFueraPlazos = BBDD.TablaPrestamo.Where((p)=>p.DniUsuario==dni && p.Estado==Estado.EnProceso && (DateTime.Now-p.Fecha).TotalDays>15);
-            return prestamosFueraPlazos.ToList().Count>0;
+            var prestamosFueraPlazos = BBDD.TablaPrestamo.Where((p) => p.DniUsuario == dni && p.Estado == Estado.EnProceso && (DateTime.Now - p.Fecha).TotalDays > 15);
+            return prestamosFueraPlazos.ToList().Count > 0;
         }
 
         public static List<Usuario> ListaUsuarios()
         {
-            var listaUsuarios = BBDD.TablaUsuario.Select((ud)=>Transformador.UsuarioDatoAUsuario(ud));
+            var listaUsuarios = BBDD.TablaUsuario.Select((ud) => Transformador.UsuarioDatoAUsuario(ud));
             return listaUsuarios.ToList();
         }
 
@@ -70,5 +70,125 @@ namespace Persistencia
             }
             return null;
         }
+
+        //PERSONAL SERVICIO DE ADQUISICIONES
+
+        public static bool AltaEjemplar(Ejemplar e)
+        {
+            return BBDD.Create<ClaveEjemplar, EjemplarDato>(Transformador.EjemplarAEjemplarDato(e));
+        }
+
+        public static bool BajaEjemplar(string codigo)
+        {
+            return BBDD.Delete<ClaveEjemplar, EjemplarDato>(new ClaveEjemplar(codigo));
+        }
+
+        public static bool AltaLibro(Libro l)
+        {
+            return BBDD.Create<ClaveLibro, LibroDato>(Transformador.LibroALibroDato(l));
+        }
+
+        public static bool BajaLibro(string isbn)
+        {
+            return BBDD.Delete<ClaveLibro, LibroDato>(new ClaveLibro(isbn));
+        }
+
+        public static Ejemplar GetEjemplar(string codigo)
+        {
+            return Transformador.EjemplarDatoAEjemplar(BBDD.Read<ClaveEjemplar, EjemplarDato>(new ClaveEjemplar(codigo)));
+        }
+
+        public static bool EjemplarDisponible(string codigo)
+        {
+            if (BBDD.TablaEjemplar.Contains(new ClaveEjemplar(codigo)))
+            {
+                return BBDD.Read<ClaveEjemplar, EjemplarDato>(new ClaveEjemplar(codigo)).Prestado;
+            }
+            return false;
+        }
+
+        public static DateTime FechaDisponibleEjemplar(string codigo)
+        {
+            var lista = BBDD.TablaPrestamoEjemplar.Where(ped => ped.Id.Ejemplar.Codigo == codigo);
+            DateTime fechaMayor = new DateTime(0, 0, 0);
+            foreach (PrestamoEjemplarDato ped in lista)
+            {
+                if (fechaMayor < ped.Fecha)
+                {
+                    fechaMayor = ped.Fecha;
+                }
+            }
+            return fechaMayor.AddDays(15);
+        }
+
+        //public static Libro LibroMasPrestado()
+        //{
+        //    var listaPrestamoEjemplar
+        //    return;
+        //}
+
+        public static List<Libro> ListaLibros()
+        {
+            return BBDD.TablaLibro.Select(l => Transformador.LibroDatoALibro(l)).ToList();
+        }
+
+        public static List<Ejemplar> ListaEjemplares(string isbnLibro)
+        {
+            return BBDD.TablaEjemplar.Where(ed => ed.IsbnLibro == isbnLibro).Select(ed => Transformador.EjemplarDatoAEjemplar(ed)).ToList();
+        }
+
+        //PERSONAL DE SALA
+
+        public static bool AltaPrestamo(Prestamo p)
+        {
+            return BBDD.Create<ClavePrestamo, PrestamoDato>(Transformador.PrestamoAPrestamoDato(p));
+        }
+
+        public static bool BajaPrestamo(DateTime fecha, string dni)
+        {
+            return BBDD.Delete<ClavePrestamo, PrestamoDato>(new ClavePrestamo(fecha,dni));
+        }
+
+        public static Usuario GetUsuarioByPrestamo(DateTime fecha, string dni)
+        {
+            PrestamoDato p = BBDD.Read<ClavePrestamo, PrestamoDato>(new ClavePrestamo(fecha, dni));
+            return Transformador.UsuarioDatoAUsuario(BBDD.Read<ClaveUsuario, UsuarioDato>(new ClaveUsuario(p.DniUsuario)));
+        }
+
+        public static Estado GetEstadoPrestamo(DateTime fecha, string dni)
+        {
+            return BBDD.Read<ClavePrestamo, PrestamoDato>(new ClavePrestamo(fecha, dni)).Estado;
+        }
+
+        //public static List<> VerLibrosNoDevueltos(DateTime fecha, string dni)
+        //{
+
+        //}
+
+        public static Prestamo GetPrestamo(DateTime fecha, string dni)
+        {
+            return Transformador.PrestamoDatoAPrestamo(BBDD.Read<ClavePrestamo, PrestamoDato>(new ClavePrestamo(fecha, dni)));
+        }
+
+        public static bool DevolverEjemplarPrestado(string codigo)
+        {
+            if (BBDD.TablaEjemplar.Contains(new ClaveEjemplar(codigo)))
+            {
+                EjemplarDato ed = BBDD.Read<ClaveEjemplar, EjemplarDato>(new ClaveEjemplar(codigo));
+                ed.Prestado = false;
+                return BBDD.Update<ClaveEjemplar, EjemplarDato>(ed);
+            }
+            return false;
+        }
+
+        //public static List<Pretamo> GetPrestamosEnProceso()
+        //{
+
+        //}
+
+        //public static List<Ejemplar> EjemplaresNoDevueltos()
+        //{
+
+        //}
     }
 }
