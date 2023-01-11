@@ -21,6 +21,12 @@ namespace Presentacion
             this.Text = nombre+" - Gestión de biblioteca";
 
         }
+        public gestionDeBiblioteca()
+        {
+            InitializeComponent();
+
+        }
+
 
         private void altaTsmi_Click(object sender, EventArgs e)
         {
@@ -305,7 +311,32 @@ namespace Presentacion
             recorrido.Controls.Add(nombreUC);
             recorrido.Controls.Add(apellidosUC);
             recorrido.Controls.Add(numLibrosUC);
+            /*
+            recorrido.BindingNavigator.MoveFirstItem.Click += delegate (object se, EventArgs eve)
+            {
+                recorrido.BindingNavigator.BindingSource.MoveFirst();
+
+            };
+            recorrido.BindingNavigator.MovePreviousItem.Click += delegate (object se, EventArgs eve)
+            {
+                recorrido.BindingNavigator.BindingSource.MovePrevious();
+
+            };
+            recorrido.BindingNavigator.MoveNextItem.Click += delegate (object se, EventArgs eve)
+            {
+                recorrido.BindingNavigator.BindingSource.MoveNext();
+
+            };
+            recorrido.BindingNavigator.MoveLastItem.Click += delegate (object se, EventArgs eve)
+            {
+                recorrido.BindingNavigator.BindingSource.MoveLast();
+
+            };
+            */
             
+
+            this.cambiarDatosUsuarioUnoaUno(sender,e,recorrido);
+
             recorrido.ShowDialog();
         }
         private void cambiarDatosUsuarioUnoaUno(object sender, EventArgs e, rocorridoUnoaUno recorrido)
@@ -316,18 +347,27 @@ namespace Presentacion
             datoUC numLibrosUC = (datoUC)recorrido.Controls["numLibrosUC"];
 
             Usuario u=(Usuario)recorrido.BindingNavigator.BindingSource.Current;
-
-            string dni = u.Dni;
+            string dni = "";
+            string nombre = "";
+            string apellidos = "";
+            int numLibros = 0;
+            if (u != null)
+            {
+                dni = u.Dni;
+                nombre = u.Nombre;
+                apellidos = u.Apellidos;               
+                numLibros = MNBiblioteca.numLibrosPrestados(u.Dni);               
+            }
             dniUC.ClaveTbUC.Text = dni;
-
-            string nombre = u.Nombre;
             nombreUC.DatoTbUC.Text = nombre;
-
-            string apellidos = u.Apellidos;
             apellidosUC.DatoTbUC.Text = apellidos;
-
-            int numLibros = MNBiblioteca.numLibrosPrestados(u.Dni);
             numLibrosUC.DatoTbUC.Text = numLibros.ToString();
+
+        }
+
+        private void cerrarSesiónToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Retry;
         }
     }
 }

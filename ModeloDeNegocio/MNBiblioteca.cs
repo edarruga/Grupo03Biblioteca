@@ -50,8 +50,8 @@ namespace ModeloDeNegocio
         }
         public static int numLibrosPrestados(string dni)
         {
-            //Falta
-            return 0;
+            
+            return GestorBD.NumLibrosPrestados(dni);
         }
     }
 }
