@@ -14,6 +14,7 @@ namespace Presentacion
         static void Main(string[] args)
         {
             PersonalServicioAdquisiciones p = new PersonalServicioAdquisiciones("aaa", "123");
+            PersonalSala p2 = new PersonalSala("bbb", "123");
             Usuario u = new Usuario("1234", "Eduardo", "Arruga");
             Usuario u2 = new Usuario("12345678A", "Alejandro", "Martinez");
             Usuario u3 = new Usuario("11111111Z", "Pablo", "Gomez");
@@ -23,6 +24,7 @@ namespace Presentacion
             GestorBD.AltaUsuario(u3);
             GestorBD.AltaUsuario(u4);
             GestorBD.AltaPersonal(p);
+            GestorBD.AltaPersonal(p2);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Program.iniciar();
@@ -35,7 +37,7 @@ namespace Presentacion
             if (login.Tipo == "PersonalServicioAdquisiciones")
             {
 
-                gestionDeBiblioteca gestion = new gestionDeBiblioteca(login.Personal);
+                servicioDeAdquisiciones gestion = new servicioDeAdquisiciones(login.Personal);
                 login.Close();
                 DialogResult resultado=gestion.ShowDialog();
                 if (resultado == DialogResult.Retry)
@@ -46,7 +48,13 @@ namespace Presentacion
             }
             else if (login.Tipo == "PersonalSala")
             {
-
+                sala gestion = new sala(login.Personal);
+                login.Close();
+                DialogResult resultado = gestion.ShowDialog();
+                if (resultado == DialogResult.Retry)
+                {
+                    Program.iniciar();
+                }
             }
         }
     }

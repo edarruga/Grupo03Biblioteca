@@ -1,6 +1,6 @@
 ﻿namespace Presentacion
 {
-    partial class servicioDeAdquisiciones
+    partial class sala
     {
         /// <summary>
         /// Required designer variable.
@@ -30,13 +30,13 @@
         {
             this.SuspendLayout();
             // 
-            // servicioDeAdquisiciones
+            // sala
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1508, 702);
-            this.Name = "servicioDeAdquisiciones";
-            this.Text = "servicioDeAdquisiciones";
+            this.Name = "sala";
+            this.Text = "sala";
             this.ResumeLayout(false);
             this.PerformLayout();
 
