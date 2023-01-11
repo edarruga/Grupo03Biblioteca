@@ -369,5 +369,28 @@ namespace Presentacion
         {
             this.DialogResult = DialogResult.Retry;
         }
+
+        //=======================================================
+        private void altaPrestamosTsmi_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void bajaPrestamosTsmi_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listadoDePrestamosActivosTsmi_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void recorridoUnoAUnoPrestamosTsmi_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        //=======================================================
     }
 }

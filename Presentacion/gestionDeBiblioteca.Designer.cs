@@ -76,7 +76,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(12, 4, 0, 4);
-            this.menuStrip1.Size = new System.Drawing.Size(993, 53);
+            this.menuStrip1.Size = new System.Drawing.Size(993, 56);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -151,7 +151,7 @@
             this.listadoDePrestamosActivosTsmi,
             this.recorridoUnoAUnoPrestamosTsmi});
             this.prestamosTsmi.Name = "prestamosTsmi";
-            this.prestamosTsmi.Size = new System.Drawing.Size(180, 45);
+            this.prestamosTsmi.Size = new System.Drawing.Size(180, 48);
             this.prestamosTsmi.Text = "Préstamos";
             // 
             // configuracionTsmi
@@ -290,24 +290,28 @@
             this.altaPrestamosTsmi.Name = "altaPrestamosTsmi";
             this.altaPrestamosTsmi.Size = new System.Drawing.Size(468, 54);
             this.altaPrestamosTsmi.Text = "Alta";
+            this.altaPrestamosTsmi.Click += new System.EventHandler(this.altaPrestamosTsmi_Click);
             // 
             // bajaPrestamosTsmi
             // 
             this.bajaPrestamosTsmi.Name = "bajaPrestamosTsmi";
             this.bajaPrestamosTsmi.Size = new System.Drawing.Size(468, 54);
             this.bajaPrestamosTsmi.Text = "Baja";
+            this.bajaPrestamosTsmi.Click += new System.EventHandler(this.bajaPrestamosTsmi_Click);
             // 
             // listadoDePrestamosActivosTsmi
             // 
             this.listadoDePrestamosActivosTsmi.Name = "listadoDePrestamosActivosTsmi";
             this.listadoDePrestamosActivosTsmi.Size = new System.Drawing.Size(468, 54);
             this.listadoDePrestamosActivosTsmi.Text = "Listado de préstamos";
+            this.listadoDePrestamosActivosTsmi.Click += new System.EventHandler(this.listadoDePrestamosActivosTsmi_Click);
             // 
             // recorridoUnoAUnoPrestamosTsmi
             // 
             this.recorridoUnoAUnoPrestamosTsmi.Name = "recorridoUnoAUnoPrestamosTsmi";
             this.recorridoUnoAUnoPrestamosTsmi.Size = new System.Drawing.Size(468, 54);
             this.recorridoUnoAUnoPrestamosTsmi.Text = "Recorrido uno a uno";
+            this.recorridoUnoAUnoPrestamosTsmi.Click += new System.EventHandler(this.recorridoUnoAUnoPrestamosTsmi_Click);
             // 
             // gestionDeBiblioteca
             // 
