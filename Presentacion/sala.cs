@@ -79,9 +79,9 @@ namespace Presentacion
                 {
                     if (MNBiblioteca.existeUsuario(introducir.Clave))
                     {
-                        alta altaUsuario = new alta();
+                        alta altaPrestamo = new alta();
                         DateTime fecha = DateTime.Now;
-                        altaUsuario.Text = "Alta de un prestamo";
+                        altaPrestamo.Text = "Alta de un prestamo";
                         claveUC fechaUC = new claveUC(76, 15, "Fecha:", fecha.ToString("yyyy-MM-dd HH:mm"));
                         claveUC dniUC = new claveUC(76, 45, "DNI:", introducir.Clave);
                         claveUC nombreUC = new claveUC(76, 75, "Nombre:", MNBiblioteca.getNombreUsuario(introducir.Clave));
@@ -90,10 +90,10 @@ namespace Presentacion
                         dniUC.Name = "dniUC";
                         nombreUC.Name = "nombreUC";
                         apellidosUC.Name = "apellidosUC";
-                        altaUsuario.Controls.Add(fechaUC);
-                        altaUsuario.Controls.Add(dniUC);
-                        altaUsuario.Controls.Add(nombreUC);
-                        altaUsuario.Controls.Add(apellidosUC);
+                        altaPrestamo.Controls.Add(fechaUC);
+                        altaPrestamo.Controls.Add(dniUC);
+                        altaPrestamo.Controls.Add(nombreUC);
+                        altaPrestamo.Controls.Add(apellidosUC);
 
                         Button aniadirB = new Button();
                         aniadirB.Name = "aniadirB";
@@ -102,6 +102,11 @@ namespace Presentacion
                         aniadirB.Location = new System.Drawing.Point(87, 140);
                         aniadirB.Margin = new System.Windows.Forms.Padding(6);
                         aniadirB.TabIndex = 1;
+
+                        aniadirB.Click += delegate (object se, EventArgs eve)
+                        {
+                            
+                        };
 
                         Button eliminarB = new Button();
                         eliminarB.Name = "eliminarB";
@@ -116,28 +121,25 @@ namespace Presentacion
                         listaEjemplares.Name = "ejemplaresUC";
 
 
-                        altaUsuario.Controls.Add(aniadirB);
-                        altaUsuario.Controls.Add(eliminarB);
-                        altaUsuario.Controls.Add(listaEjemplares);
+                        altaPrestamo.Controls.Add(aniadirB);
+                        altaPrestamo.Controls.Add(eliminarB);
+                        altaPrestamo.Controls.Add(listaEjemplares);
 
 
 
-                        DialogResult usuario = altaUsuario.ShowDialog();
-                        if (usuario == DialogResult.OK)
+                        DialogResult prestamo = altaPrestamo.ShowDialog();
+                        if (prestamo == DialogResult.OK)
                         {
-                            if (((datoUC)altaUsuario.Controls["nombreUC"]).Dato == "")
+                            if (((datoDesplegable)altaPrestamo.Controls["ejemplaresUC"]).DatoDesplegableCb.Items.Count<=0)
                             {
-                                MessageBox.Show("Debes introducir un nombre para el usuario", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                //this.altaTsmi_Click(sender, e);
-                            }
-                            else if (((datoUC)altaUsuario.Controls["apellidosUC"]).Dato == "")
-                            {
-                                MessageBox.Show("Debes introducir algún apellido para el usuario", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                //this.altaTsmi_Click(sender, e);
+                                MessageBox.Show("No se ha introducido ningún ejemplar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                this.altaPrestamosTsmi_Click(sender, e);
                             }
                             else
                             {
-                                if (!ModeloDeNegocio.MNBiblioteca.altaUsuario(introducir.Clave, ((datoUC)altaUsuario.Controls["nombreUC"]).Dato, ((datoUC)altaUsuario.Controls["apellidosUC"]).Dato))
+                                //Este es el caso donde se ha introducido al menos un ejemplar
+                                //Falta por hacer
+                                if (!ModeloDeNegocio.MNBiblioteca.altaUsuario(introducir.Clave, ((datoUC)altaPrestamo.Controls["nombreUC"]).Dato, ((datoUC)altaPrestamo.Controls["apellidosUC"]).Dato))
                                 {
                                     MessageBox.Show("No se pudo realizar correctamente la operación", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
@@ -153,7 +155,7 @@ namespace Presentacion
                     }
                     else
                     {
-                        DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "No existe un usuario con ese DNI", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                        DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "No existe un prestamo con ese DNI", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                         if (error == DialogResult.OK)
                         {
                             this.altaPrestamosTsmi_Click(sender, e);
