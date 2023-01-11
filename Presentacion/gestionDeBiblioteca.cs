@@ -392,5 +392,65 @@ namespace Presentacion
         }
 
         //=======================================================
+
+        private void altaLibrosTsmi_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void bajaLibrosTsmi_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void insertarLibrosTsmi_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void seleccionarLibrosTsmi_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listadoDeLibrosTsmi_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void recorridoUnoAUnoLibrosTsmi_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void altaEjemplaresTsmi_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void bajaEjemplaresTsmi_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void introducirEjemplaresTsmi_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void seleccionarEjemplaresTsmi_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listadoDeEjemplaresTsmi_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void recorridoUnoAUnoEjemplaresTsmi_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

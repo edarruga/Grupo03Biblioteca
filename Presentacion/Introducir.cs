@@ -34,6 +34,7 @@ namespace Presentacion
         private void cancelarB_Click(object sender, EventArgs e)
         {
             this.Close();
+            // PREGUNTAR SI ES NECESARIO DISPOSE AQUI
         }
     }
 }
