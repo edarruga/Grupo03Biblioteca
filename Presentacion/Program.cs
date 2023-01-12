@@ -14,6 +14,11 @@ namespace Presentacion
         static void Main(string[] args)
         {
             PersonalServicioAdquisiciones p = new PersonalServicioAdquisiciones("aaa", "123");
+            Libro l = new Libro("111","lll","Eduardo","edit");
+            Libro l2 = new Libro("222", "kkk", "Eduardo", "edit");
+            Ejemplar e = new Ejemplar("123", l);
+            Ejemplar e2 = new Ejemplar("111", l);
+            Ejemplar e3 = new Ejemplar("222", l);
             PersonalSala p2 = new PersonalSala("bbb", "123");
             Usuario u = new Usuario("1234", "Eduardo", "Arruga");
             Usuario u2 = new Usuario("12345678A", "Alejandro", "Martinez");
@@ -25,6 +30,11 @@ namespace Presentacion
             GestorBD.AltaUsuario(u4);
             GestorBD.AltaPersonal(p);
             GestorBD.AltaPersonal(p2);
+            GestorBD.AltaLibro(l);
+            GestorBD.AltaLibro(l2);
+            GestorBD.AltaEjemplar(e);
+            GestorBD.AltaEjemplar(e2);
+            GestorBD.AltaEjemplar(e3);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Program.iniciar();

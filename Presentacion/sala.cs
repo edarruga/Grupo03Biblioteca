@@ -97,6 +97,8 @@ namespace Presentacion
                         altaPrestamo.Controls.Add(nombreUC);
                         altaPrestamo.Controls.Add(apellidosUC);
 
+                        List<string> ejemplaresDePrestamo = new List<string>();
+
                         Button aniadirB = new Button();
                         aniadirB.Name = "aniadirB";
                         aniadirB.Text = "Añadir";
@@ -140,7 +142,8 @@ namespace Presentacion
                                             DialogResult ejemplarSelect = ejemplares.ShowDialog();
                                             if(ejemplarSelect == DialogResult.OK)
                                             {
-
+                                                ejemplaresDePrestamo.Add((string)ejemplares.ClaveDesplegableCb.SelectedValue);
+                                                //Es posible que tenga cambiar el estado del ejemplar seleccionado a prestado
                                             }
                                         }
                                     }
@@ -162,17 +165,29 @@ namespace Presentacion
                             introducirLibro.Dispose();
                         };
 
+                        datoDesplegable listaEjemplares = new datoDesplegable(76, 185);
+                        listaEjemplares.DatoDesplegableL.Text = "Ejemplares:";
+                        listaEjemplares.Name = "ejemplaresUC";
+                        listaEjemplares.DatoDesplegableCb.DataSource = ejemplaresDePrestamo;
+
                         Button eliminarB = new Button();
                         eliminarB.Name = "eliminarB";
                         eliminarB.Text = "Eliminar";
                         eliminarB.Size = new System.Drawing.Size(70, 25);
                         eliminarB.Location = new System.Drawing.Point(185, 140);
                         eliminarB.Margin = new System.Windows.Forms.Padding(6);
-                        eliminarB.TabIndex = 1;
+                        eliminarB.TabIndex = 0;
+                        eliminarB.Click += delegate (object se, EventArgs eve)
+                        {
+                            if (listaEjemplares.DatoDesplegableCb.SelectedValue != null)
+                            {
+                                string cod = (string)listaEjemplares.DatoDesplegableCb.SelectedValue;
+                                ejemplaresDePrestamo.Remove(cod);
+                            }
+                        };
+                        
 
-                        datoDesplegable listaEjemplares = new datoDesplegable(76, 185);
-                        listaEjemplares.DatoDesplegableL.Text = "Ejemplares:";
-                        listaEjemplares.Name = "ejemplaresUC";
+
 
 
                         altaPrestamo.Controls.Add(aniadirB);
