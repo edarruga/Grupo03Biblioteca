@@ -117,17 +117,33 @@ namespace Presentacion
                                 {
                                     if (MNBiblioteca.existeLibro(introducirLibro.Clave))
                                     {
-                                        List<string> codigo = MNBiblioteca.listaDNIs();
+                                        List<string> codigos = MNBiblioteca.listaEemplares(introducirLibro.Clave);
+                                        List<string> codigosNOPrestados=new List<string>();
+                                        foreach (string codigo in codigos)
+                                        {
+                                            if (MNBiblioteca.ejemplarPrestado)
+                                            {
+                                                codigosNOPrestados.Add(codigo);
+                                            }
+                                        }
+                                        if (codigosNOPrestados.Count <= 0)
+                                        {
+                                            MessageBox.Show("Error", "No existe ningún ejemplar disponible de ese libro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                        }
+                                        else
+                                        {
+
+                                        }
                                     }
                                     else
                                     {
                                         
-                                        DialogResult error = MessageBox.Show("Error", "No existe ningún libro con ese ISBN", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                                        MessageBox.Show("Error", "No existe ningún libro con ese ISBN", MessageBoxButtons.OK, MessageBoxIcon.Question);
                                     }
                                 }
                                 else
                                 {
-                                    DialogResult error = MessageBox.Show("Error", "El parametro ISBN es obligatorio", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                                    MessageBox.Show("Error", "El parametro ISBN es obligatorio", MessageBoxButtons.OK, MessageBoxIcon.Question);
                                 }
                             }
                             else

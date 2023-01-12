@@ -67,5 +67,9 @@ namespace ModeloDeNegocio
             }
             return codigos;
         }
+        public static bool ejemplarDisponible(string codigo)
+        {
+            return GestorBD.EjemplarDisponible(codigo);
+        }
     }
 }
