@@ -121,7 +121,7 @@ namespace Presentacion
                                         List<string> codigosNOPrestados=new List<string>();
                                         foreach (string codigo in codigos)
                                         {
-                                            if (MNBiblioteca.ejemplarPrestado)
+                                            if (MNBiblioteca.ejemplarDisponible(codigo))
                                             {
                                                 codigosNOPrestados.Add(codigo);
                                             }
@@ -132,7 +132,16 @@ namespace Presentacion
                                         }
                                         else
                                         {
+                                            datosDesplegables ejemplares =new datosDesplegables();
+                                            ejemplares.Text = "Listado de ejemplares disponibles";
+                                            ejemplares.ClaveL.Text = "Código:";
+                                            ejemplares.ClaveDesplegableCb.DataSource = ejemplares;
+                                            ejemplares.ClaveDesplegableCb.SelectedIndex = 0;
+                                            DialogResult ejemplarSelect = ejemplares.ShowDialog();
+                                            if(ejemplarSelect == DialogResult.OK)
+                                            {
 
+                                            }
                                         }
                                     }
                                     else
