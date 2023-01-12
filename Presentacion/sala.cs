@@ -516,6 +516,7 @@ namespace Presentacion
                 editorialUC.ClaveTbUC.Text = libro.Editorial;
             }
         }
+        //pingon
 
         private void listadoDePrestamosActivosTsmi_Click(object sender, EventArgs e)
         {
