@@ -57,7 +57,7 @@ namespace ModeloDeNegocio
         {
             return GestorBD.GetLibro(isbn) != null;
         }
-        public static List<string> listaEemplares(string isbn)
+        public static List<string> listaEjemplares(string isbn)
         {
             List<string> codigos = new List<string>();
             List<Ejemplar> ejemplares = MNAdquisiciones.listaEjemplares(isbn);
@@ -70,6 +70,27 @@ namespace ModeloDeNegocio
         public static bool ejemplarDisponible(string codigo)
         {
             return GestorBD.EjemplarDisponible(codigo);
+        }
+        public static Ejemplar getEjemplar(string codigo)
+        {
+            return GestorBD.GetEjemplar(codigo);
+        }
+        public static List<Ejemplar> listaEjemplares(List<string> codigos)
+        {
+            List<Ejemplar> ejemplares=new List<Ejemplar>();
+            foreach(string codigo in codigos)
+            {
+                ejemplares.Add(getEjemplar(codigo));
+            }
+            return ejemplares;
+        }
+        public static bool darEjemplarPrestado(string codigo)
+        {
+            return GestorBD.DarEjemplarPrestado(codigo);
+        }
+        public static bool devolverEjemplarPrestado(string codigo)
+        {
+            return GestorBD.DevolverEjemplarPrestado(codigo);
         }
     }
 }

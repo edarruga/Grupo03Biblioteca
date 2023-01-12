@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
 namespace Presentacion
 {
@@ -97,7 +99,12 @@ namespace Presentacion
                         altaPrestamo.Controls.Add(nombreUC);
                         altaPrestamo.Controls.Add(apellidosUC);
 
-                        List<string> ejemplaresDePrestamo = new List<string>();
+                        //List<string> ejemplaresDePrestamo = new List<string>();
+
+                        datoDesplegable listaEjemplares = new datoDesplegable(76, 185);
+                        listaEjemplares.DatoDesplegableL.Text = "Ejemplares:";
+                        listaEjemplares.Name = "ejemplaresUC";
+                        listaEjemplares.DatoDesplegableCb.SelectedIndex = -1;
 
                         Button aniadirB = new Button();
                         aniadirB.Name = "aniadirB";
@@ -119,7 +126,7 @@ namespace Presentacion
                                 {
                                     if (MNBiblioteca.existeLibro(introducirLibro.Clave))
                                     {
-                                        List<string> codigos = MNBiblioteca.listaEemplares(introducirLibro.Clave);
+                                        List<string> codigos = MNBiblioteca.listaEjemplares(introducirLibro.Clave);
                                         List<string> codigosNOPrestados=new List<string>();
                                         foreach (string codigo in codigos)
                                         {
@@ -130,7 +137,7 @@ namespace Presentacion
                                         }
                                         if (codigosNOPrestados.Count <= 0)
                                         {
-                                            MessageBox.Show("Error", "No existe ningún ejemplar disponible de ese libro", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                            MessageBox.Show("No existe ningún ejemplar disponible de ese libro", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                         }
                                         else
                                         {
@@ -142,20 +149,33 @@ namespace Presentacion
                                             DialogResult ejemplarSelect = ejemplares.ShowDialog();
                                             if(ejemplarSelect == DialogResult.OK)
                                             {
-                                                ejemplaresDePrestamo.Add((string)ejemplares.ClaveDesplegableCb.SelectedValue);
+
                                                 //Es posible que tenga cambiar el estado del ejemplar seleccionado a prestado
+                                                string cod=(string)ejemplares.ClaveDesplegableCb.SelectedItem;
+                                                if (MNBiblioteca.darEjemplarPrestado(cod))
+                                                {
+                                                    ((datoDesplegable)altaPrestamo.Controls["ejemplaresUC"]).DatoDesplegableCb.Items.Add((string)ejemplares.ClaveDesplegableCb.SelectedValue);
+                                                    ((datoDesplegable)altaPrestamo.Controls["ejemplaresUC"]).DatoDesplegableCb.SelectedIndex = 0;
+                                                    ((datoDesplegable)altaPrestamo.Controls["ejemplaresUC"]).DatoDesplegableCb.Refresh();
+                                                }
+                                                else
+                                                {
+                                                    MessageBox.Show("No se pudo realizar correctamente la operación", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                                }
+                                                
+
                                             }
                                         }
                                     }
                                     else
                                     {
                                         
-                                        MessageBox.Show("Error", "No existe ningún libro con ese ISBN", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                                        MessageBox.Show("No existe ningún libro con ese ISBN", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);
                                     }
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Error", "El parametro ISBN es obligatorio", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                                    MessageBox.Show("El parametro ISBN es obligatorio", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);
                                 }
                             }
                             else
@@ -164,11 +184,6 @@ namespace Presentacion
                             }
                             introducirLibro.Dispose();
                         };
-
-                        datoDesplegable listaEjemplares = new datoDesplegable(76, 185);
-                        listaEjemplares.DatoDesplegableL.Text = "Ejemplares:";
-                        listaEjemplares.Name = "ejemplaresUC";
-                        listaEjemplares.DatoDesplegableCb.DataSource = ejemplaresDePrestamo;
 
                         Button eliminarB = new Button();
                         eliminarB.Name = "eliminarB";
@@ -179,22 +194,31 @@ namespace Presentacion
                         eliminarB.TabIndex = 0;
                         eliminarB.Click += delegate (object se, EventArgs eve)
                         {
-                            if (listaEjemplares.DatoDesplegableCb.SelectedValue != null)
+                            if (((datoDesplegable)altaPrestamo.Controls["ejemplaresUC"]).DatoDesplegableCb.Items.Count > 0)
                             {
-                                string cod = (string)listaEjemplares.DatoDesplegableCb.SelectedValue;
-                                ejemplaresDePrestamo.Remove(cod);
+                                string cod2 = (string)((datoDesplegable)altaPrestamo.Controls["ejemplaresUC"]).DatoDesplegableCb.SelectedItem;
+                                if (MNBiblioteca.devolverEjemplarPrestado(cod2)){
+                                    ((datoDesplegable)altaPrestamo.Controls["ejemplaresUC"]).DatoDesplegableCb.Items.Remove(((datoDesplegable)altaPrestamo.Controls["ejemplaresUC"]).DatoDesplegableCb.SelectedItem);
+                                    if (((datoDesplegable)altaPrestamo.Controls["ejemplaresUC"]).DatoDesplegableCb.Items.Count > 0)
+                                    {
+                                        ((datoDesplegable)altaPrestamo.Controls["ejemplaresUC"]).DatoDesplegableCb.SelectedIndex = 0;
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("No se pudo eliminar el ejemplar del prestamo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                }
+                                
+                            }
+                            else
+                            {
+                                MessageBox.Show("No hay ejemplares que eliminar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         };
                         
-
-
-
-
                         altaPrestamo.Controls.Add(aniadirB);
                         altaPrestamo.Controls.Add(eliminarB);
                         altaPrestamo.Controls.Add(listaEjemplares);
-
-
 
                         DialogResult prestamo = altaPrestamo.ShowDialog();
                         if (prestamo == DialogResult.OK)
@@ -208,10 +232,37 @@ namespace Presentacion
                             {
                                 //Este es el caso donde se ha introducido al menos un ejemplar
                                 //Falta por hacer
-                                if (!ModeloDeNegocio.MNBiblioteca.altaUsuario(introducir.Clave, ((datoUC)altaPrestamo.Controls["nombreUC"]).Dato, ((datoUC)altaPrestamo.Controls["apellidosUC"]).Dato))
+                                string dni = ((claveUC)altaPrestamo.Controls["dniUC"]).ClaveTbUC.Text;
+                                List<string> codigos = new List<string>();
+                                int num = ((datoDesplegable)altaPrestamo.Controls["ejemplaresUC"]).DatoDesplegableCb.Items.Count;
+                                for(int i = 0; i < num; i++)
                                 {
-                                    MessageBox.Show("No se pudo realizar correctamente la operación", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    codigos.Add((string)((datoDesplegable)altaPrestamo.Controls["ejemplaresUC"]).DatoDesplegableCb.Items[0]);
                                 }
+                                string[] validformats = new[] { "MM/dd/yyyy", "yyyy/MM/dd", "MM/dd/yyyy HH:mm:ss",
+                                        "MM/dd/yyyy hh:mm tt","yyyy-MM-dd HH:mm", "yyyy-MM-dd HH:mm:ss, fff" };
+
+                                CultureInfo provider = CultureInfo.InvariantCulture;
+                                DateTime fechaFinal;
+                                
+                                if (DateTime.TryParseExact(((claveUC)altaPrestamo.Controls["fechaUC"]).ClaveTbUC.Text, validformats, provider,
+                                    DateTimeStyles.None, out fechaFinal))
+                                {
+                                    if (!MNSala.altaPrestamo(dni,codigos,1,fechaFinal))
+                                    {
+                                        MessageBox.Show("No se pudo realizar correctamente la operación", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("La operación se realizó con exito", "Prestamo realizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("No se pudo realizar correctamente la operación", "Error por fecha inesperada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+
+                                
 
                             }
 

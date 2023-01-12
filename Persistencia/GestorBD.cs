@@ -218,6 +218,16 @@ namespace Persistencia
             }
             return false;
         }
+        public static bool DarEjemplarPrestado(string codigo)
+        {
+            if (BBDD.TablaEjemplar.Contains(new ClaveEjemplar(codigo)))
+            {
+                EjemplarDato ed = BBDD.Read<ClaveEjemplar, EjemplarDato>(new ClaveEjemplar(codigo));
+                ed.Prestado = true;
+                return BBDD.Update<ClaveEjemplar, EjemplarDato>(ed);
+            }
+            return false;
+        }
 
         public static List<Prestamo> GetPrestamosEnProceso()
         {
