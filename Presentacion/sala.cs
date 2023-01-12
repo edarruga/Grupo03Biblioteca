@@ -137,7 +137,7 @@ namespace Presentacion
                                             datosDesplegables ejemplares =new datosDesplegables();
                                             ejemplares.Text = "Listado de ejemplares disponibles";
                                             ejemplares.ClaveL.Text = "Código:";
-                                            ejemplares.ClaveDesplegableCb.DataSource = ejemplares;
+                                            ejemplares.ClaveDesplegableCb.DataSource = codigosNOPrestados;
                                             ejemplares.ClaveDesplegableCb.SelectedIndex = 0;
                                             DialogResult ejemplarSelect = ejemplares.ShowDialog();
                                             if(ejemplarSelect == DialogResult.OK)

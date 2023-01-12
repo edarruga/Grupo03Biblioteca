@@ -116,7 +116,7 @@ namespace Persistencia
         {
             if (BBDD.TablaEjemplar.Contains(new ClaveEjemplar(codigo)))
             {
-                return BBDD.Read<ClaveEjemplar, EjemplarDato>(new ClaveEjemplar(codigo)).Prestado;
+                return !BBDD.Read<ClaveEjemplar, EjemplarDato>(new ClaveEjemplar(codigo)).Prestado;
             }
             return false;
         }
