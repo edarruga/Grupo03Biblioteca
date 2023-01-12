@@ -24,5 +24,24 @@ namespace ModeloDeNegocio
         {
             return GestorBD.BajaLibro(isbn);
         }
+
+        public static string getTituloLibro(string isbn)
+        {
+            return GestorBD.GetLibro(isbn).Titulo;
+        }
+
+        public static string getAutorLibro(string isbn)
+        {
+            return GestorBD.GetLibro(isbn).Autor;
+        }
+        public static string getEditorialLibro(string isbn)
+        {
+            return GestorBD.GetLibro(isbn).Editorial;
+        }
+
+        public static List<string> listaISBNLibros()
+        {
+            return GestorBD.ListaLibros().Select(l => l.Isbn).ToList();
+        }
     }
 }

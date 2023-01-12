@@ -277,19 +277,19 @@ namespace Presentacion
                     {
                         alta altaLibro = new alta();
                         altaLibro.Text = "Baja de un libro";
-                        claveUC ucISBN = new claveUC(85, 40, "ISBN:", introducir.Clave);
-                        datoUC ucTitulo = new datoUC(85, 70, "Título:");
-                        datoUC ucAutor = new datoUC(85, 100, "Autor:");
-                        datoUC ucEditorial = new datoUC(85, 130, "Editorial:");
+                        claveUC ucISBN = new claveUC(85, 50, "ISBN:", introducir.Clave);
+                        datoUC ucTitulo = new datoUC(85, 80, "Título:");
+                        datoUC ucAutor = new datoUC(85, 110, "Autor:");
+                        datoUC ucEditorial = new datoUC(85, 140, "Editorial:");
                         ucTitulo.Name = "ucTitulo";
                         ucAutor.Name = "ucAutor";
                         ucEditorial.Name = "ucEditorial";
                         ucTitulo.DatoTbUC.ReadOnly = true;
                         ucAutor.DatoTbUC.ReadOnly = true;
                         ucEditorial.DatoTbUC.ReadOnly = true;
-                        ucTitulo.DatoTbUC.Text = MNBiblioteca.getNombreUsuario(introducir.Clave);
-                        ucAutor.DatoTbUC.Text = MNBiblioteca.getApellidosUsuario(introducir.Clave);
-                        ucEditorial.DatoTbUC.Text = MNBiblioteca.getNombreUsuario(introducir.Clave);
+                        ucTitulo.DatoTbUC.Text = MNAdquisiciones.getTituloLibro(introducir.Clave);
+                        ucAutor.DatoTbUC.Text = MNAdquisiciones.getAutorLibro(introducir.Clave);
+                        ucEditorial.DatoTbUC.Text = MNAdquisiciones.getEditorialLibro(introducir.Clave);
                         altaLibro.Controls.Add(ucISBN);
                         altaLibro.Controls.Add(ucTitulo);
                         altaLibro.Controls.Add(ucAutor);
@@ -341,12 +341,81 @@ namespace Presentacion
 
         private void insertarLibrosTsmi_Click(object sender, EventArgs e)
         {
+            Introducir introducir = new Introducir();
+            introducir.Text = "Introducir ISBN";
+            introducir.ClaveL.Text = "ISBN:";
+            DialogResult resultado = introducir.ShowDialog();
+            if (DialogResult.OK == resultado)
+            {
+                if (introducir.Clave != "")
+                {
+                    if (MNBiblioteca.existeLibro(introducir.Clave))
+                    {
+                        datos datosLibro = new datos();
+                        datosLibro.Text = "Datos del libro";
+                        claveUC ucISBN = new claveUC(85, 50, "ISBN:", introducir.Clave);
+                        datoUC ucTitulo = new datoUC(85, 80, "Título:");
+                        datoUC ucAutor = new datoUC(85, 110, "Autor:");
+                        datoUC ucEditorial = new datoUC(85, 140, "Editorial:");
+                        ucTitulo.Name = "ucTitulo";
+                        ucAutor.Name = "ucAutor";
+                        ucEditorial.Name = "ucEditorial";
+                        ucTitulo.DatoTbUC.ReadOnly = true;
+                        ucTitulo.DatoTbUC.Text = MNAdquisiciones.getTituloLibro(introducir.Clave);
+                        ucAutor.DatoTbUC.ReadOnly = true;
+                        ucAutor.DatoTbUC.Text = MNAdquisiciones.getAutorLibro(introducir.Clave);
+                        ucEditorial.DatoTbUC.ReadOnly = true;
+                        ucEditorial.DatoTbUC.Text = MNAdquisiciones.getEditorialLibro(introducir.Clave);
+                        datosLibro.Controls.Add(ucISBN);
+                        datosLibro.Controls.Add(ucTitulo);
+                        datosLibro.Controls.Add(ucAutor);
+                        datosLibro.Controls.Add(ucEditorial);
+                        DialogResult libro = datosLibro.ShowDialog();
 
+                        introducir.Dispose();
+                    }
+                    else
+                    {
+                        DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "No existe ningún libro con ese ISBN", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                        if (error == DialogResult.OK)
+                        {
+                            this.insertarLibrosTsmi_Click(sender, e);
+                        }
+                    }
+                }
+                else
+                {
+                    DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "El parametro ISBN es obligatorio", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    if (error == DialogResult.OK)
+                    {
+                        this.insertarLibrosTsmi_Click(sender, e);
+                    }
+                }
+            }
+            else
+            {
+                introducir.Close();
+            }
+            introducir.Dispose();
         }
 
         private void seleccionarLibrosTsmi_Click(object sender, EventArgs e)
         {
-
+            List<string> dnis = MNBiblioteca.listaDNIs();
+            datosDesplegables datosUsuario = new datosDesplegables();
+            datosUsuario.Text = "Datos del usuario";
+            datoUC nombreUC = new datoUC(85, 100, "Nombre:");
+            datoUC apellidosUC = new datoUC(85, 150, "Apellidos:");
+            nombreUC.DatoTbUC.ReadOnly = true;
+            nombreUC.Name = "nombreUC";
+            apellidosUC.DatoTbUC.ReadOnly = true;
+            apellidosUC.Name = "apellidosUC";
+            datosUsuario.ClaveDesplegableCb.DataSource = dnis;
+            datosUsuario.ClaveDesplegableCb.SelectedIndex = -1;
+            datosUsuario.ClaveDesplegableCb.SelectedIndexChanged += (s, ev) => cambiarDatosUsuario(sender, e, datosUsuario);
+            datosUsuario.Controls.Add(nombreUC);
+            datosUsuario.Controls.Add(apellidosUC);
+            DialogResult usuario = datosUsuario.ShowDialog();
         }
 
         private void listadoDeLibrosTsmi_Click(object sender, EventArgs e)
