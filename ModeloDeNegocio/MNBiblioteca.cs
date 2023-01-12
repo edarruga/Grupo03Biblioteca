@@ -57,5 +57,15 @@ namespace ModeloDeNegocio
         {
             return GestorBD.GetLibro(isbn) != null;
         }
+        public static List<string> listaEemplares(string isbn)
+        {
+            List<string> codigos = new List<string>();
+            List<Ejemplar> ejemplares = MNAdquisiciones.listaEjemplares(isbn);
+            foreach (Ejemplar ejemplar in ejemplares)
+            {
+                codigos.Add(ejemplar.Codigo);
+            }
+            return codigos;
+        }
     }
 }

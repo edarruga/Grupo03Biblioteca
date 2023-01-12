@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -112,13 +113,21 @@ namespace Presentacion
                             DialogResult result = introducirLibro.ShowDialog();
                             if(DialogResult.OK == result)
                             {
-                                if (introducir.Clave != "")
+                                if (introducirLibro.Clave != "")
                                 {
-                                    if (MNBiblioteca.existeUsuario(introducir.Clave))
+                                    if (MNBiblioteca.existeLibro(introducirLibro.Clave))
+                                    {
+                                        List<string> codigo = MNBiblioteca.listaDNIs();
+                                    }
+                                    else
+                                    {
+                                        
+                                        DialogResult error = MessageBox.Show("Error", "No existe ningún libro con ese ISBN", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                                    }
                                 }
                                 else
                                 {
-                                    DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "El parametro ISBN es obligatorio", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                                    DialogResult error = MessageBox.Show("Error", "El parametro ISBN es obligatorio", MessageBoxButtons.OK, MessageBoxIcon.Question);
                                 }
                             }
                             else
