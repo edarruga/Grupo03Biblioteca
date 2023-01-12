@@ -1,4 +1,5 @@
-﻿using ModeloDeNegocio;
+﻿using ModeloDeDominio;
+using ModeloDeNegocio;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,6 +19,7 @@ namespace Presentacion
     {
         private System.Windows.Forms.ToolStripMenuItem altaPrestamosTsmi;
         private System.Windows.Forms.ToolStripMenuItem bajaPrestamosTsmi;
+        private System.Windows.Forms.ToolStripMenuItem busquedaPrestamosTsmi;
         private System.Windows.Forms.ToolStripMenuItem listadoDePrestamosActivosTsmi;
         private System.Windows.Forms.ToolStripMenuItem recorridoUnoAUnoPrestamosTsmi;
         public sala(string nombre)
@@ -28,6 +30,7 @@ namespace Presentacion
 
             this.altaPrestamosTsmi = new System.Windows.Forms.ToolStripMenuItem();
             this.bajaPrestamosTsmi = new System.Windows.Forms.ToolStripMenuItem();
+            this.busquedaPrestamosTsmi = new System.Windows.Forms.ToolStripMenuItem();
             this.listadoDePrestamosActivosTsmi = new System.Windows.Forms.ToolStripMenuItem();
             this.recorridoUnoAUnoPrestamosTsmi = new System.Windows.Forms.ToolStripMenuItem();
 
@@ -37,6 +40,7 @@ namespace Presentacion
             base.prestamosTsmi.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.altaPrestamosTsmi,
             this.bajaPrestamosTsmi,
+            this.busquedaPrestamosTsmi,
             this.listadoDePrestamosActivosTsmi,
             this.recorridoUnoAUnoPrestamosTsmi});
 
@@ -54,6 +58,13 @@ namespace Presentacion
             this.bajaPrestamosTsmi.Size = new System.Drawing.Size(468, 54);
             this.bajaPrestamosTsmi.Text = "Baja";
             this.bajaPrestamosTsmi.Click += new System.EventHandler(this.bajaPrestamosTsmi_Click);
+            // 
+            // busquedaPrestamosTsmi
+            // 
+            this.busquedaPrestamosTsmi.Name = "busquedaPrestamosTsmi";
+            this.busquedaPrestamosTsmi.Size = new System.Drawing.Size(468, 54);
+            this.busquedaPrestamosTsmi.Text = "Búsqueda";
+            this.busquedaPrestamosTsmi.Click += new System.EventHandler(this.busquedaPrestamosTsmi_Click);
             // 
             // listadoDePrestamosActivosTsmi
             // 
@@ -237,7 +248,7 @@ namespace Presentacion
                                 int num = ((datoDesplegable)altaPrestamo.Controls["ejemplaresUC"]).DatoDesplegableCb.Items.Count;
                                 for(int i = 0; i < num; i++)
                                 {
-                                    codigos.Add((string)((datoDesplegable)altaPrestamo.Controls["ejemplaresUC"]).DatoDesplegableCb.Items[0]);
+                                    codigos.Add((string)((datoDesplegable)altaPrestamo.Controls["ejemplaresUC"]).DatoDesplegableCb.Items[i]);
                                 }
                                 string[] validformats = new[] { "MM/dd/yyyy", "yyyy/MM/dd", "MM/dd/yyyy HH:mm:ss",
                                         "MM/dd/yyyy hh:mm tt","yyyy-MM-dd HH:mm", "yyyy-MM-dd HH:mm:ss, fff" };
@@ -275,7 +286,7 @@ namespace Presentacion
                     }
                     else
                     {
-                        DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "No existe un prestamo con ese DNI", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                        DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "No existe ningún usuario con ese DNI", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                         if (error == DialogResult.OK)
                         {
                             this.altaPrestamosTsmi_Click(sender, e);
@@ -300,7 +311,210 @@ namespace Presentacion
 
         private void bajaPrestamosTsmi_Click(object sender, EventArgs e)
         {
+            Introducir introducir = new Introducir();
+            introducir.Text = "Introducir DNI";
+            introducir.ClaveL.Text = "DNI:";
+            DialogResult resultado = introducir.ShowDialog();
+            if (DialogResult.OK == resultado){
+                if (introducir.Clave != "")
+                {
+                    if (MNBiblioteca.existeUsuario(introducir.Clave))
+                    {
+                        //if(MNBiblioteca.)
+                    }
+                    else
+                    {
+                        DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "No existe ningún usuario con ese DNI", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                        if (error == DialogResult.OK)
+                        {
+                            this.altaPrestamosTsmi_Click(sender, e);
+                        }
+                    }
+                }
+                else
+                {
+                    DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "El parametro DNI es obligatorio", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    if (error == DialogResult.OK)
+                    {
+                        this.bajaPrestamosTsmi_Click(sender, e);
+                    }
+                }
+            }
+            else
+            {
+                introducir.Close();
+            }
+            introducir.Dispose();
+        }
+        private void busquedaPrestamosTsmi_Click(object sender, EventArgs e)
+        {
+            Introducir introducir = new Introducir();
+            introducir.Text = "Introducir DNI";
+            introducir.ClaveL.Text = "DNI:";
+            DialogResult resultado = introducir.ShowDialog();
+            if (DialogResult.OK == resultado)
+            {
+                if (introducir.Clave != "")
+                {
+                    if (MNBiblioteca.existeUsuario(introducir.Clave))
+                    {
+                        List<Prestamo> prestamos = MNSala.getPrestamos(introducir.Clave);
+                        List<string> fechasPrestamo=prestamos.Select(p => p.Fecha.ToString("yyyy-MM-dd HH:mm")).ToList();
+                        if (prestamos.Count > 0)
+                        {
+                            datosDesplegables datosPrestamos = new datosDesplegables();
+                            datosPrestamos.Size = new System.Drawing.Size(400, 550);
+                            datosPrestamos.AceptarAlB.Location = new System.Drawing.Point(145, 450);
+                            datosPrestamos.ClaveDesplegableCb.SelectedIndex = -1;
+                            datosPrestamos.Text = "Datos del prestamo";
+                            datosPrestamos.ClaveL.Text = "Fecha:";
+                            datosPrestamos.ClaveDesplegableCb.DataSource = null;
+                            foreach (string fecha in fechasPrestamo)
+                            {
+                                datosPrestamos.ClaveDesplegableCb.Items.Add(fecha);
+                            }
 
+                            claveUC dniUC = new claveUC(85, 95, "DNI:", introducir.Clave);
+                            claveUC nombreUC = new claveUC(85, 125, "Nombre:", MNBiblioteca.getNombreUsuario(introducir.Clave));
+                            claveUC apellidosUC = new claveUC(85, 155, "Apellidos:", MNBiblioteca.getApellidosUsuario(introducir.Clave));
+                            claveUC estadoUC = new claveUC(85, 185, "Prestamo:");
+                            datoDesplegable ejemplaresUC = new datoDesplegable(85, 225);
+                            ejemplaresUC.DatoDesplegableL.Text = "Ejemplar";
+                            claveUC estadoEjemplarUC = new claveUC(85, 255, "Ejemplar:");
+                            claveUC isbnUC = new claveUC(85, 285, "ISBN:");
+                            claveUC tituloUC = new claveUC(85, 315, "Titulo:");
+                            claveUC autorUC = new claveUC(85, 345, "Autor:");
+                            claveUC editorialUC = new claveUC(85, 375, "Editorial:");
+
+                            dniUC.Name = "dniUC";
+                            nombreUC.Name = "nombreUC";
+                            apellidosUC.Name = "apellidosUC";
+                            estadoUC.Name = "estadoUC";
+                            ejemplaresUC.Name = "ejemplaresUC";
+                            estadoEjemplarUC.Name = "estadoEjemplarUC";
+                            isbnUC.Name = "isbnUC";
+                            tituloUC.Name = "tituloUC";
+                            autorUC.Name = "autorUC";
+                            editorialUC.Name = "editorialUC";
+
+
+                            datosPrestamos.Controls.Add(dniUC);
+                            datosPrestamos.Controls.Add(nombreUC);
+                            datosPrestamos.Controls.Add(apellidosUC);
+                            datosPrestamos.Controls.Add(estadoUC);
+                            datosPrestamos.Controls.Add(ejemplaresUC);
+                            datosPrestamos.Controls.Add(estadoEjemplarUC);
+                            datosPrestamos.Controls.Add(isbnUC);
+                            datosPrestamos.Controls.Add(tituloUC);
+                            datosPrestamos.Controls.Add(autorUC);
+                            datosPrestamos.Controls.Add(editorialUC);
+
+                            datosPrestamos.ClaveDesplegableCb.DataSource = fechasPrestamo;
+                            datosPrestamos.ClaveDesplegableCb.SelectedIndex = -1;
+                            datosPrestamos.ClaveDesplegableCb.SelectedIndexChanged += (s, ev) => cambiarDatosBusquedaPorFecha(sender, e, datosPrestamos);
+                            ((datoDesplegable)datosPrestamos.Controls["ejemplaresUC"]).DatoDesplegableCb.SelectedIndexChanged += (s, ev) => cambiarDatosBusquedaPorEjemplar(sender, e, datosPrestamos);
+
+                            datosPrestamos.ShowDialog();
+                        }
+                        else
+                        {
+                            MessageBox.Show("El usuario especificado no tiene registrado ningún prestamo", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                    else
+                    {
+                        DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "No existe ningún usuario con ese DNI", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                        if (error == DialogResult.OK)
+                        {
+                            this.altaPrestamosTsmi_Click(sender, e);
+                        }
+                    }
+                }
+                else
+                {
+                    DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "El parametro DNI es obligatorio", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    if (error == DialogResult.OK)
+                    {
+                        this.bajaPrestamosTsmi_Click(sender, e);
+                    }
+                }
+            }
+            else
+            {
+                introducir.Close();
+            }
+            introducir.Dispose();
+        }
+        private void cambiarDatosBusquedaPorFecha(object sender, EventArgs e, datosDesplegables datosPrestamos)
+        {
+            claveUC estadoUC = (claveUC)datosPrestamos.Controls["estadoUC"];
+            datoDesplegable ejemplaresUC = (datoDesplegable)datosPrestamos.Controls["ejemplaresUC"];
+            claveUC estadoEjemplarUC = (claveUC)datosPrestamos.Controls["estadoEjemplarUC"];
+            claveUC isbnUC = (claveUC)datosPrestamos.Controls["isbnUC"];
+            claveUC tituloUC = (claveUC)datosPrestamos.Controls["tituloUC"];
+            claveUC autorUC = (claveUC)datosPrestamos.Controls["autorUC"];
+            claveUC editorialUC = (claveUC)datosPrestamos.Controls["editorialUC"];
+
+
+            string fecha = (string)datosPrestamos.ClaveDesplegableCb.SelectedValue;
+            string dni =((claveUC)datosPrestamos.Controls["dniUC"]).ClaveTbUC.Text;
+
+            string[] validformats = new[] { "MM/dd/yyyy", "yyyy/MM/dd", "MM/dd/yyyy HH:mm:ss",
+                                        "MM/dd/yyyy hh:mm tt","yyyy-MM-dd HH:mm", "yyyy-MM-dd HH:mm:ss, fff" };
+
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            DateTime fechaFinal;
+
+            DateTime.TryParseExact(fecha, validformats, provider, DateTimeStyles.None, out fechaFinal);
+            if (dni != null && fecha !=null)
+            {
+                Prestamo prestamo = MNSala.getPrestamo(fechaFinal, dni);
+                estadoUC.ClaveTbUC.Text=prestamo.Estado.ToString();
+
+                List<Ejemplar> ejemplares = prestamo.EjemPrestados;//No funciona EjemPrestados devuelve 0 siempre
+                List<string> codigos=ejemplares.Select(ej => ej.Codigo).ToList();
+                ejemplaresUC.DatoDesplegableCb.Items.Clear();
+                foreach (string codigo in codigos)
+                {
+                    ejemplaresUC.DatoDesplegableCb.Items.Add(codigo);
+                }
+                ejemplaresUC.DatoDesplegableCb.SelectedIndex = 0;
+                ejemplaresUC.DatoDesplegableCb.Refresh();
+
+                estadoEjemplarUC.ClaveTbUC.Text = "";
+                isbnUC.ClaveTbUC.Text = "";
+                tituloUC.ClaveTbUC.Text = "";
+                autorUC.ClaveTbUC.Text = "";
+                editorialUC.ClaveTbUC.Text = "";
+            }
+        }
+        private void cambiarDatosBusquedaPorEjemplar(object sender, EventArgs e, datosDesplegables datosPrestamos)
+        {
+            claveUC estadoEjemplarUC = (claveUC)datosPrestamos.Controls["estadoEjemplarUC"];
+            claveUC isbnUC = (claveUC)datosPrestamos.Controls["isbnUC"];
+            claveUC tituloUC = (claveUC)datosPrestamos.Controls["tituloUC"];
+            claveUC autorUC = (claveUC)datosPrestamos.Controls["autorUC"];
+            claveUC editorialUC = (claveUC)datosPrestamos.Controls["editorialUC"];
+
+            string codigo = ((datoDesplegable)datosPrestamos.Controls["ejemplaresUC"]).DatoDesplegableCb.SelectedText;
+
+            if (codigo != null)
+            {
+                Ejemplar ejemplar=MNBiblioteca.getEjemplar(codigo);
+                Libro libro = ejemplar.Libro;
+                if (ejemplar.Prestado)
+                {
+                    estadoEjemplarUC.ClaveTbUC.Text = "Prestado";
+                }
+                else
+                {
+                    estadoEjemplarUC.ClaveTbUC.Text = "Devuelto";
+                }
+                isbnUC.ClaveTbUC.Text = libro.Isbn;
+                tituloUC.ClaveTbUC.Text = libro.Titulo;
+                autorUC.ClaveTbUC.Text = libro.Autor;
+                editorialUC.ClaveTbUC.Text = libro.Editorial;
+            }
         }
 
         private void listadoDePrestamosActivosTsmi_Click(object sender, EventArgs e)
@@ -312,5 +526,6 @@ namespace Presentacion
         {
 
         }
+        
     }
 }

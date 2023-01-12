@@ -17,5 +17,21 @@ namespace ModeloDeNegocio
             Estado estadoPrestamo = Estado.EnProceso;
             return GestorBD.AltaPrestamo(new Prestamo(usuario, ejemplares, estadoPrestamo, fecha));
         }
+        public static int numLibrosPrestamos(string dni)
+        {
+            return GestorBD.NumLibrosPrestados(dni);
+        }
+        public static Prestamo getPrestamo(DateTime fecha, string dni)
+        {
+            return GestorBD.GetPrestamo(fecha, dni);
+        }
+        public static List<Prestamo> getPrestamos(string dni)
+        {
+            return GestorBD.GetPrestamos(dni);
+        }
+        public static List<Libro> verLibrosNoDevueltos(DateTime fecha,string dni)
+        {
+            return GestorBD.VerLibrosNoDevueltos(fecha, dni);
+        }
     }
 }

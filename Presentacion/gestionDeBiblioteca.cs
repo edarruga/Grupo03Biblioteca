@@ -267,7 +267,7 @@ namespace Presentacion
 
         private void listadoDeUsuariosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            listadoUsuarios listado = new listadoUsuarios(MNBiblioteca.listaUsuarios());
+            listadoUsuarios listado = new listadoUsuarios(MNBiblioteca. listaUsuarios());
             listado.ShowDialog();
             /*
             listado listado = new listado();

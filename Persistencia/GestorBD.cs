@@ -234,6 +234,17 @@ namespace Persistencia
             var listaEnProceso = BBDD.TablaPrestamo.Where(pd => pd.Estado == Estado.EnProceso);
             return listaEnProceso.Select(pd=> Transformador.PrestamoDatoAPrestamo(pd)).ToList();
         }
+        public static List<Prestamo> GetPrestamosFinalizados()
+        {
+            var listaEnProceso = BBDD.TablaPrestamo.Where(pd => pd.Estado == Estado.Finalizado);
+            return listaEnProceso.Select(pd => Transformador.PrestamoDatoAPrestamo(pd)).ToList();
+        }
+        public static List<Prestamo> GetPrestamos(string dni)
+        {
+            var listaEnProceso = BBDD.TablaPrestamo.Where(pd => pd.DniUsuario == dni);
+            return listaEnProceso.Select(pd => Transformador.PrestamoDatoAPrestamo(pd)).ToList();
+        }
+
 
         public static List<Ejemplar> EjemplaresPrestados()
         {

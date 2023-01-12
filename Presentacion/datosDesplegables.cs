@@ -26,6 +26,10 @@ namespace Presentacion
         {
             get { return this.claveDesplegableCb; }
         }
+        public Button AceptarAlB
+        {
+            get { return this.aceptarAlB; }
+        }
 
         private void aceptarAlB_Click(object sender, EventArgs e)
         {

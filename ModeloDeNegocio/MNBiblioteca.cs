@@ -84,6 +84,7 @@ namespace ModeloDeNegocio
             }
             return ejemplares;
         }
+        
         public static bool darEjemplarPrestado(string codigo)
         {
             return GestorBD.DarEjemplarPrestado(codigo);
