@@ -230,5 +230,9 @@ namespace Persistencia
             var listaEjemplaresNoDevueltos = BBDD.TablaEjemplar.Where(ed => ed.Prestado);
             return listaEjemplaresNoDevueltos.Select(ed => Transformador.EjemplarDatoAEjemplar(ed)).ToList();
         }
+        public static Libro GetLibro(string isbn)
+        {
+            return Transformador.LibroDatoALibro(BBDD.Read<ClaveLibro, LibroDato>(new ClaveLibro(isbn)));
+        }
     }
 }

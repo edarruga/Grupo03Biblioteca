@@ -17,7 +17,8 @@ namespace Presentacion
         private System.Windows.Forms.ToolStripMenuItem bajaPrestamosTsmi;
         private System.Windows.Forms.ToolStripMenuItem listadoDePrestamosActivosTsmi;
         private System.Windows.Forms.ToolStripMenuItem recorridoUnoAUnoPrestamosTsmi;
-        public sala(string nombre):base(nombre)
+        public sala(string nombre)
+            :base(nombre)
         {
             InitializeComponent();
             this.Text = "Personal de sala: "+nombre;
@@ -105,7 +106,26 @@ namespace Presentacion
 
                         aniadirB.Click += delegate (object se, EventArgs eve)
                         {
-                            
+                            Introducir introducirLibro=new Introducir();
+                            introducirLibro.Text = "Introduce el ISBN de un libro";
+                            introducirLibro.ClaveL.Text = "ISBN:";
+                            DialogResult result = introducirLibro.ShowDialog();
+                            if(DialogResult.OK == result)
+                            {
+                                if (introducir.Clave != "")
+                                {
+                                    if (MNBiblioteca.existeUsuario(introducir.Clave))
+                                }
+                                else
+                                {
+                                    DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "El parametro ISBN es obligatorio", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                                }
+                            }
+                            else
+                            {
+                                introducirLibro.Close();
+                            }
+                            introducirLibro.Dispose();
                         };
 
                         Button eliminarB = new Button();

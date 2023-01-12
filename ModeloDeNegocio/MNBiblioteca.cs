@@ -53,5 +53,9 @@ namespace ModeloDeNegocio
             
             return GestorBD.NumLibrosPrestados(dni);
         }
+        public static bool existeLibro(string isbn)
+        {
+            return GestorBD.GetLibro(isbn) != null;
+        }
     }
 }
