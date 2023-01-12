@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModeloDeNegocio
 {
-    internal class MNSala
+    public class MNSala
     {
     }
 }

@@ -1,9 +1,11 @@
-﻿using System;
+﻿using ModeloDeNegocio;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Management.Instrumentation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -172,7 +174,86 @@ namespace Presentacion
 
         private void altaLibrosTsmi_Click(object sender, EventArgs e)
         {
+            Introducir introducir = new Introducir();
+            introducir.Text = "Introducir ISBN";
+            introducir.ClaveL.Text = "ISBN:";
+            DialogResult resultado = introducir.ShowDialog();
+            if (DialogResult.OK == resultado)
+            {
+                if (introducir.Clave != "")
+                {
+                    if (!MNBiblioteca.existeLibro(introducir.Clave))
+                    {
+                        alta altaLibro = new alta();
+                        altaLibro.Text = "Alta de un libro";
+                        claveUC ucISBN = new claveUC(85, 50, "ISBN:", introducir.Clave);
+                        datoUC ucTitulo = new datoUC(85, 100, "Título:");
+                        datoUC ucAutor = new datoUC(85, 150, "Autor:");
+                        datoUC ucEditorial = new datoUC(85, 200, "Editorial:");
+                        ucTitulo.Name = "ucTitulo";
+                        ucAutor.Name = "ucAutor";
+                        ucEditorial.Name = "ucEditorial";
+                        altaLibro.Controls.Add(ucISBN);
+                        altaLibro.Controls.Add(ucTitulo);
+                        altaLibro.Controls.Add(ucAutor);
+                        altaLibro.Controls.Add(ucEditorial);
+                        DialogResult libro = altaLibro.ShowDialog();
+                        if (libro == DialogResult.OK)
+                        {
+                            if (((datoUC)altaLibro.Controls["ucTitulo"]).Dato == "")
+                            {
+                                MessageBox.Show("Debes introducir un titulo para el libro", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                this.altaLibrosTsmi_Click(sender, e);
+                            }
+                            else if (((datoUC)altaLibro.Controls["ucAutor"]).Dato == "")
+                            {
+                                MessageBox.Show("Debes introducir algún autor para el libro", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                this.altaLibrosTsmi_Click(sender, e);
+                            }
+                            else if (((datoUC)altaLibro.Controls["ucEditorial"]).Dato == "")
+                            {
+                                MessageBox.Show("Debes introducir alguna editorial para el libro", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                this.altaLibrosTsmi_Click(sender, e);
+                            }
+                            else
+                            {
+                                if (!ManagementNameAttribute.altaLibro(introducir.Clave, ((datoUC)altaLibro.Controls["nombreUC"]).Dato, ((datoUC)altaLibro.Controls["apellidosUC"]).Dato))
+                                {
+                                    MessageBox.Show("No se pudo realizar correctamente la operación", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
 
+                            }
+
+                        }
+                        else
+                        {
+                            introducir.Close();
+                        }
+                        introducir.Dispose();
+                    }
+                    else
+                    {
+                        DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "Ya existe un usuario con ese DNI", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                        if (error == DialogResult.OK)
+                        {
+                            this.altaTsmi_Click(sender, e);
+                        }
+                    }
+                }
+                else
+                {
+                    DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "El parametro DNI es obligatorio", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    if (error == DialogResult.OK)
+                    {
+                        this.altaTsmi_Click(sender, e);
+                    }
+                }
+            }
+            else
+            {
+                introducir.Close();
+            }
+            introducir.Dispose();
         }
 
         private void bajaLibrosTsmi_Click(object sender, EventArgs e)

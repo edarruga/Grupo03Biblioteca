@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ModeloDeNegocio
 {
-    internal class MNAdquisiciones
+    public class MNAdquisiciones
     {
         public static List<Ejemplar> listaEjemplares(string isbn)
         {
