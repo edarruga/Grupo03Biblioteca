@@ -19,5 +19,10 @@ namespace ModeloDeNegocio
         {
             return GestorBD.AltaLibro(new Libro(isbn, titulo, autor, editorial));
         }
+
+        public static bool bajaLibro(string isbn)
+        {
+            return GestorBD.BajaLibro(isbn);
+        }
     }
 }
