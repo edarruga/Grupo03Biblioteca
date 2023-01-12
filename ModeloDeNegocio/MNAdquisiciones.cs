@@ -14,5 +14,10 @@ namespace ModeloDeNegocio
         {
             return GestorBD.ListaEjemplares(isbn);
         }
+
+        public static bool altaLibro(string isbn, string titulo, string autor, string editorial)
+        {
+            return GestorBD.AltaLibro(new Libro(isbn, titulo, autor, editorial));
+        }
     }
 }

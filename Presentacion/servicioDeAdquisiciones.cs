@@ -186,17 +186,24 @@ namespace Presentacion
                     {
                         alta altaLibro = new alta();
                         altaLibro.Text = "Alta de un libro";
-                        claveUC ucISBN = new claveUC(85, 50, "ISBN:", introducir.Clave);
-                        datoUC ucTitulo = new datoUC(85, 100, "Título:");
-                        datoUC ucAutor = new datoUC(85, 150, "Autor:");
-                        datoUC ucEditorial = new datoUC(85, 200, "Editorial:");
+                        claveUC ucISBN = new claveUC(85, 40, "ISBN:", introducir.Clave);
+                        datoUC ucTitulo = new datoUC(85, 70, "Título:");
+                        datoUC ucAutor = new datoUC(85, 100, "Autor:");
+                        datoUC ucEditorial = new datoUC(85, 130, "Editorial:");
+                        Button btAnadirEjemplares = new Button();
+                        btAnadirEjemplares.Text = "Añadir ejemplares";
+                        btAnadirEjemplares.Size = new Size(new Point(69,40));
+                        btAnadirEjemplares.Location = new Point(184,170);
+                        btAnadirEjemplares.Click += altaEjemplaresTsmi_Click;
                         ucTitulo.Name = "ucTitulo";
                         ucAutor.Name = "ucAutor";
                         ucEditorial.Name = "ucEditorial";
+                        btAnadirEjemplares.Name = "btAnadirEjemplares";
                         altaLibro.Controls.Add(ucISBN);
                         altaLibro.Controls.Add(ucTitulo);
                         altaLibro.Controls.Add(ucAutor);
                         altaLibro.Controls.Add(ucEditorial);
+                        altaLibro.Controls.Add(btAnadirEjemplares);
                         DialogResult libro = altaLibro.ShowDialog();
                         if (libro == DialogResult.OK)
                         {
@@ -217,7 +224,7 @@ namespace Presentacion
                             }
                             else
                             {
-                                if (!ManagementNameAttribute.altaLibro(introducir.Clave, ((datoUC)altaLibro.Controls["nombreUC"]).Dato, ((datoUC)altaLibro.Controls["apellidosUC"]).Dato))
+                                if (!MNAdquisiciones.altaLibro(introducir.Clave, ((datoUC)altaLibro.Controls["ucTitulo"]).Dato, ((datoUC)altaLibro.Controls["ucAutor"]).Dato, ((datoUC)altaLibro.Controls["ucEditorial"]).Dato))
                                 {
                                     MessageBox.Show("No se pudo realizar correctamente la operación", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
@@ -236,7 +243,7 @@ namespace Presentacion
                         DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "Ya existe un usuario con ese DNI", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                         if (error == DialogResult.OK)
                         {
-                            this.altaTsmi_Click(sender, e);
+                            this.altaLibrosTsmi_Click(sender, e);
                         }
                     }
                 }
@@ -245,7 +252,7 @@ namespace Presentacion
                     DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "El parametro DNI es obligatorio", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                     if (error == DialogResult.OK)
                     {
-                        this.altaTsmi_Click(sender, e);
+                        this.altaLibrosTsmi_Click(sender, e);
                     }
                 }
             }
@@ -258,7 +265,78 @@ namespace Presentacion
 
         private void bajaLibrosTsmi_Click(object sender, EventArgs e)
         {
+            Introducir introducir = new Introducir();
+            introducir.Text = "Introducir DNI";
+            introducir.ClaveL.Text = "DNI:";
+            DialogResult resultado = introducir.ShowDialog();
+            if (DialogResult.OK == resultado)
+            {
+                if (introducir.Clave != "")
+                {
+                    if (MNBiblioteca.existeLibro(introducir.Clave))
+                    {
+                        alta altaLibro = new alta();
+                        altaLibro.Text = "Baja de un libro";
+                        claveUC ucISBN = new claveUC(85, 40, "ISBN:", introducir.Clave);
+                        datoUC ucTitulo = new datoUC(85, 70, "Título:");
+                        datoUC ucAutor = new datoUC(85, 100, "Autor:");
+                        datoUC ucEditorial = new datoUC(85, 130, "Editorial:");
+                        ucTitulo.Name = "ucTitulo";
+                        ucAutor.Name = "ucAutor";
+                        ucEditorial.Name = "ucEditorial";
+                        ucTitulo.DatoTbUC.ReadOnly = true;
+                        ucAutor.DatoTbUC.ReadOnly = true;
+                        ucEditorial.DatoTbUC.ReadOnly = true;
+                        ucTitulo.DatoTbUC.Text = MNBiblioteca.getNombreUsuario(introducir.Clave);
+                        ucAutor.DatoTbUC.Text = ModeloDeNegocio.MNBiblioteca.getApellidosUsuario(introducir.Clave);
+                        ucEditorial.DatoTbUC.Text = MNBiblioteca.getNombreUsuario(introducir.Clave);
+                        altaLibro.Controls.Add(ucISBN);
+                        altaLibro.Controls.Add(ucTitulo);
+                        altaLibro.Controls.Add(ucAutor);
+                        altaLibro.Controls.Add(ucEditorial);
+                        DialogResult usuario = altaLibro.ShowDialog();
+                        if (usuario == DialogResult.OK)
+                        {
 
+                            DialogResult aviso = MessageBox.Show("¿Está seguro que desea dar de baja al usuario?", "Aviso", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                            if (aviso == DialogResult.OK)
+                            {
+                                if (MNBiblioteca.bajaUsuario(introducir.Clave))
+                                {
+                                    MessageBox.Show("Usuario eliminado", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            introducir.Close();
+                        }
+                        introducir.Dispose();
+                    }
+                    else
+                    {
+                        DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "No existe ningún usuario con ese DNI", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                        if (error == DialogResult.OK)
+                        {
+                            this.bajaLibrosTsmi_Click(sender, e);
+                        }
+                    }
+                }
+                else
+                {
+                    DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "El parametro DNI es obligatorio", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    if (error == DialogResult.OK)
+                    {
+                        this.bajaLibrosTsmi_Click(sender, e);
+                    }
+                }
+            }
+            else
+            {
+                introducir.Close();
+            }
+            introducir.Dispose();
         }
 
         private void insertarLibrosTsmi_Click(object sender, EventArgs e)
