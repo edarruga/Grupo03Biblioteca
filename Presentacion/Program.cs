@@ -14,7 +14,7 @@ namespace Presentacion
         static void Main(string[] args)
         {
             PersonalServicioAdquisiciones p = new PersonalServicioAdquisiciones("aaa", "123");
-            Libro l = new Libro("111","lll","Eduardo","edit");
+            Libro l = new Libro("111","lll","Armas","nume");
             Libro l2 = new Libro("222", "kkk", "Eduardo", "edit");
             Ejemplar e = new Ejemplar("123", l);
             Ejemplar e2 = new Ejemplar("111",l);

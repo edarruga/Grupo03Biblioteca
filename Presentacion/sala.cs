@@ -97,7 +97,7 @@ namespace Presentacion
                         alta altaPrestamo = new alta();
                         DateTime fecha = DateTime.Now;
                         altaPrestamo.Text = "Alta de un prestamo";
-                        claveUC fechaUC = new claveUC(76, 15, "Fecha:", fecha.ToString("yyyy-MM-dd HH:mm"));
+                        claveUC fechaUC = new claveUC(76, 15, "Fecha:", fecha.ToString("yyyy-MM-dd HH:mm:ss"));
                         claveUC dniUC = new claveUC(76, 45, "DNI:", introducir.Clave);
                         claveUC nombreUC = new claveUC(76, 75, "Nombre:", MNBiblioteca.getNombreUsuario(introducir.Clave));
                         claveUC apellidosUC = new claveUC(76, 105, "Apellidos:", MNBiblioteca.getApellidosUsuario(introducir.Clave));
@@ -251,7 +251,7 @@ namespace Presentacion
                                     codigos.Add((string)((datoDesplegable)altaPrestamo.Controls["ejemplaresUC"]).DatoDesplegableCb.Items[i]);
                                 }
                                 string[] validformats = new[] { "MM/dd/yyyy", "yyyy/MM/dd", "MM/dd/yyyy HH:mm:ss",
-                                        "MM/dd/yyyy hh:mm tt","yyyy-MM-dd HH:mm", "yyyy-MM-dd HH:mm:ss, fff" };
+                                        "MM/dd/yyyy hh:mm tt","yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss, fff" };
 
                                 CultureInfo provider = CultureInfo.InvariantCulture;
                                 DateTime fechaFinal;
@@ -261,6 +261,7 @@ namespace Presentacion
                                 {
                                     if (!MNSala.altaPrestamo(dni,codigos,1,fechaFinal))
                                     {
+                                        //Entra en este error
                                         MessageBox.Show("No se pudo realizar correctamente la operación", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     }
                                     else
@@ -359,7 +360,7 @@ namespace Presentacion
                     if (MNBiblioteca.existeUsuario(introducir.Clave))
                     {
                         List<Prestamo> prestamos = MNSala.getPrestamos(introducir.Clave);
-                        List<string> fechasPrestamo=prestamos.Select(p => p.Fecha.ToString("yyyy-MM-dd HH:mm")).ToList();
+                        List<string> fechasPrestamo=prestamos.Select(p => p.Fecha.ToString("yyyy-MM-dd HH:mm:ss")).ToList();
                         if (prestamos.Count > 0)
                         {
                             datosDesplegables datosPrestamos = new datosDesplegables();
@@ -379,7 +380,7 @@ namespace Presentacion
                             claveUC apellidosUC = new claveUC(85, 155, "Apellidos:", MNBiblioteca.getApellidosUsuario(introducir.Clave));
                             claveUC estadoUC = new claveUC(85, 185, "Prestamo:");
                             datoDesplegable ejemplaresUC = new datoDesplegable(85, 225);
-                            ejemplaresUC.DatoDesplegableL.Text = "Ejemplar";
+                            ejemplaresUC.DatoDesplegableL.Text = "Ejemplar:";
                             claveUC estadoEjemplarUC = new claveUC(85, 255, "Ejemplar:");
                             claveUC isbnUC = new claveUC(85, 285, "ISBN:");
                             claveUC tituloUC = new claveUC(85, 315, "Titulo:");
@@ -460,7 +461,7 @@ namespace Presentacion
             string dni =((claveUC)datosPrestamos.Controls["dniUC"]).ClaveTbUC.Text;
 
             string[] validformats = new[] { "MM/dd/yyyy", "yyyy/MM/dd", "MM/dd/yyyy HH:mm:ss",
-                                        "MM/dd/yyyy hh:mm tt","yyyy-MM-dd HH:mm", "yyyy-MM-dd HH:mm:ss, fff" };
+                                        "MM/dd/yyyy hh:mm tt","yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss, fff" };
 
             CultureInfo provider = CultureInfo.InvariantCulture;
             DateTime fechaFinal;
@@ -495,8 +496,8 @@ namespace Presentacion
             claveUC tituloUC = (claveUC)datosPrestamos.Controls["tituloUC"];
             claveUC autorUC = (claveUC)datosPrestamos.Controls["autorUC"];
             claveUC editorialUC = (claveUC)datosPrestamos.Controls["editorialUC"];
-
-            string codigo = ((datoDesplegable)datosPrestamos.Controls["ejemplaresUC"]).DatoDesplegableCb.SelectedValue as string;
+            //El select value devuelve null
+            string codigo = (string)((datoDesplegable)datosPrestamos.Controls["ejemplaresUC"]).DatoDesplegableCb.SelectedItem;
 
             if (codigo != null)
             {
