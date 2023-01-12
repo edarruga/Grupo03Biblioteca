@@ -478,7 +478,7 @@ namespace Presentacion
                 {
                     ejemplaresUC.DatoDesplegableCb.Items.Add(codigo);
                 }
-                ejemplaresUC.DatoDesplegableCb.SelectedIndex = 0;
+                ejemplaresUC.DatoDesplegableCb.SelectedIndex = -1;
                 ejemplaresUC.DatoDesplegableCb.Refresh();
 
                 estadoEjemplarUC.ClaveTbUC.Text = "";
@@ -496,7 +496,7 @@ namespace Presentacion
             claveUC autorUC = (claveUC)datosPrestamos.Controls["autorUC"];
             claveUC editorialUC = (claveUC)datosPrestamos.Controls["editorialUC"];
 
-            string codigo = ((datoDesplegable)datosPrestamos.Controls["ejemplaresUC"]).DatoDesplegableCb.SelectedText;
+            string codigo = ((datoDesplegable)datosPrestamos.Controls["ejemplaresUC"]).DatoDesplegableCb.SelectedValue as string;
 
             if (codigo != null)
             {

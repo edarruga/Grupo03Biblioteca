@@ -14,11 +14,11 @@ namespace Persistencia
         public PrestamoDato(string dni, List<Ejemplar> ejemPrestados, DateTime fecha ,Estado estado) : base(new ClavePrestamo(fecha, dni))
         {
             this.estado = estado;
-            //foreach (Ejemplar ejemplar in ejemPrestados)
-            //{
-            //    PrestamoEjemplarDato ped = new PrestamoEjemplarDato(fecha, dni, ejemplar.Codigo);
-            //    if (!BBDD.TablaPrestamoEjemplar.Contains(ped.Id)) BBDD.TablaPrestamoEjemplar.Add(ped);
-            //}
+            foreach (Ejemplar ejemplar in ejemPrestados)
+            {
+                PrestamoEjemplarDato ped = new PrestamoEjemplarDato(fecha, dni, ejemplar.Codigo);
+                if (!BBDD.TablaPrestamoEjemplar.Contains(ped.Id)) BBDD.TablaPrestamoEjemplar.Add(ped);
+            }
         }
         public Estado Estado
         {

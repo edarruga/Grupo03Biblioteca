@@ -401,21 +401,40 @@ namespace Presentacion
 
         private void seleccionarLibrosTsmi_Click(object sender, EventArgs e)
         {
-            List<string> dnis = MNBiblioteca.listaDNIs();
-            datosDesplegables datosUsuario = new datosDesplegables();
-            datosUsuario.Text = "Datos del usuario";
-            datoUC nombreUC = new datoUC(85, 100, "Nombre:");
-            datoUC apellidosUC = new datoUC(85, 150, "Apellidos:");
-            nombreUC.DatoTbUC.ReadOnly = true;
-            nombreUC.Name = "nombreUC";
-            apellidosUC.DatoTbUC.ReadOnly = true;
-            apellidosUC.Name = "apellidosUC";
-            datosUsuario.ClaveDesplegableCb.DataSource = dnis;
-            datosUsuario.ClaveDesplegableCb.SelectedIndex = -1;
-            datosUsuario.ClaveDesplegableCb.SelectedIndexChanged += (s, ev) => cambiarDatosUsuario(sender, e, datosUsuario);
-            datosUsuario.Controls.Add(nombreUC);
-            datosUsuario.Controls.Add(apellidosUC);
-            DialogResult usuario = datosUsuario.ShowDialog();
+            List<string> ISBNs = MNAdquisiciones.listaISBNLibros();
+            datosDesplegables datosLibros = new datosDesplegables();
+            datosLibros.ClaveL.Text = "ISBN:";
+            datosLibros.Text = "Datos del libro";
+            datoUC ucTitulo = new datoUC(85, 80, "Título:");
+            datoUC ucAutor = new datoUC(85, 110, "Autor:");
+            datoUC ucEditorial = new datoUC(85, 140, "Editorial:");
+            ucTitulo.Name = "ucTitulo";
+            ucAutor.Name = "ucAutor";
+            ucEditorial.Name = "ucEditorial";
+            ucTitulo.DatoTbUC.ReadOnly = true;
+            ucAutor.DatoTbUC.ReadOnly = true;
+            ucEditorial.DatoTbUC.ReadOnly = true;
+            datosLibros.ClaveDesplegableCb.DataSource = ISBNs;
+            datosLibros.ClaveDesplegableCb.SelectedIndex = -1;
+            datosLibros.ClaveDesplegableCb.SelectedIndexChanged += delegate (object s, EventArgs ev)
+            {
+                string ISBN = (string)datosLibros.ClaveDesplegableCb.SelectedValue;
+                if (ISBN != null)
+                {
+                    string titulo = MNAdquisiciones.getTituloLibro(ISBN);
+                    ucTitulo.DatoTbUC.Text = titulo;
+
+                    string autor = MNAdquisiciones.getAutorLibro(ISBN);
+                    ucAutor.DatoTbUC.Text = autor;
+
+                    string editorial = MNAdquisiciones.getEditorialLibro(ISBN);
+                    ucEditorial.DatoTbUC.Text = editorial;
+                }
+            };
+            datosLibros.Controls.Add(ucTitulo);
+            datosLibros.Controls.Add(ucAutor);
+            datosLibros.Controls.Add(ucEditorial);
+            DialogResult usuario = datosLibros.ShowDialog();
         }
 
         private void listadoDeLibrosTsmi_Click(object sender, EventArgs e)
