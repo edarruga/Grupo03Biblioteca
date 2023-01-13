@@ -446,36 +446,58 @@ namespace Presentacion
 
         private void recorridoUnoAUnoLibrosTsmi_Click(object sender, EventArgs e)
         {
-            //private void recorridoUnoAUnoTsmi_Click(object sender, EventArgs e)
-            //{
-            //    rocorridoUnoaUno recorrido = new rocorridoUnoaUno();
-            //    List<Usuario> listaUsuarios = MNBiblioteca.listaUsuarios();
-            //    recorrido.Text = "Datos de un usuario";
-            //    claveUC dniUC = new claveUC(20, 50, "DNI:");
-            //    datoUC nombreUC = new datoUC(20, 80, "Nombre:");
-            //    datoUC apellidosUC = new datoUC(20, 110, "Apellidos:");
-            //    datoUC numLibrosUC = new datoUC(20, 140, "Libros prestados:");
-            //    dniUC.Name = "dniUC";
-            //    nombreUC.DatoTbUC.ReadOnly = true;
-            //    nombreUC.Name = "nombreUC";
-            //    apellidosUC.DatoTbUC.ReadOnly = true;
-            //    apellidosUC.Name = "apellidosUC";
-            //    numLibrosUC.DatoTbUC.ReadOnly = true;
-            //    numLibrosUC.Name = "numLibrosUC";
-            //    foreach (Usuario u in listaUsuarios)
-            //    {
-            //        recorrido.BindingNavigator.BindingSource.Add(u);
-            //    }
-            //    recorrido.BindingNavigatorPositionItem.TextChanged += (s, ev) => cambiarDatosUsuarioUnoaUno(sender, e, recorrido);
+            rocorridoUnoaUno recorrido = new rocorridoUnoaUno();
+            List<Libro> listaLibros = MNAdquisiciones.listaLibros();
+            recorrido.Text = "Datos de un libro";
+            claveUC ucISBN = new claveUC(20, 50, "ISBN:");
+            datoUC ucTitulo = new datoUC(20, 80, "Título:");
+            datoUC ucAutor = new datoUC(20, 110, "Autor:");
+            datoUC ucEditorial = new datoUC(20, 140, "Editorial:");
+            ucISBN.Name = "ucISBN";
+            ucTitulo.DatoTbUC.ReadOnly = true;
+            ucTitulo.Name = "ucTitulo";
+            ucAutor.DatoTbUC.ReadOnly = true;
+            ucAutor.Name = "ucAutor";
+            ucEditorial.DatoTbUC.ReadOnly = true;
+            ucEditorial.Name = "ucEditorial";
+            foreach (Libro l in listaLibros)
+            {
+                recorrido.BindingNavigator.BindingSource.Add(l);
+            }
+            recorrido.BindingNavigatorPositionItem.TextChanged += (s, ev) => cambiarDatosLibroUnoaUno(sender, e, recorrido);
 
-            //    recorrido.Controls.Add(dniUC);
-            //    recorrido.Controls.Add(nombreUC);
-            //    recorrido.Controls.Add(apellidosUC);
-            //    recorrido.Controls.Add(numLibrosUC);
-            //    this.cambiarDatosUsuarioUnoaUno(sender, e, recorrido);
+            recorrido.Controls.Add(ucISBN);
+            recorrido.Controls.Add(ucTitulo);
+            recorrido.Controls.Add(ucAutor);
+            recorrido.Controls.Add(ucEditorial);
+            this.cambiarDatosLibroUnoaUno(sender, e, recorrido);
 
-            //    recorrido.ShowDialog();
-            //}
+            recorrido.ShowDialog();
+        }
+
+        private void cambiarDatosLibroUnoaUno(object sender, EventArgs e, rocorridoUnoaUno recorrido)
+        {
+            claveUC ucISBN = recorrido.Controls["ucISBN"] as claveUC;
+            datoUC ucTitulo = recorrido.Controls["ucTitulo"] as datoUC;
+            datoUC ucAutor = recorrido.Controls["ucAutor"] as datoUC;
+            datoUC ucEditorial = recorrido.Controls["ucEditorial"] as datoUC;
+
+            Libro l = recorrido.BindingNavigator.BindingSource.Current as Libro;
+            string isbn = "";
+            string titulo = "";
+            string autor = "";
+            int editorial = 0;
+            if (l != null)
+            {
+                isbn = l.Isbn;
+                titulo = l.Autor;
+                autor = l.Titulo;
+                editorial = MNBiblioteca.numLibrosPrestados(l.Isbn);
+            }
+            ucISBN.ClaveTbUC.Text = isbn;
+            ucTitulo.DatoTbUC.Text = titulo;
+            ucAutor.DatoTbUC.Text = autor;
+            ucEditorial.DatoTbUC.Text = editorial.ToString();
         }
 
         private void altaEjemplaresTsmi_Click(object sender, EventArgs e)

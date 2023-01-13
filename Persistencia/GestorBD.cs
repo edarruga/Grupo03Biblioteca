@@ -208,6 +208,11 @@ namespace Persistencia
             return Transformador.PrestamoDatoAPrestamo(BBDD.Read<ClavePrestamo, PrestamoDato>(new ClavePrestamo(fecha, dni)));
         }
 
+        public static void SetPrestamo(Prestamo p)
+        {
+            BBDD.Update<ClavePrestamo, PrestamoDato>(Transformador.PrestamoAPrestamoDato(p));
+        }
+
         public static bool DevolverEjemplarPrestado(string codigo)
         {
             if (BBDD.TablaEjemplar.Contains(new ClaveEjemplar(codigo)))
