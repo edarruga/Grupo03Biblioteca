@@ -1,4 +1,5 @@
-﻿using ModeloDeNegocio;
+﻿using ModeloDeDominio;
+using ModeloDeNegocio;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -439,12 +440,42 @@ namespace Presentacion
 
         private void listadoDeLibrosTsmi_Click(object sender, EventArgs e)
         {
-
+            ListadoLibros listado = new ListadoLibros(MNAdquisiciones.listaLibros());
+            listado.ShowDialog();
         }
 
         private void recorridoUnoAUnoLibrosTsmi_Click(object sender, EventArgs e)
         {
+            //private void recorridoUnoAUnoTsmi_Click(object sender, EventArgs e)
+            //{
+            //    rocorridoUnoaUno recorrido = new rocorridoUnoaUno();
+            //    List<Usuario> listaUsuarios = MNBiblioteca.listaUsuarios();
+            //    recorrido.Text = "Datos de un usuario";
+            //    claveUC dniUC = new claveUC(20, 50, "DNI:");
+            //    datoUC nombreUC = new datoUC(20, 80, "Nombre:");
+            //    datoUC apellidosUC = new datoUC(20, 110, "Apellidos:");
+            //    datoUC numLibrosUC = new datoUC(20, 140, "Libros prestados:");
+            //    dniUC.Name = "dniUC";
+            //    nombreUC.DatoTbUC.ReadOnly = true;
+            //    nombreUC.Name = "nombreUC";
+            //    apellidosUC.DatoTbUC.ReadOnly = true;
+            //    apellidosUC.Name = "apellidosUC";
+            //    numLibrosUC.DatoTbUC.ReadOnly = true;
+            //    numLibrosUC.Name = "numLibrosUC";
+            //    foreach (Usuario u in listaUsuarios)
+            //    {
+            //        recorrido.BindingNavigator.BindingSource.Add(u);
+            //    }
+            //    recorrido.BindingNavigatorPositionItem.TextChanged += (s, ev) => cambiarDatosUsuarioUnoaUno(sender, e, recorrido);
 
+            //    recorrido.Controls.Add(dniUC);
+            //    recorrido.Controls.Add(nombreUC);
+            //    recorrido.Controls.Add(apellidosUC);
+            //    recorrido.Controls.Add(numLibrosUC);
+            //    this.cambiarDatosUsuarioUnoaUno(sender, e, recorrido);
+
+            //    recorrido.ShowDialog();
+            //}
         }
 
         private void altaEjemplaresTsmi_Click(object sender, EventArgs e)

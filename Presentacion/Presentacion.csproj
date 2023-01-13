@@ -94,6 +94,12 @@
     <Compile Include="listado.Designer.cs">
       <DependentUpon>listado.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListadoLibros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoLibros.Designer.cs">
+      <DependentUpon>ListadoLibros.cs</DependentUpon>
+    </Compile>
     <Compile Include="listadoUsuarios.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -169,6 +175,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="listado.resx">
       <DependentUpon>listado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoLibros.resx">
+      <DependentUpon>ListadoLibros.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="listadoUsuarios.resx">
       <DependentUpon>listadoUsuarios.cs</DependentUpon>

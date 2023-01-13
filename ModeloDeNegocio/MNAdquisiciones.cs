@@ -43,5 +43,10 @@ namespace ModeloDeNegocio
         {
             return GestorBD.ListaLibros().Select(l => l.Isbn).ToList();
         }
+
+        public static List<Libro> listaLibros()
+        {
+            return GestorBD.ListaLibros();
+        }
     }
 }
