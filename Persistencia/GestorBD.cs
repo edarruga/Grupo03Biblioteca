@@ -160,6 +160,11 @@ namespace Persistencia
             return BBDD.TablaEjemplar.Where(ed => ed.IsbnLibro == isbnLibro).Select(ed => Transformador.EjemplarDatoAEjemplar(ed)).ToList();
         }
 
+        public static List<Ejemplar> ListaEjemplares()
+        {
+            return BBDD.TablaEjemplar.Select(ed => Transformador.EjemplarDatoAEjemplar(ed)).ToList();
+        }
+
         //PERSONAL DE SALA
 
         public static bool AltaPrestamo(Prestamo p)

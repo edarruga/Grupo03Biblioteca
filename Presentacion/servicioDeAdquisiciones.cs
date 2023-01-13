@@ -241,7 +241,7 @@ namespace Presentacion
                     }
                     else
                     {
-                        DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "Ya existe un usuario con ese DNI", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                        DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "Ya existe un libro con ese ISBN", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                         if (error == DialogResult.OK)
                         {
                             this.altaLibrosTsmi_Click(sender, e);
@@ -250,7 +250,7 @@ namespace Presentacion
                 }
                 else
                 {
-                    DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "El parametro DNI es obligatorio", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "El parametro ISBN es obligatorio", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                     if (error == DialogResult.OK)
                     {
                         this.altaLibrosTsmi_Click(sender, e);
@@ -502,27 +502,289 @@ namespace Presentacion
 
         private void altaEjemplaresTsmi_Click(object sender, EventArgs e)
         {
+            Introducir introducir = new Introducir();
+            introducir.Text = "Introducir código";
+            introducir.ClaveL.Text = "Código:";
+            DialogResult resultado = introducir.ShowDialog();
+            if (DialogResult.OK == resultado)
+            {
+                if (introducir.Clave != "")
+                {
+                    if (!MNAdquisiciones.existeEjemplar(introducir.Clave))
+                    {
+                        alta altaEjemplar = new alta();
+                        altaEjemplar.Text = "Alta de un ejemplar";
+                        claveUC ucCodigo = new claveUC(85, 50, "Código:", introducir.Clave);
+                        datoUC ucIsbnLibro = new datoUC(85, 120, "Isbn:");
+                        ucIsbnLibro.Name = "ucIsbnLibro";
+                        altaEjemplar.Controls.Add(ucCodigo);
+                        altaEjemplar.Controls.Add(ucIsbnLibro);
+                        DialogResult ejemplar = altaEjemplar.ShowDialog();
+                        if (ejemplar == DialogResult.OK)
+                        {
+                            if (((datoUC)altaEjemplar.Controls["ucIsbnLibro"]).Dato == "")
+                            {
+                                MessageBox.Show("Debes introducir un titulo para el libro", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                this.altaLibrosTsmi_Click(sender, e);
+                            }
+                            else
+                            {
+                                if (!MNAdquisiciones.altaEjemplar(introducir.Clave, ((datoUC)altaEjemplar.Controls["ucIsbnLibro"]).Dato))
+                                {
+                                    MessageBox.Show("No se pudo realizar correctamente la operación", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
 
+                            }
+
+                        }
+                        else
+                        {
+                            introducir.Close();
+                        }
+                        introducir.Dispose();
+                    }
+                    else
+                    {
+                        DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "Ya existe un ejemplar con ese código", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                        if (error == DialogResult.OK)
+                        {
+                            this.altaLibrosTsmi_Click(sender, e);
+                        }
+                    }
+                }
+                else
+                {
+                    DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "El parametro código es obligatorio", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    if (error == DialogResult.OK)
+                    {
+                        this.altaLibrosTsmi_Click(sender, e);
+                    }
+                }
+            }
+            else
+            {
+                introducir.Close();
+            }
+            introducir.Dispose();
         }
 
         private void bajaEjemplaresTsmi_Click(object sender, EventArgs e)
         {
+            Introducir introducir = new Introducir();
+            introducir.Text = "Introducir código";
+            introducir.ClaveL.Text = "Código:";
+            DialogResult resultado = introducir.ShowDialog();
+            if (DialogResult.OK == resultado)
+            {
+                if (introducir.Clave != "")
+                {
+                    if (MNBiblioteca.existeEjemplar(introducir.Clave))
+                    {
+                        alta altaLibro = new alta();
+                        altaLibro.Text = "Baja de un ejemplar";
+                        claveUC ucCodigo = new claveUC(85, 30, "Código:", introducir.Clave);
+                        datoUC ucPrestado = new datoUC(85, 55, "Prestado:");
+                        datoUC ucISBN = new datoUC(85, 80, "ISBN:");
+                        datoUC ucTitulo = new datoUC(85, 105, "Título:");
+                        datoUC ucAutor = new datoUC(85, 130, "Autor:");
+                        datoUC ucEditorial = new datoUC(85, 155, "Editorial:");
+                        ucPrestado.Name = "ucPrestado";
+                        ucISBN.Name = "ucISBN";
+                        ucTitulo.Name = "ucTitulo";
+                        ucAutor.Name = "ucAutor";
+                        ucEditorial.Name = "ucEditorial";
+                        ucPrestado.DatoTbUC.ReadOnly = true;
+                        ucISBN.DatoTbUC.ReadOnly = true;
+                        ucTitulo.DatoTbUC.ReadOnly = true;
+                        ucAutor.DatoTbUC.ReadOnly = true;
+                        ucEditorial.DatoTbUC.ReadOnly = true;
+                        if (MNAdquisiciones.getEstadoEjemplar(introducir.Clave)) ucPrestado.DatoTbUC.Text = "Si";
+                        else ucPrestado.DatoTbUC.Text = "No";
 
+                        ucISBN.DatoTbUC.Text = MNAdquisiciones.getIsbnEjemplar(introducir.Clave);
+                        ucTitulo.DatoTbUC.Text = MNAdquisiciones.getTituloLibro(MNAdquisiciones.getIsbnEjemplar(introducir.Clave));
+                        ucAutor.DatoTbUC.Text = MNAdquisiciones.getAutorLibro(MNAdquisiciones.getIsbnEjemplar(introducir.Clave));
+                        ucEditorial.DatoTbUC.Text = MNAdquisiciones.getEditorialLibro(MNAdquisiciones.getIsbnEjemplar(introducir.Clave));
+                        altaLibro.Controls.Add(ucCodigo);
+                        altaLibro.Controls.Add(ucPrestado);
+                        altaLibro.Controls.Add(ucISBN);
+                        altaLibro.Controls.Add(ucTitulo);
+                        altaLibro.Controls.Add(ucAutor);
+                        altaLibro.Controls.Add(ucEditorial);
+                        DialogResult usuario = altaLibro.ShowDialog();
+                        if (usuario == DialogResult.OK)
+                        {
+
+                            DialogResult aviso = MessageBox.Show("¿Está seguro que desea dar de baja este ejemplar?", "Aviso", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                            if (aviso == DialogResult.OK)
+                            {
+                                if (MNAdquisiciones.bajaLibro(introducir.Clave))
+                                {
+                                    MessageBox.Show("Ejemplar eliminado", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            introducir.Close();
+                        }
+                        introducir.Dispose();
+                    }
+                    else
+                    {
+                        DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "No existe ningún ejemplar con ese código", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                        if (error == DialogResult.OK)
+                        {
+                            this.bajaEjemplaresTsmi_Click(sender, e);
+                        }
+                    }
+                }
+                else
+                {
+                    DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "El parametro código es obligatorio", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    if (error == DialogResult.OK)
+                    {
+                        this.bajaEjemplaresTsmi_Click(sender, e);
+                    }
+                }
+            }
+            else
+            {
+                introducir.Close();
+            }
+            introducir.Dispose();
         }
 
         private void introducirEjemplaresTsmi_Click(object sender, EventArgs e)
         {
+            Introducir introducir = new Introducir();
+            introducir.Text = "Introducir código";
+            introducir.ClaveL.Text = "Código:";
+            DialogResult resultado = introducir.ShowDialog();
+            if (DialogResult.OK == resultado)
+            {
+                if (introducir.Clave != "")
+                {
+                    if (MNBiblioteca.existeEjemplar(introducir.Clave))
+                    {
+                        datos datosEjemplar = new datos();
+                        datosEjemplar.Text = "Datos del ejemplar";
+                        claveUC ucCodigo = new claveUC(85, 30, "Código:", introducir.Clave);
+                        datoUC ucPrestado = new datoUC(85, 55, "Prestado:");
+                        datoUC ucISBN = new datoUC(85, 80, "ISBN:");
+                        datoUC ucTitulo = new datoUC(85, 105, "Título:");
+                        datoUC ucAutor = new datoUC(85, 130, "Autor:");
+                        datoUC ucEditorial = new datoUC(85, 155, "Editorial:");
+                        ucPrestado.Name = "ucPrestado";
+                        ucISBN.Name = "ucISBN";
+                        ucTitulo.Name = "ucTitulo";
+                        ucAutor.Name = "ucAutor";
+                        ucEditorial.Name = "ucEditorial";
+                        ucPrestado.DatoTbUC.ReadOnly = true;
+                        ucISBN.DatoTbUC.ReadOnly = true;
+                        ucTitulo.DatoTbUC.ReadOnly = true;
+                        ucAutor.DatoTbUC.ReadOnly = true;
+                        ucEditorial.DatoTbUC.ReadOnly = true;
+                        if (MNAdquisiciones.getEstadoEjemplar(introducir.Clave)) ucPrestado.DatoTbUC.Text = "Si";
+                        else ucPrestado.DatoTbUC.Text = "No";
+                        ucISBN.DatoTbUC.Text = MNAdquisiciones.getIsbnEjemplar(introducir.Clave);
+                        ucTitulo.DatoTbUC.Text = MNAdquisiciones.getTituloLibro(MNAdquisiciones.getIsbnEjemplar(introducir.Clave));
+                        ucAutor.DatoTbUC.Text = MNAdquisiciones.getAutorLibro(MNAdquisiciones.getIsbnEjemplar(introducir.Clave));
+                        ucEditorial.DatoTbUC.Text = MNAdquisiciones.getEditorialLibro(MNAdquisiciones.getIsbnEjemplar(introducir.Clave));
+                        datosEjemplar.Controls.Add(ucCodigo);
+                        datosEjemplar.Controls.Add(ucPrestado);
+                        datosEjemplar.Controls.Add(ucISBN);
+                        datosEjemplar.Controls.Add(ucTitulo);
+                        datosEjemplar.Controls.Add(ucAutor);
+                        datosEjemplar.Controls.Add(ucEditorial);
+                        DialogResult libro = datosEjemplar.ShowDialog();
 
+                        introducir.Dispose();
+                    }
+                    else
+                    {
+                        DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "No existe ningún ejemplar con ese código", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                        if (error == DialogResult.OK)
+                        {
+                            this.introducirEjemplaresTsmi_Click(sender, e);
+                        }
+                    }
+                }
+                else
+                {
+                    DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "El parametro código es obligatorio", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    if (error == DialogResult.OK)
+                    {
+                        this.introducirEjemplaresTsmi_Click(sender, e);
+                    }
+                }
+            }
+            else
+            {
+                introducir.Close();
+            }
+            introducir.Dispose();
         }
 
         private void seleccionarEjemplaresTsmi_Click(object sender, EventArgs e)
         {
+            List<string> codigos = MNAdquisiciones.listaCodigosEjemplares();
+            datosDesplegables datosEjemplares = new datosDesplegables();
+            datosEjemplares.ClaveL.Text = "Código:";
+            datosEjemplares.Text = "Datos del ejemplar";
+            datoUC ucPrestado = new datoUC(85, 75, "Prestado:");
+            datoUC ucISBN = new datoUC(85, 100, "ISBN:");
+            datoUC ucTitulo = new datoUC(85, 125, "Título:");
+            datoUC ucAutor = new datoUC(85, 150, "Autor:");
+            datoUC ucEditorial = new datoUC(85, 175, "Editorial:");
+            ucPrestado.Name = "ucPrestado";
+            ucISBN.Name = "ucISBN";
+            ucTitulo.Name = "ucTitulo";
+            ucAutor.Name = "ucAutor";
+            ucEditorial.Name = "ucEditorial";
+            ucPrestado.DatoTbUC.ReadOnly = true;
+            ucISBN.DatoTbUC.ReadOnly = true;
+            ucTitulo.DatoTbUC.ReadOnly = true;
+            ucAutor.DatoTbUC.ReadOnly = true;
+            ucEditorial.DatoTbUC.ReadOnly = true;
+            datosEjemplares.ClaveDesplegableCb.DataSource = codigos;
+            datosEjemplares.ClaveDesplegableCb.SelectedIndex = -1;
+            datosEjemplares.ClaveDesplegableCb.SelectedIndexChanged += delegate (object s, EventArgs ev)
+            {
+                string codigo = (string)datosEjemplares.ClaveDesplegableCb.SelectedValue;
+                if (codigo != null)
+                {
+                    string isbn = MNAdquisiciones.getIsbnEjemplar(codigo);
+                    ucISBN.DatoTbUC.Text=isbn;  
 
+                    string titulo = MNAdquisiciones.getTituloLibro(MNAdquisiciones.getIsbnEjemplar(codigo));
+                    ucTitulo.DatoTbUC.Text = titulo;
+
+                    string autor = MNAdquisiciones.getAutorLibro(MNAdquisiciones.getIsbnEjemplar(codigo));
+                    ucAutor.DatoTbUC.Text = autor;
+
+                    string editorial = MNAdquisiciones.getEditorialLibro(MNAdquisiciones.getIsbnEjemplar(codigo));
+                    ucEditorial.DatoTbUC.Text = editorial;
+
+                    string prestado;
+                    if (MNAdquisiciones.getEstadoEjemplar(codigo)) prestado = "Si";
+                    else prestado = "No";
+                    ucPrestado.DatoTbUC.Text = prestado;
+                }
+            };
+            datosEjemplares.Controls.Add(ucPrestado);
+            datosEjemplares.Controls.Add(ucISBN);
+            datosEjemplares.Controls.Add(ucTitulo);
+            datosEjemplares.Controls.Add(ucAutor);
+            datosEjemplares.Controls.Add(ucEditorial);
+            DialogResult usuario = datosEjemplares.ShowDialog();
         }
 
         private void listadoDeEjemplaresTsmi_Click(object sender, EventArgs e)
         {
-
+            ListadoEjemplares listado = new ListadoEjemplares(MNAdquisiciones.listaEjemplares());
+            listado.ShowDialog();
         }
 
         private void recorridoUnoAUnoEjemplaresTsmi_Click(object sender, EventArgs e)
