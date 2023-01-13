@@ -589,7 +589,7 @@ namespace Presentacion
                 Prestamo prestamo = MNSala.getPrestamo(fechaFinal, dni);
                 estadoUC.ClaveTbUC.Text=prestamo.Estado.ToString();
 
-                List<Ejemplar> ejemplares = prestamo.EjemPrestados;//No funciona EjemPrestados devuelve 0 siempre
+                List<Ejemplar> ejemplares = prestamo.EjemPrestados;
                 List<string> codigos=ejemplares.Select(ej => ej.Codigo).ToList();
                 ejemplaresUC.DatoDesplegableCb.Items.Clear();
                 foreach (string codigo in codigos)
@@ -614,7 +614,7 @@ namespace Presentacion
             claveUC tituloUC = (claveUC)datosPrestamos.Controls["tituloUC"];
             claveUC autorUC = (claveUC)datosPrestamos.Controls["autorUC"];
             claveUC editorialUC = (claveUC)datosPrestamos.Controls["editorialUC"];
-            //El select value devuelve null
+            
             string codigo = (string)((datoDesplegable)datosPrestamos.Controls["ejemplaresUC"]).DatoDesplegableCb.SelectedItem;
 
             if (codigo != null)
@@ -635,7 +635,7 @@ namespace Presentacion
                 editorialUC.ClaveTbUC.Text = libro.Editorial;
             }
         }
-        //pingon
+        
 
         private void listadoDePrestamosActivosTsmi_Click(object sender, EventArgs e)
         {

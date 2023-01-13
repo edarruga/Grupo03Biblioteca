@@ -253,7 +253,8 @@ namespace Persistencia
                 {
                     if (tablaEjemplar.Remove(t as ClaveEjemplar))
                     {
-                        foreach (PrestamoEjemplarDato ped in tablaPrestamoEjemplar)
+                        List<PrestamoEjemplarDato> lista = tablaPrestamoEjemplar.ToList();
+                        foreach (PrestamoEjemplarDato ped in lista)
                         {
                             if ((t as ClaveEjemplar).Equals(ped.Id.Ejemplar)) tablaPrestamoEjemplar.Remove(ped.Id);
                         }
