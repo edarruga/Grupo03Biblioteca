@@ -24,6 +24,8 @@ namespace Presentacion
         private System.Windows.Forms.ToolStripMenuItem recorridoUnoAUnoPrestamosTsmi;
         private System.Windows.Forms.ToolStripMenuItem verEjemplaresNoDevueltosTsmi;
         private System.Windows.Forms.ToolStripMenuItem devolverEjemplarTsmi;
+        private System.Windows.Forms.ToolStripMenuItem prestamosFinalizadosTsmi;
+        private System.Windows.Forms.ToolStripMenuItem prestamosEnProcesoTsmi;
         public sala(string nombre)
             :base(nombre)
         {
@@ -37,9 +39,17 @@ namespace Presentacion
             this.recorridoUnoAUnoPrestamosTsmi = new System.Windows.Forms.ToolStripMenuItem();
             this.verEjemplaresNoDevueltosTsmi= new System.Windows.Forms.ToolStripMenuItem();
             this.devolverEjemplarTsmi = new System.Windows.Forms.ToolStripMenuItem();
+            this.prestamosEnProcesoTsmi = new System.Windows.Forms.ToolStripMenuItem();
+            this.prestamosFinalizadosTsmi= new System.Windows.Forms.ToolStripMenuItem();
 
             base.tsmiLibros.Visible=false;
             base.tsmiEjemplares.Visible = false;
+
+            this.listadoDePrestamosActivosTsmi.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[]
+            {
+                this.prestamosFinalizadosTsmi,
+                this.prestamosEnProcesoTsmi
+            });
 
             base.prestamosTsmi.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.altaPrestamosTsmi,
@@ -77,7 +87,6 @@ namespace Presentacion
             this.listadoDePrestamosActivosTsmi.Name = "listadoDePrestamosActivosTsmi";
             this.listadoDePrestamosActivosTsmi.Size = new System.Drawing.Size(468, 54);
             this.listadoDePrestamosActivosTsmi.Text = "Listado de préstamos";
-            this.listadoDePrestamosActivosTsmi.Click += new System.EventHandler(this.listadoDePrestamosActivosTsmi_Click);
             // 
             // recorridoUnoAUnoPrestamosTsmi
             // 
@@ -99,6 +108,20 @@ namespace Presentacion
             this.devolverEjemplarTsmi.Size = new System.Drawing.Size(468, 54);
             this.devolverEjemplarTsmi.Text = "Devolver ejemplar";
             this.devolverEjemplarTsmi.Click += new System.EventHandler(this.devolverEjemplarTsmi_Click);
+            // 
+            // prestamosFinalizadosTsmi
+            // 
+            this.prestamosFinalizadosTsmi.Name = "prestamosFinalizadosTsmi";
+            this.prestamosFinalizadosTsmi.Size = new System.Drawing.Size(468, 54);
+            this.prestamosFinalizadosTsmi.Text = "Préstamos finalizados";
+            this.prestamosFinalizadosTsmi.Click += new System.EventHandler(this.prestamosFinalizadosTsmi_Click);
+            // 
+            // prestamosEnProcesoTsmi
+            //
+            this.prestamosEnProcesoTsmi.Name = "prestamosEnProcesoTsmi";
+            this.prestamosEnProcesoTsmi.Size = new System.Drawing.Size(468, 54);
+            this.prestamosEnProcesoTsmi.Text = "Préstamos en proceso";
+            this.prestamosEnProcesoTsmi.Click += new System.EventHandler(this.prestamosEnProcesoTsmi_Click);
 
         }
 
@@ -637,18 +660,214 @@ namespace Presentacion
         }
         
 
-        private void listadoDePrestamosActivosTsmi_Click(object sender, EventArgs e)
+        private void prestamosFinalizadosTsmi_Click(object sender, EventArgs e)
         {
-
+            List<Prestamo> prestamos = MNSala.getPrestamosFinalizados();
+            prestamosDg form = new prestamosDg(prestamos, "Listado de préstamos finalizados");
+            form.ShowDialog();
+        }
+        private void prestamosEnProcesoTsmi_Click(object sender, EventArgs e)
+        {
+            List<Prestamo> prestamos = MNSala.getPrestamosEnProceso();
+            prestamosDg form = new prestamosDg(prestamos,"Listado de préstamos en proceso");
+            form.ShowDialog();
         }
 
         private void recorridoUnoAUnoPrestamosTsmi_Click(object sender, EventArgs e)
         {
+            rocorridoUnoaUno recorrido = new rocorridoUnoaUno();
+            recorrido.Text = "Recorrido de prestamos uno a uno";
+            recorrido.Size = new System.Drawing.Size(400, 500);
+            List<Prestamo> listaPrestamos = MNSala.getPrestamos();
+
+            claveUC fechaUC = new claveUC(85, 65, "Fecha:");
+            claveUC dniUC = new claveUC(85, 95, "DNI:");
+            claveUC nombreUC = new claveUC(85, 125, "Nombre:");
+            claveUC apellidosUC = new claveUC(85, 155, "Apellidos:");
+            claveUC estadoUC = new claveUC(85, 185, "Prestamo:");
+            datoDesplegable ejemplaresUC = new datoDesplegable(85, 225);
+            ejemplaresUC.DatoDesplegableL.Text = "Ejemplar:";
+            claveUC estadoEjemplarUC = new claveUC(85, 255, "Ejemplar:");
+            claveUC isbnUC = new claveUC(85, 285, "ISBN:");
+            claveUC tituloUC = new claveUC(85, 315, "Titulo:");
+            claveUC autorUC = new claveUC(85, 345, "Autor:");
+            claveUC editorialUC = new claveUC(85, 375, "Editorial:");
+
+            fechaUC.Name = "fechaUC";
+            dniUC.Name = "dniUC";
+            nombreUC.Name = "nombreUC";
+            apellidosUC.Name = "apellidosUC";
+            estadoUC.Name = "estadoUC";
+            ejemplaresUC.Name = "ejemplaresUC";
+            estadoEjemplarUC.Name = "estadoEjemplarUC";
+            isbnUC.Name = "isbnUC";
+            tituloUC.Name = "tituloUC";
+            autorUC.Name = "autorUC";
+            editorialUC.Name = "editorialUC";
+
+            recorrido.Controls.Add(fechaUC);
+            recorrido.Controls.Add(dniUC);
+            recorrido.Controls.Add(nombreUC);
+            recorrido.Controls.Add(apellidosUC);
+            recorrido.Controls.Add(estadoUC);
+            recorrido.Controls.Add(ejemplaresUC);
+            recorrido.Controls.Add(estadoEjemplarUC);
+            recorrido.Controls.Add(isbnUC);
+            recorrido.Controls.Add(tituloUC);
+            recorrido.Controls.Add(autorUC);
+            recorrido.Controls.Add(editorialUC);
+
+            foreach (Prestamo p in listaPrestamos)
+            {
+                recorrido.BindingNavigator.BindingSource.Add(p);
+            }
+            recorrido.BindingNavigatorPositionItem.TextChanged += (s, ev) => cambiarDatosPrestamoUnoaUno(sender, e, recorrido);
+            ((datoDesplegable)recorrido.Controls["ejemplaresUC"]).DatoDesplegableCb.SelectedIndexChanged += (s, ev) => cambiarDatosPrestamoPorEjemplarUnoAUno(sender, e, recorrido);
+
+            this.cambiarDatosPrestamoUnoaUno(sender, e, recorrido);
+
+            recorrido.ShowDialog();
+        }
+        private void cambiarDatosPrestamoPorEjemplarUnoAUno(object sender, EventArgs e, rocorridoUnoaUno recorrido)
+        {
+            claveUC estadoEjemplarUC = (claveUC)recorrido.Controls["estadoEjemplarUC"];
+            claveUC isbnUC = (claveUC)recorrido.Controls["isbnUC"];
+            claveUC tituloUC = (claveUC)recorrido.Controls["tituloUC"];
+            claveUC autorUC = (claveUC)recorrido.Controls["autorUC"];
+            claveUC editorialUC = (claveUC)recorrido.Controls["editorialUC"];
+
+            string codigo = (string)((datoDesplegable)recorrido.Controls["ejemplaresUC"]).DatoDesplegableCb.SelectedItem;
+
+            if (codigo != null)
+            {
+                Ejemplar ejemplar = MNBiblioteca.getEjemplar(codigo);
+                Libro libro = ejemplar.Libro;
+                if (ejemplar.Prestado)
+                {
+                    estadoEjemplarUC.ClaveTbUC.Text = "Prestado";
+                }
+                else
+                {
+                    estadoEjemplarUC.ClaveTbUC.Text = "Devuelto";
+                }
+                isbnUC.ClaveTbUC.Text = libro.Isbn;
+                tituloUC.ClaveTbUC.Text = libro.Titulo;
+                autorUC.ClaveTbUC.Text = libro.Autor;
+                editorialUC.ClaveTbUC.Text = libro.Editorial;
+            }
+        }
+
+        private void cambiarDatosPrestamoUnoaUno(object sender, EventArgs e, rocorridoUnoaUno recorrido)
+        {
+            claveUC fechaUC = (claveUC)recorrido.Controls["fechaUC"];
+            claveUC dniUC = (claveUC)recorrido.Controls["dniUC"];
+            claveUC nombreUC = (claveUC)recorrido.Controls["nombreUC"];
+            claveUC apellidosUC = (claveUC)recorrido.Controls["apellidosUC"];
+            claveUC estadoUC = (claveUC)recorrido.Controls["estadoUC"];
+            datoDesplegable ejemplaresUC = (datoDesplegable)recorrido.Controls["ejemplaresUC"];
+            claveUC estadoEjemplarUC = (claveUC)recorrido.Controls["estadoEjemplarUC"];
+            claveUC isbnUC = (claveUC)recorrido.Controls["isbnUC"];
+            claveUC tituloUC = (claveUC)recorrido.Controls["tituloUC"];
+            claveUC autorUC = (claveUC)recorrido.Controls["autorUC"];
+            claveUC editorialUC = (claveUC)recorrido.Controls["editorialUC"];
+
+            Prestamo p = (Prestamo)recorrido.BindingNavigator.BindingSource.Current;
+            List<string> codigos = new List<string>();
+            string fecha = "";
+            string dni = "";
+            string nombre = "";
+            string apellidos = "";
+            string estadoPrestamo = "";
+            string estadoEjemplar = "";
+            string isbn = "";
+            string titulo = "";
+            string autor = "";
+            string editorial = "";
+            if (p != null)
+            {
+                codigos = p.EjemPrestados.Select(pr => pr.Codigo).ToList();
+                fecha=p.Fecha.ToString("yyyy-MM-dd HH:mm:ss");
+                dni = p.Usuario.Dni;
+                nombre = p.Usuario.Nombre;
+                apellidos = p.Usuario.Apellidos;
+                estadoPrestamo = p.Estado.ToString();
+            }
+            fechaUC.ClaveTbUC.Text = fecha;
+            dniUC.ClaveTbUC.Text = dni;
+            nombreUC.ClaveTbUC.Text = nombre;
+            apellidosUC.ClaveTbUC.Text = apellidos;
+            estadoUC.ClaveTbUC.Text = estadoPrestamo;
+            ejemplaresUC.DatoDesplegableCb.SelectedIndex = -1;
+            ejemplaresUC.DatoDesplegableCb.Items.Clear();
+            foreach (string cod in codigos)
+            {
+                ejemplaresUC.DatoDesplegableCb.Items.Add(cod);
+            }
+            estadoEjemplarUC.ClaveTbUC.Text = estadoEjemplar;
+            isbnUC.ClaveTbUC.Text = isbn;
+            tituloUC.ClaveTbUC.Text = titulo;
+            autorUC.ClaveTbUC.Text = autor;
+            editorialUC.ClaveTbUC.Text = editorial;
+
 
         }
         private void verEjemplaresNoDevueltosTsmi_Click(object sender, EventArgs e)
         {
+            List<Ejemplar> ejemplares = MNBiblioteca.getEjemplaresNoDevueltos();
+            List<string> codigos = new List<string>();
+            foreach(Ejemplar ejemplar in ejemplares)
+            {
+                codigos.Add(ejemplar.Codigo);
+            }
+            datosDesplegables datosEjemplar = new datosDesplegables();
 
+            datosEjemplar.ClaveDesplegableCb.SelectedIndex = -1;
+            datosEjemplar.Text = "Ejemplares no duevueltos";
+            datosEjemplar.ClaveL.Text = "Código:";
+            datosEjemplar.ClaveDesplegableCb.DataSource = null;
+            foreach (string codigo in codigos)
+            {
+                datosEjemplar.ClaveDesplegableCb.Items.Add(codigo);
+            }
+
+            claveUC isbnUC = new claveUC(85, 95, "ISBN:");
+            claveUC tituloUC = new claveUC(85, 125, "Titulo:");
+            claveUC autorUC = new claveUC(85, 155, "Autor:");
+            claveUC editorialUC = new claveUC(85, 185, "Editorial:");
+
+            isbnUC.Name = "isbnUC";
+            tituloUC.Name = "tituloUC";
+            autorUC.Name = "autorUC";
+            editorialUC.Name = "editorialUC";
+
+            datosEjemplar.Controls.Add(isbnUC);
+            datosEjemplar.Controls.Add(tituloUC);
+            datosEjemplar.Controls.Add(autorUC);
+            datosEjemplar.Controls.Add(editorialUC);
+
+            datosEjemplar.ClaveDesplegableCb.DataSource = codigos;
+            datosEjemplar.ClaveDesplegableCb.SelectedIndex = -1;
+            datosEjemplar.ClaveDesplegableCb.SelectedIndexChanged += (s, ev) => cambiarEjemplaresNoDevueltos(sender, e, datosEjemplar);
+            datosEjemplar.ShowDialog();
+        }
+        private void cambiarEjemplaresNoDevueltos(object sender, EventArgs e, datosDesplegables datosEjemplar)
+        {
+            claveUC isbnUC = (claveUC)datosEjemplar.Controls["isbnUC"];
+            claveUC tituloUC = (claveUC)datosEjemplar.Controls["tituloUC"];
+            claveUC autorUC = (claveUC)datosEjemplar.Controls["autorUC"];
+            claveUC editorialUC = (claveUC)datosEjemplar.Controls["editorialUC"];
+
+            string codigo = datosEjemplar.ClaveDesplegableCb.SelectedItem as string;
+
+            if (codigo != null)
+            {
+                Ejemplar ejemplar = MNBiblioteca.getEjemplar(codigo);
+                Libro libro = ejemplar.Libro;
+                isbnUC.ClaveTbUC.Text = libro.Isbn;
+                tituloUC.ClaveTbUC.Text = libro.Titulo;
+                autorUC.ClaveTbUC.Text = libro.Autor;
+                editorialUC.ClaveTbUC.Text = libro.Editorial;
+            }
         }
         private void devolverEjemplarTsmi_Click(object sender, EventArgs e)
         {

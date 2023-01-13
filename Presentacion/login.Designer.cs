@@ -50,7 +50,7 @@
             this.NombreLa.AutoSize = true;
             this.NombreLa.Location = new System.Drawing.Point(204, 71);
             this.NombreLa.Name = "NombreLa";
-            this.NombreLa.Size = new System.Drawing.Size(262, 32);
+            this.NombreLa.Size = new System.Drawing.Size(278, 32);
             this.NombreLa.TabIndex = 1;
             this.NombreLa.Text = "Nombre de personal:";
             // 
@@ -89,6 +89,7 @@
             this.Controls.Add(this.NombreLa);
             this.Controls.Add(this.Continuar);
             this.Name = "login";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Iniciar sesión";
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -117,6 +117,7 @@
             this.Controls.Add(this.nombreb);
             this.Controls.Add(this.dnib);
             this.Name = "listadoUsuarios";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Listado de usuarios";
             this.ResumeLayout(false);
 

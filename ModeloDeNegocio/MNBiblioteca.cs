@@ -173,5 +173,13 @@ namespace ModeloDeNegocio
                 GestorBD.SetPrestamo(pre);
             }
         }
+        public static List<Ejemplar> getEjemplaresNoDevueltos()
+        {
+            return GestorBD.EjemplaresPrestados();
+        }
+        public static void poblarBaseDeDatos()
+        {
+            GestorBD.poblarBaseDeDatos();
+        }
     }
 }

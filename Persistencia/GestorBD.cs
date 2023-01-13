@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -51,6 +52,11 @@ namespace Persistencia
         public static bool TienePrestamoFueraPlazo(string dni)
         {
             var prestamosFueraPlazos = BBDD.TablaPrestamo.Where((p) => p.DniUsuario == dni && p.Estado == Estado.EnProceso && (DateTime.Now - p.Fecha).TotalDays > 15);
+            return prestamosFueraPlazos.ToList().Count > 0;
+        }
+        public static bool PrestamoFueraPlazo(Prestamo prestamo)
+        {
+            var prestamosFueraPlazos = BBDD.TablaPrestamo.Where((p) => p.DniUsuario == prestamo.Usuario.Dni && p.Estado == Estado.EnProceso && (DateTime.Now - p.Fecha).TotalDays > 15);
             return prestamosFueraPlazos.ToList().Count > 0;
         }
 
@@ -265,5 +271,82 @@ namespace Persistencia
         {
             return Transformador.LibroDatoALibro(BBDD.Read<ClaveLibro, LibroDato>(new ClaveLibro(isbn)));
         }
+        public static void poblarBaseDeDatos()
+        {
+            PersonalServicioAdquisiciones p = new PersonalServicioAdquisiciones("aaa", "123");
+            PersonalServicioAdquisiciones p2 = new PersonalServicioAdquisiciones("daarmas", "daarmas");
+
+            PersonalSala p3 = new PersonalSala("bbb", "123");
+            PersonalSala p4 = new PersonalSala("edarruga", "edarruga");
+
+            Libro l = new Libro("111", "Berserk", "Kentaro Miura", "Panini");
+            Libro l2 = new Libro("222", "El quijote", "Miguel de Cervantes", "Vicent Vives");
+            Libro l3 = new Libro("333", "La sirenita", "Hans Christian Andersen", "Ignac");
+            Libro l4 = new Libro("444", "Cronicas de la torre", "Laura Gallego", "SM");
+
+            Ejemplar e = new Ejemplar("123", true,l);
+            Ejemplar e2 = new Ejemplar("456", l);
+            Ejemplar e3 = new Ejemplar("789", l);
+
+            Ejemplar e4 = new Ejemplar("111", l2);
+            Ejemplar e5 = new Ejemplar("222", l2);
+            Ejemplar e6 = new Ejemplar("333", l2);
+
+            Ejemplar e7 = new Ejemplar("321", l3);
+            Ejemplar e8 = new Ejemplar("654", l3);
+            Ejemplar e9 = new Ejemplar("987", l3);
+
+            Ejemplar e10 = new Ejemplar("122", true,l4);
+            Ejemplar e11 = new Ejemplar("211", l4);
+            Ejemplar e12 = new Ejemplar("322", l4);
+
+            Usuario u = new Usuario("1234", "Eduardo", "Arruga");
+            Usuario u2 = new Usuario("12345678A", "Alejandro", "Martinez");
+            Usuario u3 = new Usuario("11111111Z", "Pablo", "Gomez");
+            Usuario u4 = new Usuario("22222222X", "David", "Armas");
+
+            GestorBD.AltaUsuario(u);
+            GestorBD.AltaUsuario(u2);
+            GestorBD.AltaUsuario(u3);
+            GestorBD.AltaUsuario(u4);
+            GestorBD.AltaPersonal(p);
+            GestorBD.AltaPersonal(p2);
+            GestorBD.AltaPersonal(p3);
+            GestorBD.AltaPersonal(p4);
+            GestorBD.AltaLibro(l);
+            GestorBD.AltaLibro(l2);
+            GestorBD.AltaLibro(l3);
+            GestorBD.AltaLibro(l4);
+            GestorBD.AltaEjemplar(e);
+            GestorBD.AltaEjemplar(e2);
+            GestorBD.AltaEjemplar(e3);
+            GestorBD.AltaEjemplar(e4);
+            GestorBD.AltaEjemplar(e5);
+            GestorBD.AltaEjemplar(e6);
+            GestorBD.AltaEjemplar(e7);
+            GestorBD.AltaEjemplar(e8);
+            GestorBD.AltaEjemplar(e9);
+            GestorBD.AltaEjemplar(e10);
+            GestorBD.AltaEjemplar(e11);
+            GestorBD.AltaEjemplar(e12);
+
+            List<Ejemplar> lista = new List<Ejemplar>();
+            lista.Add(e10);
+            lista.Add(e);
+
+            DateTime fecha = DateTime.Now;
+            string f=fecha.ToString("yyyy-MM-dd HH:mm:ss");
+            string[] validformats = new[] { "MM/dd/yyyy", "yyyy/MM/dd", "MM/dd/yyyy HH:mm:ss",
+                                        "MM/dd/yyyy hh:mm tt","yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss, fff" };
+
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            DateTime fechaFinal;
+
+            DateTime.TryParseExact(f, validformats, provider, DateTimeStyles.None, out fechaFinal);
+
+            Prestamo pr = new Prestamo(u2, lista, Estado.EnProceso, fechaFinal);
+            GestorBD.AltaPrestamo(pr);
+        }
     }
+    
 }

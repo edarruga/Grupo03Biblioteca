@@ -76,6 +76,7 @@
             this.Controls.Add(this.claveL);
             this.Controls.Add(this.aceptarAlB);
             this.Name = "datosDesplegables";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "datosDesplegables";
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);

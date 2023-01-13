@@ -1,6 +1,6 @@
 ﻿namespace Presentacion
 {
-    partial class datos
+    partial class prestamosDg
     {
         /// <summary>
         /// Required designer variable.
@@ -28,36 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.aceptarAlB = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // aceptarAlB
+            // dataGridView1
             // 
-            this.aceptarAlB.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.aceptarAlB.Location = new System.Drawing.Point(349, 543);
-            this.aceptarAlB.Margin = new System.Windows.Forms.Padding(6);
-            this.aceptarAlB.Name = "aceptarAlB";
-            this.aceptarAlB.Size = new System.Drawing.Size(185, 52);
-            this.aceptarAlB.TabIndex = 0;
-            this.aceptarAlB.Text = "Aceptar";
-            this.aceptarAlB.UseVisualStyleBackColor = true;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(0, -1);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 102;
+            this.dataGridView1.RowTemplate.Height = 40;
+            this.dataGridView1.Size = new System.Drawing.Size(2229, 758);
+            this.dataGridView1.TabIndex = 0;
             // 
-            // datos
+            // prestamosDg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(949, 671);
-            this.Controls.Add(this.aceptarAlB);
-            this.Margin = new System.Windows.Forms.Padding(6);
-            this.Name = "datos";
+            this.ClientSize = new System.Drawing.Size(2230, 754);
+            this.Controls.Add(this.dataGridView1);
+            this.Name = "prestamosDg";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "datos";
+            this.Text = "listadoPrestamosEnProceso";
+            this.Load += new System.EventHandler(this.prestamosDg_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button aceptarAlB;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }

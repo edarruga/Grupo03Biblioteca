@@ -36,6 +36,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1508, 702);
             this.Name = "servicioDeAdquisiciones";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "servicioDeAdquisiciones";
             this.ResumeLayout(false);
             this.PerformLayout();

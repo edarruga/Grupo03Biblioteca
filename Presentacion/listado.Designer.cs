@@ -48,6 +48,7 @@
             this.ClientSize = new System.Drawing.Size(1342, 820);
             this.Controls.Add(this.cerrarb);
             this.Name = "listado";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Listado";
             this.ResumeLayout(false);
 

@@ -42,36 +42,39 @@
             // lbAutor
             // 
             this.lbAutor.FormattingEnabled = true;
-            this.lbAutor.Location = new System.Drawing.Point(271, 69);
-            this.lbAutor.Margin = new System.Windows.Forms.Padding(1);
+            this.lbAutor.ItemHeight = 31;
+            this.lbAutor.Location = new System.Drawing.Point(723, 165);
+            this.lbAutor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lbAutor.Name = "lbAutor";
-            this.lbAutor.Size = new System.Drawing.Size(85, 212);
+            this.lbAutor.Size = new System.Drawing.Size(220, 500);
             this.lbAutor.TabIndex = 11;
             // 
             // lbTitulo
             // 
             this.lbTitulo.FormattingEnabled = true;
-            this.lbTitulo.Location = new System.Drawing.Point(166, 69);
-            this.lbTitulo.Margin = new System.Windows.Forms.Padding(1);
+            this.lbTitulo.ItemHeight = 31;
+            this.lbTitulo.Location = new System.Drawing.Point(443, 165);
+            this.lbTitulo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lbTitulo.Name = "lbTitulo";
-            this.lbTitulo.Size = new System.Drawing.Size(81, 212);
+            this.lbTitulo.Size = new System.Drawing.Size(209, 500);
             this.lbTitulo.TabIndex = 10;
             // 
             // lbISBN
             // 
             this.lbISBN.FormattingEnabled = true;
-            this.lbISBN.Location = new System.Drawing.Point(58, 69);
-            this.lbISBN.Margin = new System.Windows.Forms.Padding(1);
+            this.lbISBN.ItemHeight = 31;
+            this.lbISBN.Location = new System.Drawing.Point(155, 165);
+            this.lbISBN.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lbISBN.Name = "lbISBN";
-            this.lbISBN.Size = new System.Drawing.Size(85, 212);
+            this.lbISBN.Size = new System.Drawing.Size(220, 500);
             this.lbISBN.TabIndex = 9;
             // 
             // bAutor
             // 
-            this.bAutor.Location = new System.Drawing.Point(271, 32);
-            this.bAutor.Margin = new System.Windows.Forms.Padding(1);
+            this.bAutor.Location = new System.Drawing.Point(723, 76);
+            this.bAutor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.bAutor.Name = "bAutor";
-            this.bAutor.Size = new System.Drawing.Size(82, 21);
+            this.bAutor.Size = new System.Drawing.Size(219, 50);
             this.bAutor.TabIndex = 8;
             this.bAutor.Text = "Autor";
             this.bAutor.UseVisualStyleBackColor = true;
@@ -79,10 +82,10 @@
             // 
             // bTitulo
             // 
-            this.bTitulo.Location = new System.Drawing.Point(166, 32);
-            this.bTitulo.Margin = new System.Windows.Forms.Padding(1);
+            this.bTitulo.Location = new System.Drawing.Point(443, 76);
+            this.bTitulo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.bTitulo.Name = "bTitulo";
-            this.bTitulo.Size = new System.Drawing.Size(78, 21);
+            this.bTitulo.Size = new System.Drawing.Size(208, 50);
             this.bTitulo.TabIndex = 7;
             this.bTitulo.Text = "Título";
             this.bTitulo.UseVisualStyleBackColor = true;
@@ -90,10 +93,10 @@
             // 
             // bISBN
             // 
-            this.bISBN.Location = new System.Drawing.Point(58, 32);
-            this.bISBN.Margin = new System.Windows.Forms.Padding(1);
+            this.bISBN.Location = new System.Drawing.Point(155, 76);
+            this.bISBN.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.bISBN.Name = "bISBN";
-            this.bISBN.Size = new System.Drawing.Size(82, 21);
+            this.bISBN.Size = new System.Drawing.Size(219, 50);
             this.bISBN.TabIndex = 6;
             this.bISBN.Text = "ISBN";
             this.bISBN.UseVisualStyleBackColor = true;
@@ -102,18 +105,19 @@
             // lbEditorial
             // 
             this.lbEditorial.FormattingEnabled = true;
-            this.lbEditorial.Location = new System.Drawing.Point(381, 69);
-            this.lbEditorial.Margin = new System.Windows.Forms.Padding(1);
+            this.lbEditorial.ItemHeight = 31;
+            this.lbEditorial.Location = new System.Drawing.Point(1016, 165);
+            this.lbEditorial.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lbEditorial.Name = "lbEditorial";
-            this.lbEditorial.Size = new System.Drawing.Size(85, 212);
+            this.lbEditorial.Size = new System.Drawing.Size(220, 500);
             this.lbEditorial.TabIndex = 13;
             // 
             // bEditorial
             // 
-            this.bEditorial.Location = new System.Drawing.Point(381, 32);
-            this.bEditorial.Margin = new System.Windows.Forms.Padding(1);
+            this.bEditorial.Location = new System.Drawing.Point(1016, 76);
+            this.bEditorial.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.bEditorial.Name = "bEditorial";
-            this.bEditorial.Size = new System.Drawing.Size(82, 21);
+            this.bEditorial.Size = new System.Drawing.Size(219, 50);
             this.bEditorial.TabIndex = 12;
             this.bEditorial.Text = "Editorial";
             this.bEditorial.UseVisualStyleBackColor = true;
@@ -121,10 +125,10 @@
             // 
             // cerrarb
             // 
-            this.cerrarb.Location = new System.Drawing.Point(221, 297);
-            this.cerrarb.Margin = new System.Windows.Forms.Padding(1);
+            this.cerrarb.Location = new System.Drawing.Point(589, 708);
+            this.cerrarb.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cerrarb.Name = "cerrarb";
-            this.cerrarb.Size = new System.Drawing.Size(78, 21);
+            this.cerrarb.Size = new System.Drawing.Size(208, 50);
             this.cerrarb.TabIndex = 14;
             this.cerrarb.Text = "Cerrar";
             this.cerrarb.UseVisualStyleBackColor = true;
@@ -132,9 +136,9 @@
             // 
             // ListadoLibros
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(526, 328);
+            this.ClientSize = new System.Drawing.Size(1403, 782);
             this.Controls.Add(this.cerrarb);
             this.Controls.Add(this.lbEditorial);
             this.Controls.Add(this.bEditorial);
@@ -144,7 +148,9 @@
             this.Controls.Add(this.bAutor);
             this.Controls.Add(this.bTitulo);
             this.Controls.Add(this.bISBN);
+            this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.Name = "ListadoLibros";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Listado de los libros";
             this.ResumeLayout(false);
 
