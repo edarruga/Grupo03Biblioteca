@@ -53,6 +53,11 @@ namespace Persistencia
             var prestamosFueraPlazos = BBDD.TablaPrestamo.Where((p) => p.DniUsuario == dni && p.Estado == Estado.EnProceso && (DateTime.Now - p.Fecha).TotalDays > 15);
             return prestamosFueraPlazos.ToList().Count > 0;
         }
+        public static bool PrestamoFueraPlazo(Prestamo prestamo)
+        {
+            var prestamosFueraPlazos = BBDD.TablaPrestamo.Where((p) => p.DniUsuario == prestamo.Usuario.Dni && p.Estado == Estado.EnProceso && (DateTime.Now - p.Fecha).TotalDays > 15);
+            return prestamosFueraPlazos.ToList().Count > 0;
+        }
 
         public static List<Usuario> ListaUsuarios()
         {

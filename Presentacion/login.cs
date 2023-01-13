@@ -38,6 +38,8 @@ namespace Presentacion
             else
             {
                 this.logueado = false;
+                MessageBox.Show("El personal o la contraseña introducios son incorrectos", "Error de autentificación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                /*
                 Label ErrorLa= new System.Windows.Forms.Label();
                 ErrorLa.AutoSize = true;
                 ErrorLa.Location = new System.Drawing.Point(45, 155);
@@ -47,6 +49,7 @@ namespace Presentacion
                 ErrorLa.Text = "Personal o contraseña incorrectos";
                 ErrorLa.ForeColor = System.Drawing.Color.Red;
                 this.Controls.Add(ErrorLa);
+                */
             }
             
         }
