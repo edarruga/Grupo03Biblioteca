@@ -93,5 +93,81 @@ namespace ModeloDeNegocio
         {
             return GestorBD.DevolverEjemplarPrestado(codigo);
         }
+        public static bool existeEjemplar(string codigo)
+        {
+            return GestorBD.GetEjemplar(codigo) != null;
+        }
+        public static bool estaPrestado(string codigo)
+        {
+            Prestamo prestamo = MNBiblioteca.ultimoPrestamoActivoDeEjemplar(codigo);
+            if (prestamo != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public static Prestamo ultimoPrestamoActivoDeEjemplar(string codigo)
+        {
+            List<Prestamo> prestamos = GestorBD.GetPrestamosEnProceso();
+            List<Prestamo> prContienen = (prestamos.Where(pr => pr.Contains(MNBiblioteca.getEjemplar(codigo))).ToList());
+            bool encontrado = false;
+            Prestamo prestamo = null;
+            
+            foreach (Prestamo p in prContienen)
+            {
+                if (!encontrado)
+                {
+                    for (int i = 0; i < p.EjemPrestados.Count; i++)
+                    {
+                        if (p.EjemPrestados[i].Codigo.Equals(codigo))
+                        {
+                            if (p.EjemPrestados[i].Prestado)
+                            {
+                                encontrado = true;
+                                prestamo = p;
+                            }
+                        }
+                    }
+                }
+            }
+            return prestamo;
+        }
+        public static void actualizarEstadoDeEjemplarEnPrestamo(bool prestado,string codigo)
+        {
+            Prestamo prestamo=MNBiblioteca.ultimoPrestamoActivoDeEjemplar(codigo);
+            
+            for (int i = 0; i < prestamo.EjemPrestados.Count; i++)
+            {
+                if (prestamo.EjemPrestados[i].Codigo.Equals(codigo))
+                {
+                    prestamo.EjemPrestados[i].Prestado = prestado;
+                }
+            }
+            MNBiblioteca.calcularEstadoPrestamo(prestamo);
+
+
+        }
+        public static void calcularEstadoPrestamo(Prestamo prestamo)
+        {
+            bool devueltos = true;
+            for (int i = 0; i < prestamo.EjemPrestados.Count; i++)
+            {
+                if (prestamo.EjemPrestados[i].Prestado==true)
+                {
+                    devueltos=false;
+                }
+            }
+            if (devueltos)
+            {
+                GestorBD.GetPrestamo(prestamo.Fecha,prestamo.Usuario.Dni).Estado= Estado.Finalizado;
+            }
+            else
+            {
+                GestorBD.GetPrestamo(prestamo.Fecha, prestamo.Usuario.Dni).Estado = Estado.EnProceso;
+            }
+        }
     }
 }

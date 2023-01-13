@@ -46,5 +46,17 @@ namespace ModeloDeDominio
         {
             get { return ejemPrestados; }
         }
+        public bool Contains(Ejemplar ejemplar)
+        {
+            foreach(Ejemplar ejemplar2 in ejemPrestados)
+            {
+                if (ejemplar2.Equals(ejemplar))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
     }
 }

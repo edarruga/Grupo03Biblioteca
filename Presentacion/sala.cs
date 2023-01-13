@@ -22,6 +22,8 @@ namespace Presentacion
         private System.Windows.Forms.ToolStripMenuItem busquedaPrestamosTsmi;
         private System.Windows.Forms.ToolStripMenuItem listadoDePrestamosActivosTsmi;
         private System.Windows.Forms.ToolStripMenuItem recorridoUnoAUnoPrestamosTsmi;
+        private System.Windows.Forms.ToolStripMenuItem verEjemplaresNoDevueltosTsmi;
+        private System.Windows.Forms.ToolStripMenuItem devolverEjemplarTsmi;
         public sala(string nombre)
             :base(nombre)
         {
@@ -33,6 +35,8 @@ namespace Presentacion
             this.busquedaPrestamosTsmi = new System.Windows.Forms.ToolStripMenuItem();
             this.listadoDePrestamosActivosTsmi = new System.Windows.Forms.ToolStripMenuItem();
             this.recorridoUnoAUnoPrestamosTsmi = new System.Windows.Forms.ToolStripMenuItem();
+            this.verEjemplaresNoDevueltosTsmi= new System.Windows.Forms.ToolStripMenuItem();
+            this.devolverEjemplarTsmi = new System.Windows.Forms.ToolStripMenuItem();
 
             base.tsmiLibros.Visible=false;
             base.tsmiEjemplares.Visible = false;
@@ -42,7 +46,9 @@ namespace Presentacion
             this.bajaPrestamosTsmi,
             this.busquedaPrestamosTsmi,
             this.listadoDePrestamosActivosTsmi,
-            this.recorridoUnoAUnoPrestamosTsmi});
+            this.recorridoUnoAUnoPrestamosTsmi,
+            this.verEjemplaresNoDevueltosTsmi,
+            this.devolverEjemplarTsmi});
 
             // 
             // altaPrestamosTsmi
@@ -79,6 +85,20 @@ namespace Presentacion
             this.recorridoUnoAUnoPrestamosTsmi.Size = new System.Drawing.Size(468, 54);
             this.recorridoUnoAUnoPrestamosTsmi.Text = "Recorrido uno a uno";
             this.recorridoUnoAUnoPrestamosTsmi.Click += new System.EventHandler(this.recorridoUnoAUnoPrestamosTsmi_Click);
+            // 
+            // verEjemplaresNoDevueltosTsmi
+            // 
+            this.verEjemplaresNoDevueltosTsmi.Name = "verEjemplaresNoDevueltosTsmi";
+            this.verEjemplaresNoDevueltosTsmi.Size = new System.Drawing.Size(468, 54);
+            this.verEjemplaresNoDevueltosTsmi.Text = "Ejemplares no devueltos";
+            this.verEjemplaresNoDevueltosTsmi.Click += new System.EventHandler(this.verEjemplaresNoDevueltosTsmi_Click);
+            // 
+            // devolverEjemplarTsmi
+            // 
+            this.devolverEjemplarTsmi.Name = "devolverEjemplarTsmi";
+            this.devolverEjemplarTsmi.Size = new System.Drawing.Size(468, 54);
+            this.devolverEjemplarTsmi.Text = "Devolver ejemplar";
+            this.devolverEjemplarTsmi.Click += new System.EventHandler(this.devolverEjemplarTsmi_Click);
 
         }
 
@@ -328,7 +348,7 @@ namespace Presentacion
                         DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "No existe ningún usuario con ese DNI", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                         if (error == DialogResult.OK)
                         {
-                            this.altaPrestamosTsmi_Click(sender, e);
+                            this.bajaPrestamosTsmi_Click(sender, e);
                         }
                     }
                 }
@@ -427,7 +447,7 @@ namespace Presentacion
                         DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "No existe ningún usuario con ese DNI", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                         if (error == DialogResult.OK)
                         {
-                            this.altaPrestamosTsmi_Click(sender, e);
+                            this.busquedaPrestamosTsmi_Click(sender, e);
                         }
                     }
                 }
@@ -436,7 +456,7 @@ namespace Presentacion
                     DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "El parametro DNI es obligatorio", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                     if (error == DialogResult.OK)
                     {
-                        this.bajaPrestamosTsmi_Click(sender, e);
+                        this.busquedaPrestamosTsmi_Click(sender, e);
                     }
                 }
             }
@@ -481,6 +501,7 @@ namespace Presentacion
                 }
                 ejemplaresUC.DatoDesplegableCb.SelectedIndex = -1;
                 ejemplaresUC.DatoDesplegableCb.Refresh();
+               
 
                 estadoEjemplarUC.ClaveTbUC.Text = "";
                 isbnUC.ClaveTbUC.Text = "";
@@ -528,6 +549,61 @@ namespace Presentacion
         {
 
         }
-        
+        private void verEjemplaresNoDevueltosTsmi_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void devolverEjemplarTsmi_Click(object sender, EventArgs e)
+        {
+            Introducir introducir = new Introducir();
+            introducir.Text = "Introducir Código de ejemplar";
+            introducir.ClaveL.Text = "Código:";
+            DialogResult resultado = introducir.ShowDialog();
+            if (DialogResult.OK == resultado)
+            {
+                if (introducir.Clave != "")
+                {
+                    if (MNBiblioteca.existeEjemplar(introducir.Clave))
+                    {
+                        if (MNBiblioteca.estaPrestado(introducir.Clave))
+                        {
+                            MNBiblioteca.actualizarEstadoDeEjemplarEnPrestamo(false, introducir.Clave);
+                            MNBiblioteca.devolverEjemplarPrestado(introducir.Clave); 
+                            MessageBox.Show("La operación se realizó con exito", "Ejemplar devuelto", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "El ejemplar introducido no está prestado", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                            if (error == DialogResult.OK)
+                            {
+                                this.devolverEjemplarTsmi_Click(sender, e);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "No existe ningún ejemplar con ese Código", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                        if (error == DialogResult.OK)
+                        {
+                            this.devolverEjemplarTsmi_Click(sender, e);
+                        }
+                    }
+                }
+                else
+                {
+                    DialogResult error = MessageBox.Show("¿Quieres introducir otro?", "El parametro Código es obligatorio", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    if (error == DialogResult.OK)
+                    {
+                        this.devolverEjemplarTsmi_Click(sender, e);
+                    }
+                }
+            }
+            else
+            {
+                introducir.Close();
+            }
+            introducir.Dispose();
+        }
+
     }
 }

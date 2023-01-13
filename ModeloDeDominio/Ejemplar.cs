@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModeloDeDominio
 {
-    public class Ejemplar
+    public class Ejemplar:IEquatable<Ejemplar>
     {
         private string codigo;
         private bool prestado;
@@ -38,5 +38,16 @@ namespace ModeloDeDominio
         }
 
         public Libro Libro { get { return libro; }}
+        public bool Equals(Ejemplar ejemplar)
+        {
+            if (this.codigo == ejemplar.codigo)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
