@@ -177,5 +177,9 @@ namespace ModeloDeNegocio
         {
             return GestorBD.EjemplaresPrestados();
         }
+        public static void poblarBaseDeDatos()
+        {
+            GestorBD.poblarBaseDeDatos();
+        }
     }
 }
