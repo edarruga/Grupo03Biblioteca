@@ -33,5 +33,9 @@ namespace ModeloDeNegocio
         {
             return GestorBD.VerLibrosNoDevueltos(fecha, dni);
         }
+        public static bool bajaPrestamo(DateTime fecha,string dni)
+        {
+            return GestorBD.BajaPrestamo(fecha,dni);
+        }
     }
 }

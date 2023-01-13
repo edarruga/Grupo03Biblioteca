@@ -162,11 +162,15 @@ namespace ModeloDeNegocio
             }
             if (devueltos)
             {
-                GestorBD.GetPrestamo(prestamo.Fecha,prestamo.Usuario.Dni).Estado= Estado.Finalizado;
+                Prestamo pre=GestorBD.GetPrestamo(prestamo.Fecha,prestamo.Usuario.Dni);
+                pre.Estado = Estado.Finalizado;
+                GestorBD.SetPrestamo(pre);
             }
             else
             {
-                GestorBD.GetPrestamo(prestamo.Fecha, prestamo.Usuario.Dni).Estado = Estado.EnProceso;
+                Prestamo pre = GestorBD.GetPrestamo(prestamo.Fecha, prestamo.Usuario.Dni);
+                pre.Estado = Estado.EnProceso;
+                GestorBD.SetPrestamo(pre);
             }
         }
     }

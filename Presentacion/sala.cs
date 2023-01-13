@@ -336,12 +336,109 @@ namespace Presentacion
             introducir.Text = "Introducir DNI";
             introducir.ClaveL.Text = "DNI:";
             DialogResult resultado = introducir.ShowDialog();
-            if (DialogResult.OK == resultado){
+            if (DialogResult.OK == resultado)
+            {
                 if (introducir.Clave != "")
                 {
                     if (MNBiblioteca.existeUsuario(introducir.Clave))
                     {
-                        //if(MNBiblioteca.)
+                        List<Prestamo> prestamos = MNSala.getPrestamos(introducir.Clave);
+                        List<string> fechasPrestamo = prestamos.Select(p => p.Fecha.ToString("yyyy-MM-dd HH:mm:ss")).ToList();
+                        if (prestamos.Count > 0)
+                        {
+                            datosDesplegables datosPrestamos = new datosDesplegables();
+                            datosPrestamos.Size = new System.Drawing.Size(400, 550);
+                            datosPrestamos.AceptarAlB.Location = new System.Drawing.Point(145, 450);
+                            datosPrestamos.ClaveDesplegableCb.SelectedIndex = -1;
+                            datosPrestamos.Text = "Dar de baja prestamo";
+                            datosPrestamos.ClaveL.Text = "Fecha:";
+                            datosPrestamos.ClaveDesplegableCb.DataSource = null;
+                            foreach (string fecha in fechasPrestamo)
+                            {
+                                datosPrestamos.ClaveDesplegableCb.Items.Add(fecha);
+                            }
+
+                            claveUC dniUC = new claveUC(85, 95, "DNI:", introducir.Clave);
+                            claveUC nombreUC = new claveUC(85, 125, "Nombre:", MNBiblioteca.getNombreUsuario(introducir.Clave));
+                            claveUC apellidosUC = new claveUC(85, 155, "Apellidos:", MNBiblioteca.getApellidosUsuario(introducir.Clave));
+                            claveUC estadoUC = new claveUC(85, 185, "Prestamo:");
+                            datoDesplegable ejemplaresUC = new datoDesplegable(85, 225);
+                            ejemplaresUC.DatoDesplegableL.Text = "Ejemplar:";
+                            claveUC estadoEjemplarUC = new claveUC(85, 255, "Ejemplar:");
+                            claveUC isbnUC = new claveUC(85, 285, "ISBN:");
+                            claveUC tituloUC = new claveUC(85, 315, "Titulo:");
+                            claveUC autorUC = new claveUC(85, 345, "Autor:");
+                            claveUC editorialUC = new claveUC(85, 375, "Editorial:");
+
+                            dniUC.Name = "dniUC";
+                            nombreUC.Name = "nombreUC";
+                            apellidosUC.Name = "apellidosUC";
+                            estadoUC.Name = "estadoUC";
+                            ejemplaresUC.Name = "ejemplaresUC";
+                            estadoEjemplarUC.Name = "estadoEjemplarUC";
+                            isbnUC.Name = "isbnUC";
+                            tituloUC.Name = "tituloUC";
+                            autorUC.Name = "autorUC";
+                            editorialUC.Name = "editorialUC";
+
+
+                            datosPrestamos.Controls.Add(dniUC);
+                            datosPrestamos.Controls.Add(nombreUC);
+                            datosPrestamos.Controls.Add(apellidosUC);
+                            datosPrestamos.Controls.Add(estadoUC);
+                            datosPrestamos.Controls.Add(ejemplaresUC);
+                            datosPrestamos.Controls.Add(estadoEjemplarUC);
+                            datosPrestamos.Controls.Add(isbnUC);
+                            datosPrestamos.Controls.Add(tituloUC);
+                            datosPrestamos.Controls.Add(autorUC);
+                            datosPrestamos.Controls.Add(editorialUC);
+
+                            datosPrestamos.ClaveDesplegableCb.DataSource = fechasPrestamo;
+                            datosPrestamos.ClaveDesplegableCb.SelectedIndex = -1;
+                            datosPrestamos.ClaveDesplegableCb.SelectedIndexChanged += (s, ev) => cambiarDatosBusquedaPorFecha(sender, e, datosPrestamos);
+                            ((datoDesplegable)datosPrestamos.Controls["ejemplaresUC"]).DatoDesplegableCb.SelectedIndexChanged += (s, ev) => cambiarDatosBusquedaPorEjemplar(sender, e, datosPrestamos);
+
+                            DialogResult baja= datosPrestamos.ShowDialog();
+                            if (baja == DialogResult.OK)
+                            {
+                                string[] validformats = new[] { "MM/dd/yyyy", "yyyy/MM/dd", "MM/dd/yyyy HH:mm:ss",
+                                        "MM/dd/yyyy hh:mm tt","yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss, fff" };
+
+                                CultureInfo provider = CultureInfo.InvariantCulture;
+                                DateTime fechaFinal;
+
+                                DateTime.TryParseExact((string)datosPrestamos.ClaveDesplegableCb.SelectedValue, validformats, provider, DateTimeStyles.None, out fechaFinal);
+
+                                if (((claveUC)datosPrestamos.Controls["estadoUC"]).ClaveTbUC.Text != "")
+                                {
+                                    if(((claveUC)datosPrestamos.Controls["estadoUC"]).ClaveTbUC.Text == "EnProceso")
+                                    {
+                                        MessageBox.Show("No se puede dar de baja el prestamo, por se encuentra en proceso", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    }
+                                    else
+                                    {
+                                        if(MNSala.bajaPrestamo(fechaFinal, ((claveUC)datosPrestamos.Controls["dniUC"]).ClaveTbUC.Text))
+                                        {
+                                            MessageBox.Show("Operación realizada con exito", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Se ha producido un fallo inespeado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        }
+                                        
+                                        
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("No has introducido ningún prestamo", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("El usuario especificado no tiene registrado ningún prestamo", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                     }
                     else
                     {
