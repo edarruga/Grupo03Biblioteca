@@ -663,7 +663,7 @@ namespace Presentacion
                             DialogResult aviso = MessageBox.Show("¿Está seguro que desea dar de baja este ejemplar?", "Aviso", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                             if (aviso == DialogResult.OK)
                             {
-                                if (MNAdquisiciones.bajaLibro(introducir.Clave))
+                                if (MNAdquisiciones.bajaEjemplar(introducir.Clave))
                                 {
                                     MessageBox.Show("Ejemplar eliminado", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Question);
                                 }
