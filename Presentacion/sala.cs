@@ -633,7 +633,10 @@ namespace Presentacion
             if (dni != null && fecha !=null)
             {
                 Prestamo pre = MNSala.getPrestamo(fechaFinal, dni);
-                MNBiblioteca.calcularEstadoPrestamo(pre);
+                if (pre.Estado == Estado.EnProceso)
+                {
+                    MNBiblioteca.calcularEstadoPrestamo(pre);
+                }
                 Prestamo prestamo = MNSala.getPrestamo(fechaFinal, dni);
                 estadoUC.ClaveTbUC.Text=prestamo.Estado.ToString();
 
@@ -702,8 +705,11 @@ namespace Presentacion
             List<Prestamo> prestamosActualizados = new List<Prestamo>();
             foreach (Prestamo prestamo in prestamos)
             {
-                Prestamo pre = MNSala.getPrestamo(prestamo.Fecha, prestamo.Usuario.Dni);
-                MNBiblioteca.calcularEstadoPrestamo(pre);
+                if (prestamo.Estado == Estado.EnProceso)
+                {
+                    Prestamo pre = MNSala.getPrestamo(prestamo.Fecha, prestamo.Usuario.Dni);
+                    MNBiblioteca.calcularEstadoPrestamo(pre);
+                }              
                 Prestamo prestamoActualizado = MNSala.getPrestamo(prestamo.Fecha, prestamo.Usuario.Dni);
                 prestamosActualizados.Add(prestamoActualizado);
             }
@@ -722,8 +728,11 @@ namespace Presentacion
             List<Prestamo> prestamosActualizados=new List<Prestamo>();
             foreach (Prestamo prestamo in prestamos)
             {
-                Prestamo pre = MNSala.getPrestamo(prestamo.Fecha, prestamo.Usuario.Dni);
-                MNBiblioteca.calcularEstadoPrestamo(pre);
+                if (prestamo.Estado == Estado.EnProceso)
+                {
+                    Prestamo pre = MNSala.getPrestamo(prestamo.Fecha, prestamo.Usuario.Dni);
+                    MNBiblioteca.calcularEstadoPrestamo(pre);
+                }
                 Prestamo prestamoActualizado = MNSala.getPrestamo(prestamo.Fecha, prestamo.Usuario.Dni);
                 prestamosActualizados.Add(prestamoActualizado);
             }
@@ -746,8 +755,11 @@ namespace Presentacion
             List<Prestamo> prestamosActualizados = new List<Prestamo>();
             foreach (Prestamo prestamo in listaPrestamos)
             {
-                Prestamo pre = MNSala.getPrestamo(prestamo.Fecha, prestamo.Usuario.Dni);
-                MNBiblioteca.calcularEstadoPrestamo(pre);
+                if (prestamo.Estado == Estado.EnProceso)
+                {
+                    Prestamo pre = MNSala.getPrestamo(prestamo.Fecha, prestamo.Usuario.Dni);
+                    MNBiblioteca.calcularEstadoPrestamo(pre);
+                }
                 Prestamo prestamoActualizado = MNSala.getPrestamo(prestamo.Fecha, prestamo.Usuario.Dni);
                 prestamosActualizados.Add(prestamoActualizado);
             }
