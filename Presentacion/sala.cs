@@ -632,6 +632,8 @@ namespace Presentacion
             DateTime.TryParseExact(fecha, validformats, provider, DateTimeStyles.None, out fechaFinal);
             if (dni != null && fecha !=null)
             {
+                Prestamo pre = MNSala.getPrestamo(fechaFinal, dni);
+                MNBiblioteca.calcularEstadoPrestamo(pre);
                 Prestamo prestamo = MNSala.getPrestamo(fechaFinal, dni);
                 estadoUC.ClaveTbUC.Text=prestamo.Estado.ToString();
 
@@ -697,7 +699,15 @@ namespace Presentacion
         private void prestamosFinalizadosTsmi_Click(object sender, EventArgs e)
         {
             List<Prestamo> prestamos = MNSala.getPrestamosFinalizados();
-            prestamosDg form = new prestamosDg(prestamos, "Listado de préstamos finalizados");
+            List<Prestamo> prestamosActualizados = new List<Prestamo>();
+            foreach (Prestamo prestamo in prestamos)
+            {
+                Prestamo pre = MNSala.getPrestamo(prestamo.Fecha, prestamo.Usuario.Dni);
+                MNBiblioteca.calcularEstadoPrestamo(pre);
+                Prestamo prestamoActualizado = MNSala.getPrestamo(prestamo.Fecha, prestamo.Usuario.Dni);
+                prestamosActualizados.Add(prestamoActualizado);
+            }
+            prestamosDg form = new prestamosDg(prestamosActualizados, "Listado de préstamos finalizados");
             form.ShowDialog();
         }
 
@@ -709,7 +719,15 @@ namespace Presentacion
         private void prestamosEnProcesoTsmi_Click(object sender, EventArgs e)
         {
             List<Prestamo> prestamos = MNSala.getPrestamosEnProceso();
-            prestamosDg form = new prestamosDg(prestamos,"Listado de préstamos en proceso");
+            List<Prestamo> prestamosActualizados=new List<Prestamo>();
+            foreach (Prestamo prestamo in prestamos)
+            {
+                Prestamo pre = MNSala.getPrestamo(prestamo.Fecha, prestamo.Usuario.Dni);
+                MNBiblioteca.calcularEstadoPrestamo(pre);
+                Prestamo prestamoActualizado = MNSala.getPrestamo(prestamo.Fecha, prestamo.Usuario.Dni);
+                prestamosActualizados.Add(prestamoActualizado);
+            }
+            prestamosDg form = new prestamosDg(prestamosActualizados,"Listado de préstamos en proceso");
             form.ShowDialog();
         }
 
@@ -724,6 +742,15 @@ namespace Presentacion
             recorrido.Text = "Recorrido de prestamos uno a uno";
             recorrido.Size = new System.Drawing.Size(400, 500);
             List<Prestamo> listaPrestamos = MNSala.getPrestamos();
+
+            List<Prestamo> prestamosActualizados = new List<Prestamo>();
+            foreach (Prestamo prestamo in listaPrestamos)
+            {
+                Prestamo pre = MNSala.getPrestamo(prestamo.Fecha, prestamo.Usuario.Dni);
+                MNBiblioteca.calcularEstadoPrestamo(pre);
+                Prestamo prestamoActualizado = MNSala.getPrestamo(prestamo.Fecha, prestamo.Usuario.Dni);
+                prestamosActualizados.Add(prestamoActualizado);
+            }
 
             claveUC fechaUC = new claveUC(85, 65, "Fecha:");
             claveUC dniUC = new claveUC(85, 95, "DNI:");
@@ -762,7 +789,7 @@ namespace Presentacion
             recorrido.Controls.Add(autorUC);
             recorrido.Controls.Add(editorialUC);
 
-            foreach (Prestamo p in listaPrestamos)
+            foreach (Prestamo p in prestamosActualizados)
             {
                 recorrido.BindingNavigator.BindingSource.Add(p);
             }
