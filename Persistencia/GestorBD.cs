@@ -13,23 +13,52 @@ namespace Persistencia
 {
     public static class GestorBD
     {
+
+        /// <summary>
+        /// Transforma el Personal p a PersonalDato y lo introduce en la base de datos.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns>Verdadero si se crea el Personal p correctamente, falso en caso contrario</returns>
         public static bool AltaPersonal(Personal p)
         {
             return BBDD.Create<ClavePersonal, PersonalDato>(Transformador.PersonalAPersonalDato(p));
         }
+
+        /// <summary>
+        /// Transforma el Usuario u a UsuarioDato y lo introduce en la base de datos.
+        /// </summary>
+        /// <param name="u"></param>
+        /// <returns>Verdadero si se crea el Usuario u correctamente, falso en caso contrario</returns>
         public static bool AltaUsuario(Usuario u)
         {
             return BBDD.Create<ClaveUsuario, UsuarioDato>(Transformador.UsuarioAUsuarioDato(u));
         }
+
+        /// <summary>
+        /// Da da baja el usuario asociado al dni
+        /// </summary>
+        /// <param name="dni"></param>
+        /// <returns>Verdadero si se da de baja al usuario con DNI "dni", falso en caso de que no exista un usuario con dni o en caso de fallo</returns>
         public static bool BajaUsuario(string dni)
         {
             return BBDD.Delete<ClaveUsuario, UsuarioDato>(new ClaveUsuario(dni));
         }
+
+        /// <summary>
+        /// Obtiene el usuario asociado al dni
+        /// </summary>
+        /// <param name="dni"></param>
+        /// <returns>Devuelve el Usuario asociado al DNI dni, falso en caso de no existir en la BBDD.</returns>
         public static Usuario GetUsuario(String dni)
         {
             return Transformador.UsuarioDatoAUsuario(BBDD.Read<ClaveUsuario, UsuarioDato>(new ClaveUsuario(dni)));
         }
 
+        /// <summary>
+        /// Obtiene los ejemplares activos del usuario
+        /// </summary>
+        /// <param name="dni"></param>
+        /// <returns>Devuelve la lista de los ejemplares activos del usuario asociado al dni.</returns>
         public static List<Ejemplar> EjemplaresUsuarioActivos(string dni)
         {
             var prestamosActivosUsuario = BBDD.TablaPrestamo.Where((p) => p.DniUsuario == dni && p.Estado == Estado.EnProceso);
@@ -49,23 +78,43 @@ namespace Persistencia
             return lista;
         }
 
+        /// <summary>
+        /// Determina si el usuario introducido tiene ejemplares fuera de plazo.
+        /// </summary>
+        /// <param name="dni"></param>
+        /// <returns>Verdadero en caso de que el usuario asociado al DNI dni tenga algún prestamo fuera de plazo, falso en caso contrario</returns>
         public static bool TienePrestamoFueraPlazo(string dni)
         {
             var prestamosFueraPlazos = BBDD.TablaPrestamo.Where((p) => p.DniUsuario == dni && p.Estado == Estado.EnProceso && (DateTime.Now - p.Fecha).TotalDays > 15);
             return prestamosFueraPlazos.ToList().Count > 0;
         }
+
+        /// <summary>
+        /// Determina si el prestamo esta fuera de plazo.
+        /// </summary>
+        /// <param name="prestamo"></param>
+        /// <returns>Verdadero si el prestamo introducido esta fuera de plazo, es decir, tiene algún libro no devuelto, falso en caso contrario</returns>
         public static bool PrestamoFueraPlazo(Prestamo prestamo)
         {
             var prestamosFueraPlazos = BBDD.TablaPrestamo.Where((p) => p.DniUsuario == prestamo.Usuario.Dni && p.Estado == Estado.EnProceso && (DateTime.Now - p.Fecha).TotalDays > 15);
             return prestamosFueraPlazos.ToList().Count > 0;
         }
 
+        /// <summary>
+        /// Obtiene la lista de usuarios.
+        /// </summary>
+        /// <returns>Devuelve la lista de usuarios actuales de la BBDD</returns>
         public static List<Usuario> ListaUsuarios()
         {
             var listaUsuarios = BBDD.TablaUsuario.Select((ud) => Transformador.UsuarioDatoAUsuario(ud));
             return listaUsuarios.ToList();
         }
 
+        /// <summary>
+        /// Obtiene el numero de libros prestados de un usuario.
+        /// </summary>
+        /// <param name="dni"></param>
+        /// <returns>Devuelve el numero de libros que ha tomado prestados el usuario asociado al DNI dni.</returns>
         public static int NumLibrosPrestados(string dni)
         {
             var librosPrestados =
@@ -78,6 +127,12 @@ namespace Persistencia
             return librosPrestadosDistintos.Count();
         }
 
+        /// <summary>
+        /// Dados un nombre y una contraseña, inicia sesión en la aplicacion.
+        /// </summary>
+        /// <param name="nombre"></param>
+        /// <param name="contraseña"></param>
+        /// <returns>devuelve el tipo asociado al personal que ha iniciado sesión.</returns>
         public static string Login(string nombre, string contraseña)
         {
             if (BBDD.TablaPersonal.Contains(new ClavePersonal(nombre)))
@@ -93,31 +148,61 @@ namespace Persistencia
 
         //PERSONAL SERVICIO DE ADQUISICIONES
 
+        /// <summary>
+        /// Da de alta un ejemplar
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns>Verdadero si el ejemplar e es introducido correctamente en la base de datos, falso en caso contrario.</returns>
         public static bool AltaEjemplar(Ejemplar e)
         {
             return BBDD.Create<ClaveEjemplar, EjemplarDato>(Transformador.EjemplarAEjemplarDato(e));
         }
 
+        /// <summary>
+        /// Da de baja el ejemplar con el codigo "codigo"
+        /// </summary>
+        /// <param name="codigo"></param>
+        /// <returns>Verdadero si el ejemplar asociado al codigo es eliminado correctamente de la base de datos, falso en caso contrario.</returns>
         public static bool BajaEjemplar(string codigo)
         {
             return BBDD.Delete<ClaveEjemplar, EjemplarDato>(new ClaveEjemplar(codigo));
         }
 
+        /// <summary>
+        /// Da de baja el libro introducido
+        /// </summary>
+        /// <param name="l"></param>
+        /// <returns>Verdadero si el libro se introduce correctamente en la base de datos, falso en caso contrario</returns>
         public static bool AltaLibro(Libro l)
         {
             return BBDD.Create<ClaveLibro, LibroDato>(Transformador.LibroALibroDato(l));
         }
 
+        /// <summary>
+        /// Da de baja al libro asociado al isbn introducido
+        /// </summary>
+        /// <param name="isbn"></param>
+        /// <returns>Verdadero si el libro se elimina correctamente de la base de datos, falso en caso contrario.</returns>
         public static bool BajaLibro(string isbn)
         {
             return BBDD.Delete<ClaveLibro, LibroDato>(new ClaveLibro(isbn));
         }
 
+        /// <summary>
+        /// Obtiene el ejemplar el codigo introducido
+        /// </summary>
+        /// <param name="codigo"></param>
+        /// <returns>Devuelve el ejemplar asociado al codigo "codigo"</returns>
         public static Ejemplar GetEjemplar(string codigo)
         {
             return Transformador.EjemplarDatoAEjemplar(BBDD.Read<ClaveEjemplar, EjemplarDato>(new ClaveEjemplar(codigo)));
         }
 
+        /// <summary>
+        /// Determina la disponibilidad del ejemplar introducido
+        /// </summary>
+        /// <param name="codigo"></param>
+        /// <returns>Verdadero si el ejemplar con codigo "codigo" esta disponible actualmente, falso en caso contrario</returns>
         public static bool EjemplarDisponible(string codigo)
         {
             if (BBDD.TablaEjemplar.Contains(new ClaveEjemplar(codigo)))
@@ -127,6 +212,11 @@ namespace Persistencia
             return false;
         }
 
+        /// <summary>
+        /// Obtiene la fecha en la que el ejemplar estará disponible
+        /// </summary>
+        /// <param name="codigo"></param>
+        /// <returns>Devuelve la fecha en la que el ejemplar con codigo "codigo" volvera a estar disponible.</returns>
         public static DateTime FechaDisponibleEjemplar(string codigo)
         {
             var lista = BBDD.TablaPrestamoEjemplar.Where(ped => ped.Id.Ejemplar.Codigo == codigo);
@@ -141,6 +231,10 @@ namespace Persistencia
             return fechaMayor.AddDays(15);
         }
 
+        /// <summary>
+        /// Obtiene el libro mas prestado
+        /// </summary>
+        /// <returns>Obtiene el libro que más ocurrencias tiene en la tabla tablaPrestamoEjemplar</returns>
         public static Libro LibroMasPrestado()
         {
             var listaLibros =
@@ -156,16 +250,29 @@ namespace Persistencia
             return Transformador.LibroDatoALibro(ld);
         }
 
+        /// <summary>
+        /// Obtiene la lista de los libros
+        /// </summary>
+        /// <returns>Devuelve la lista de libros actuales en la BBDD</returns>
         public static List<Libro> ListaLibros()
         {
             return BBDD.TablaLibro.Select(l => Transformador.LibroDatoALibro(l)).ToList();
         }
 
+        /// <summary>
+        /// Obtiene la lista de ejemplares asociados a un libro
+        /// </summary>
+        /// <param name="isbnLibro"></param>
+        /// <returns>Devuelve la lista de ejemplares asociada al libro con isbn "isbn"</returns>
         public static List<Ejemplar> ListaEjemplares(string isbnLibro)
         {
             return BBDD.TablaEjemplar.Where(ed => ed.IsbnLibro == isbnLibro).Select(ed => Transformador.EjemplarDatoAEjemplar(ed)).ToList();
         }
 
+        /// <summary>
+        /// Obtiene la lista de ejemplares
+        /// </summary>
+        /// <returns>Devuelve la lista de todos los ejemplares actuales en la base de datos.</returns>
         public static List<Ejemplar> ListaEjemplares()
         {
             return BBDD.TablaEjemplar.Select(ed => Transformador.EjemplarDatoAEjemplar(ed)).ToList();
@@ -173,27 +280,44 @@ namespace Persistencia
 
         //PERSONAL DE SALA
 
+        /// <summary>
+        /// Da de alta el prestamo 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns>Verdadero si el prestamo se introduce correctamente en la base de datos, falso en caso contrario.</returns>
         public static bool AltaPrestamo(Prestamo p)
         {
             return BBDD.Create<ClavePrestamo, PrestamoDato>(Transformador.PrestamoAPrestamoDato(p));
         }
 
+        /// <summary>
+        /// Da de baja el prestamo asociado a esa fecha y dni
+        /// </summary>
+        /// <param name="fecha"></param>
+        /// <param name="dni"></param>
+        /// <returns>Verdadero si el prestamo asociado es eliminado correctamente de la base de datos, falso en caso contrario</returns>
         public static bool BajaPrestamo(DateTime fecha, string dni)
         {
             return BBDD.Delete<ClavePrestamo, PrestamoDato>(new ClavePrestamo(fecha,dni));
         }
 
-        public static Usuario GetUsuarioByPrestamo(DateTime fecha, string dni)
-        {
-            PrestamoDato p = BBDD.Read<ClavePrestamo, PrestamoDato>(new ClavePrestamo(fecha, dni));
-            return Transformador.UsuarioDatoAUsuario(BBDD.Read<ClaveUsuario, UsuarioDato>(new ClaveUsuario(p.DniUsuario)));
-        }
-
+        /// <summary>
+        /// Obtiene el estado del prestamo
+        /// </summary>
+        /// <param name="fecha"></param>
+        /// <param name="dni"></param>
+        /// <returns>Devuelve el estado del prestamo asociado a esa fecha y a ese dni</returns>
         public static Estado GetEstadoPrestamo(DateTime fecha, string dni)
         {
             return BBDD.Read<ClavePrestamo, PrestamoDato>(new ClavePrestamo(fecha, dni)).Estado;
         }
 
+        /// <summary>
+        /// Obtiene los libros del prestamo
+        /// </summary>
+        /// <param name="fecha"></param>
+        /// <param name="dni"></param>
+        /// <returns>Devuelve la lista de libros asociados al prestamo con esa fecha y dni</returns>
         public static List<Libro> VerLibrosNoDevueltos(DateTime fecha, string dni)
         {
             ClavePrestamo cpe = new ClavePrestamo(fecha, dni);
@@ -214,16 +338,31 @@ namespace Persistencia
             return listaLibros;
         }
 
+        /// <summary>
+        /// Obtiene el prestamo
+        /// </summary>
+        /// <param name="fecha"></param>
+        /// <param name="dni"></param>
+        /// <returns>Devuelve el prestamo asociado a esa fecha y a ese dni</returns>
         public static Prestamo GetPrestamo(DateTime fecha, string dni)
         {
             return Transformador.PrestamoDatoAPrestamo(BBDD.Read<ClavePrestamo, PrestamoDato>(new ClavePrestamo(fecha, dni)));
         }
 
+        /// <summary>
+        /// Actualiza el prestamo por el introducido
+        /// </summary>
+        /// <param name="p"></param>
         public static void SetPrestamo(Prestamo p)
         {
             BBDD.Update<ClavePrestamo, PrestamoDato>(Transformador.PrestamoAPrestamoDato(p));
         }
 
+        /// <summary>
+        /// Devuelve el ejemplar.
+        /// </summary>
+        /// <param name="codigo"></param>
+        /// <returns>Verdadero si el ejemplar asociado al codigo se devuelve correctamente, falso en caso contrario</returns>
         public static bool DevolverEjemplarPrestado(string codigo)
         {
             if (BBDD.TablaEjemplar.Contains(new ClaveEjemplar(codigo)))
@@ -234,6 +373,12 @@ namespace Persistencia
             }
             return false;
         }
+
+        /// <summary>
+        /// Presta el ejemplar 
+        /// </summary>
+        /// <param name="codigo"></param>
+        /// <returns>Verdadero si el ejemplar asociado al codigo introducido se presta correctamente, falso en caso contrario</returns>
         public static bool DarEjemplarPrestado(string codigo)
         {
             if (BBDD.TablaEjemplar.Contains(new ClaveEjemplar(codigo)))
@@ -245,32 +390,60 @@ namespace Persistencia
             return false;
         }
 
+        /// <summary>
+        /// Obtiene los prestamos en proceso.
+        /// </summary>
+        /// <returns>Devuelve la lista de prestamos que siguen en proceso.</returns>
         public static List<Prestamo> GetPrestamosEnProceso()
         {
             var listaEnProceso = BBDD.TablaPrestamo.Where(pd => pd.Estado == Estado.EnProceso);
             return listaEnProceso.Select(pd=> Transformador.PrestamoDatoAPrestamo(pd)).ToList();
         }
+
+        /// <summary>
+        /// Obtiene los prestamos finalizados
+        /// </summary>
+        /// <returns>Devuelve la lista de prestamos que han sido procesados.</returns>
         public static List<Prestamo> GetPrestamosFinalizados()
         {
             var listaEnProceso = BBDD.TablaPrestamo.Where(pd => pd.Estado == Estado.Finalizado);
             return listaEnProceso.Select(pd => Transformador.PrestamoDatoAPrestamo(pd)).ToList();
         }
+
+        /// <summary>
+        /// Obtiene los prestamos de un usuario
+        /// </summary>
+        /// <param name="dni"></param>
+        /// <returns>Devuelve la lista de prestamos asociados al usuario con el dni introducido</returns>
         public static List<Prestamo> GetPrestamos(string dni)
         {
             var listaEnProceso = BBDD.TablaPrestamo.Where(pd => pd.DniUsuario == dni);
             return listaEnProceso.Select(pd => Transformador.PrestamoDatoAPrestamo(pd)).ToList();
         }
 
-
+        /// <summary>
+        /// Obtiene los ejemplares prestados
+        /// </summary>
+        /// <returns>Devuelve la lista de ejemplares que estan prestados actualmente.</returns>
         public static List<Ejemplar> EjemplaresPrestados()
         {
             var listaEjemplaresNoDevueltos = BBDD.TablaEjemplar.Where(ed => ed.Prestado);
             return listaEjemplaresNoDevueltos.Select(ed => Transformador.EjemplarDatoAEjemplar(ed)).ToList();
         }
+
+        /// <summary>
+        /// obtiene el libro
+        /// </summary>
+        /// <param name="isbn"></param>
+        /// <returns>Devuelve el libro asociado al isbn introducido</returns>
         public static Libro GetLibro(string isbn)
         {
             return Transformador.LibroDatoALibro(BBDD.Read<ClaveLibro, LibroDato>(new ClaveLibro(isbn)));
         }
+
+        /// <summary>
+        /// Llena la base de datos de todos los datos iniciales.
+        /// </summary>
         public static void poblarBaseDeDatos()
         {
             PersonalServicioAdquisiciones p = new PersonalServicioAdquisiciones("aaa", "123");

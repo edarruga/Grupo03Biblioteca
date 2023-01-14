@@ -59,7 +59,6 @@
     <Compile Include="PersonalDato.cs" />
     <Compile Include="PrestamoDato.cs" />
     <Compile Include="PrestamoEjemplarDato.cs" />
-    <Compile Include="program.cs" />
     <Compile Include="Table.cs" />
     <Compile Include="LibroDato.cs" />
     <Compile Include="Entity.cs" />

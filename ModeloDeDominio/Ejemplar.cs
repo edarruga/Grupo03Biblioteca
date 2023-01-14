@@ -38,6 +38,12 @@ namespace ModeloDeDominio
         }
 
         public Libro Libro { get { return libro; }}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ejemplar"></param>
+        /// <returns>Verdadero si el la instancia del ejemplar y "ejemplar" tienen el mismo código, falso en caso contrario</returns>
         public bool Equals(Ejemplar ejemplar)
         {
             if (this.codigo == ejemplar.codigo)

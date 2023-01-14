@@ -32,6 +32,13 @@ namespace Persistencia
 
         public static Table<ClavePersonal, PersonalDato> TablaPersonal { get { return tablaPersonal; } }
 
+        /// <summary>
+        /// El elemento u entra a la base de datos siendo uno de los tipos especificados. En caso contrario, no entrara en ninguna de las tablas.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="u"></param>
+        /// <returns>Verdadero si se añade el elemento u a la base de datos en su tabla correspondiente, falso en caso contrario</returns>
         public static bool Create<T, U>(U u) where U : Entity<T> where T : IEquatable<T>
         {
             if (u != null)
@@ -89,36 +96,10 @@ namespace Persistencia
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="isbn"></param>
-        /// <returns>El libro con ISBN "isbn", o en caso de no existir en la tabla devuelve nulo</returns>
-        //public static Object Read(Clave c)
-        //{
-        //    if (c != null)
-        //    {
-        //        if (c is ClaveLibro && tablaLibro.Contains(c as ClaveLibro))
-        //        {
-        //            return tablaLibro[c as ClaveLibro];
-        //        }
-        //        if (c is ClaveUsuario && tablaUsuario.Contains(c as ClaveUsuario))
-        //        {
-        //            return tablaUsuario[c as ClaveUsuario];
-        //        }
-        //        if (c is ClaveEjemplar && tablaEjemplar.Contains(c as ClaveEjemplar))
-        //        {
-        //            return tablaEjemplar[c as ClaveEjemplar];
-        //        }
-        //        if (c is ClavePrestamo && tablaPrestamo.Contains(c as ClavePrestamo))
-        //        {
-        //            return tablaPrestamo[c as ClavePrestamo];
-        //        }
-        //        if (c is ClavePrestamoEjemplar && tablaPrestamoEjemplar.Contains(c as ClavePrestamoEjemplar))
-        //        {
-        //            return tablaPrestamoEjemplar[c as ClavePrestamoEjemplar];
-        //        }
-        //    }
-        //    return null;
-        //}
-
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="t"></param>
+        /// <returns>el elemento que tiene la clave t en la base de datos, en caso contrario, devuelve nulo.</returns>
         public static U Read<T, U>(T t) where U : Entity<T> where T : IEquatable<T>
         {
             if (t != null)
@@ -155,7 +136,7 @@ namespace Persistencia
         /// 
         /// </summary>
         /// <param name="o">Tiene que ser parte del sistema de persistencia</param>
-        /// <returns>verdadero si ha modificado el objeto introducido o falso si no lo introduce</returns>
+        /// <returns>verdadero si ha modificado el objeto introducido o falso si no hay un elemento con la misma clave que este en su tabla correspondiente.</returns>
         public static bool Update<T, U>(U u) where U: Entity<T> where T : IEquatable<T>
         {
             if (u!=null)
@@ -189,38 +170,13 @@ namespace Persistencia
             return false;
         }
 
-        //public static bool Delete(Clave t)
-        //{
-        //    if (t != null)
-        //    {
-        //        if (t is ClaveLibro)
-        //        {
-        //            return tablaLibro.Remove(t as ClaveLibro);
-        //        }
-        //        if (t is ClaveUsuario)
-        //        {
-        //            return tablaUsuario.Remove(t as ClaveUsuario);
-        //        }
-        //        if (t is ClaveEjemplar)
-        //        {
-        //            return tablaEjemplar.Remove(t as ClaveEjemplar);
-        //        }
-        //        if (t is ClavePrestamo)
-        //        {
-        //            foreach(PrestamoEjemplarDato ped in tablaPrestamoEjemplar)
-        //            {
-        //                if (ped.Id.Prestamo.Equals(t as ClavePrestamo))
-        //                {
-        //                    tablaPrestamoEjemplar.Remove(ped.Id);
-        //                }
-        //            }
-        //            return tablaPrestamo.Remove(t as ClavePrestamo);
-        //        }
-        //    }
-        //    return false;
-        //}
-        
-        //IMPORTANTE: todos los elementos correspondientes en otras tablas.
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="t"></param>
+        /// <returns>Verdadero si se elimina el elemento correspondiente a la clave t, en caso de no existir esta clave en toda la base de datos devuelve false</returns>
         public static bool Delete<T, U>(T t) where U: Entity<T> where T : IEquatable<T>
         {
             if (t != null)
@@ -251,12 +207,17 @@ namespace Persistencia
                 }
                 if (t is ClaveEjemplar)
                 {
+                    if (tablaEjemplar.Contains(t as ClaveEjemplar)) BBDD.tablaEjemplar[t as ClaveEjemplar].Prestado = false;
                     if (tablaEjemplar.Remove(t as ClaveEjemplar))
                     {
                         List<PrestamoEjemplarDato> lista = tablaPrestamoEjemplar.ToList();
                         foreach (PrestamoEjemplarDato ped in lista)
                         {
-                            if ((t as ClaveEjemplar).Equals(ped.Id.Ejemplar)) tablaPrestamoEjemplar.Remove(ped.Id);
+                            if ((t as ClaveEjemplar).Equals(ped.Id.Ejemplar))
+                            {
+
+                                tablaPrestamoEjemplar.Remove(ped.Id);
+                            }
                         }
                         return true;
                     }

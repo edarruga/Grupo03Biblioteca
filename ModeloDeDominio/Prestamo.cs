@@ -46,11 +46,17 @@ namespace ModeloDeDominio
         {
             get { return ejemPrestados; }
         }
+
+        /// <summary>
+        /// Ejemplar no es nulo
+        /// </summary>
+        /// <param name="ejemplar"></param>
+        /// <returns>Verdadero si el prestamo contiene el ejemplar especificado, falso en caso contrario.</returns>
         public bool Contains(Ejemplar ejemplar)
         {
             foreach(Ejemplar ejemplar2 in ejemPrestados)
             {
-                if (ejemplar2.Equals(ejemplar))
+                if (ejemplar.Equals(ejemplar2))
                 {
                     return true;
                 }
