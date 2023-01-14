@@ -27,7 +27,11 @@ namespace Presentacion
 
         }
 
-
+        /// <summary>
+        /// Muestra el formulario para dar de alta a un usuario
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void altaTsmi_Click(object sender, EventArgs e)
         {
             Introducir introducir = new Introducir();
@@ -104,7 +108,11 @@ namespace Presentacion
             introducir.Dispose();
             
         }
-
+        /// <summary>
+        /// Muestra el formulario para dar de baja a un usuario
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bajaTsmi_Click(object sender, EventArgs e)
         {
             Introducir introducir = new Introducir();
@@ -175,7 +183,11 @@ namespace Presentacion
             }
             introducir.Dispose();
         }
-
+        /// <summary>
+        /// Muestra el formulario para ver los datos de un usuario selecionando su dni
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void seleccionerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             List<string> dnis = MNBiblioteca.listaDNIs();
@@ -195,6 +207,12 @@ namespace Presentacion
             DialogResult usuario = datosUsuario.ShowDialog();
 
         }
+        /// <summary>
+        /// Actualiza los datos de usuario del formulario datosUsuario
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <param name="datosUsuario">datosUsuario != null</param>
         private void cambiarDatosUsuario(object sender,EventArgs e,datosDesplegables datosUsuario)
         {
             datoUC nombreUC = (datoUC)datosUsuario.Controls["nombreUC"];
@@ -209,7 +227,11 @@ namespace Presentacion
                 apellidosUC.DatoTbUC.Text= apellidos;
             }
         }
-
+        /// <summary>
+        /// Muestra el formulario para ver los datos de un usuario introduciendo su dni manualmente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void introducirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Introducir introducir = new Introducir();
@@ -264,7 +286,11 @@ namespace Presentacion
             }
             introducir.Dispose();
         }
-
+        /// <summary>
+        /// Muestra el formulario con el listado de todos los usuarios y sus datos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void listadoDeUsuariosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             listadoUsuarios listado = new listadoUsuarios(MNBiblioteca. listaUsuarios());
@@ -284,7 +310,11 @@ namespace Presentacion
             listado.ShowDialog();
             */
         }
-
+        /// <summary>
+        /// Muestra el formulario que permite ver los datos todos los usuarios, recorriendolos de uno en uno
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void recorridoUnoAUnoTsmi_Click(object sender, EventArgs e)
         {
             rocorridoUnoaUno recorrido=new rocorridoUnoaUno();
@@ -339,6 +369,12 @@ namespace Presentacion
 
             recorrido.ShowDialog();
         }
+        /// <summary>
+        /// Actualiza los datos de usuario del formulario recorrido
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <param name="recorrido">recorrido != null</param>
         private void cambiarDatosUsuarioUnoaUno(object sender, EventArgs e, rocorridoUnoaUno recorrido)
         {
             claveUC dniUC = (claveUC)recorrido.Controls["dniUC"];
@@ -364,6 +400,11 @@ namespace Presentacion
             numLibrosUC.DatoTbUC.Text = numLibros.ToString();
 
         }
+        /// <summary>
+        /// Cierra la sesión iniciada por un personal de sala o de biblioteca
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void cerrarSesiónToolStripMenuItem_Click(object sender, EventArgs e)
         {

@@ -18,9 +18,5 @@ namespace Presentacion
             
         }
 
-        private void aceptarAlB_Click(object sender, EventArgs e)
-        {
-            //this.Close();
-        }
     }
 }

@@ -26,6 +26,13 @@ namespace Presentacion
         public string Tipo { get { return tipo; }}
         public string Personal { get { return personal; }}
 
+
+        /// <summary>
+        /// Intenta loguearse en la aplicación con los introducidos en las TextBox, si son correctos se mostrará el formulario de gestión de biblioteca que les corresponda acorde a su función,
+        /// en caso contrario se mostrará un mensaje de error
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Continuar_Click(object sender, EventArgs e)
         {
             this.tipo = MNBiblioteca.login(this.NombreTb.Text, this.ContrasenaTb.Text);

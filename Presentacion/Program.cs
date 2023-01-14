@@ -10,6 +10,10 @@ namespace Presentacion
 {
     public class Program
     {
+        /// <summary>
+        /// Carga los datos de la biblioteca, he inicia el programa
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             MNBiblioteca.poblarBaseDeDatos();
@@ -17,6 +21,10 @@ namespace Presentacion
             Application.SetCompatibleTextRenderingDefault(false);
             Program.iniciar();
         }
+
+        /// <summary>
+        /// Inicia la aplicación mostrando un formulario de login
+        /// </summary>
         public static void iniciar()
         {
             

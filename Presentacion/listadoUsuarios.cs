@@ -20,6 +20,10 @@ namespace Presentacion
             this.lista = l;
             this.aniadirDatos();
         }
+
+        /// <summary>
+        /// Añade los datos de los usuarios a sus respectivas listas
+        /// </summary>
         private void aniadirDatos()
         {
             foreach(Usuario u in this.lista)
@@ -29,33 +33,59 @@ namespace Presentacion
                 this.apellidosLb.Items.Add(u.Apellidos);
             }
         }
+
+        /// <summary>
+        /// Elimina todos los datos de los usuarios de cada una de las listas
+        /// </summary>
         private void eliminarDatos()
         {
             this.dniLb.Items.Clear();
             this.nombreLb.Items.Clear();
             this.apellidosLb.Items.Clear();
         }
+
+        /// <summary>
+        /// Ordena los valores de los usuarios por su DNI
+        /// </summary>
         private void ordenarPorDNI()
         {
             List<Usuario> ordenada=this.lista.OrderBy(usuario => usuario.Dni).ToList();
             this.lista=ordenada;
         }
+
+        /// <summary>
+        /// Ordena los valores de los usuarios por su nombre
+        /// </summary>
         private void ordenarPorNombre()
         {
             List<Usuario> ordenada = this.lista.OrderBy(usuario => usuario.Nombre).ToList();
             this.lista = ordenada;
         }
+
+        /// <summary>
+        /// Ordena los valores de los usuarios por sus apellidos
+        /// </summary>
         private void ordenarPorApellidos()
         {
             List<Usuario> ordenada = this.lista.OrderBy(usuario => usuario.Apellidos).ToList();
             this.lista = ordenada;
         }
 
+        /// <summary>
+        /// Cierra el formulario de listado de usuarios
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cerrarb_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// Ordena los valores de los usuarios por su DNI, y actualiza todas las listas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dnib_Click(object sender, EventArgs e)
         {
             this.ordenarPorDNI();
@@ -63,6 +93,11 @@ namespace Presentacion
             this.aniadirDatos();
         }
 
+        /// <summary>
+        /// Ordena los valores de los usuarios por su nombre, y actualiza todas las listas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void nombreb_Click(object sender, EventArgs e)
         {
             this.ordenarPorNombre();
@@ -70,6 +105,11 @@ namespace Presentacion
             this.aniadirDatos();
         }
 
+        /// <summary>
+        /// Ordena los valores de los usuarios por sus apellidos, y actualiza todas las listas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void apellidosb_Click(object sender, EventArgs e)
         {
             this.ordenarPorApellidos();

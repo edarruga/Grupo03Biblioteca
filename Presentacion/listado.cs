@@ -17,6 +17,11 @@ namespace Presentacion
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Cierra el formulario de listado
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cerrarb_Click(object sender, EventArgs e)
         {
             this.Close();

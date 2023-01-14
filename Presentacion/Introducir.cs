@@ -25,16 +25,25 @@ namespace Presentacion
         {
             InitializeComponent();
         }
-
+        /// <summary>
+        /// Modifica el parametro clave del objeto con el valor que se encuentre en el textBox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void aceptarB_Click(object sender, EventArgs e)
         {
             this.clave = this.claveTb.Text;
         }
+        /// <summary>
+        /// Cierra el formulario Introducir
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void cancelarB_Click(object sender, EventArgs e)
         {
             this.Close();
-            // PREGUNTAR SI ES NECESARIO DISPOSE AQUI
+            this.Dispose();
         }
     }
 }
