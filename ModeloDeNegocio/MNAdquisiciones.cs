@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ModeloDeNegocio
 {
-    public class MNAdquisiciones
+    public static class MNAdquisiciones
     {
         /// <summary>
         /// Obtiene los ejemplares asociados al libro introducido
