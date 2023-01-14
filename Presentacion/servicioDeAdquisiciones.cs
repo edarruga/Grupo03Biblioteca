@@ -789,7 +789,75 @@ namespace Presentacion
 
         private void recorridoUnoAUnoEjemplaresTsmi_Click(object sender, EventArgs e)
         {
+            rocorridoUnoaUno recorrido = new rocorridoUnoaUno();
+            List<Ejemplar> listaEjemplares = MNAdquisiciones.listaEjemplares();
+            recorrido.Text = "Datos de un ejemplar";
+            claveUC ucCodigo = new claveUC(85, 55, "Código:");
+            datoUC ucPrestado = new datoUC(85, 80, "Prestado:");
+            datoUC ucISBN = new datoUC(85, 105, "ISBN:");
+            datoUC ucTitulo = new datoUC(85, 130, "Título:");
+            datoUC ucAutor = new datoUC(85, 155, "Autor:");
+            datoUC ucEditorial = new datoUC(85, 180, "Editorial:");
+            ucCodigo.Name = "ucCodigo";
+            ucPrestado.Name = "ucPrestado";
+            ucISBN.Name = "ucISBN";
+            ucTitulo.Name = "ucTitulo";
+            ucAutor.Name = "ucAutor";
+            ucEditorial.Name = "ucEditorial";
+            ucPrestado.DatoTbUC.ReadOnly = true;
+            ucISBN.DatoTbUC.ReadOnly = true;
+            ucTitulo.DatoTbUC.ReadOnly = true;
+            ucAutor.DatoTbUC.ReadOnly = true;
+            ucEditorial.DatoTbUC.ReadOnly = true;
+            foreach (Ejemplar ej in listaEjemplares)
+            {
+                recorrido.BindingNavigator.BindingSource.Add(ej);
+            }
+            recorrido.BindingNavigatorPositionItem.TextChanged += (s, ev) => cambiarDatosEjemplarUnoaUno(sender, e, recorrido);
+            
+            recorrido.Controls.Add(ucCodigo);
+            recorrido.Controls.Add(ucPrestado);
+            recorrido.Controls.Add(ucISBN);
+            recorrido.Controls.Add(ucTitulo);
+            recorrido.Controls.Add(ucAutor);
+            recorrido.Controls.Add(ucEditorial);
+            this.cambiarDatosEjemplarUnoaUno(sender, e, recorrido);
 
+            recorrido.ShowDialog();
+        }
+
+        public void cambiarDatosEjemplarUnoaUno(object sender, EventArgs e, rocorridoUnoaUno recorrido)
+        {
+            claveUC ucCodigo = recorrido.Controls["ucCodigo"] as claveUC;
+            datoUC ucPrestado = recorrido.Controls["ucPrestado"] as datoUC;
+            datoUC ucISBN = recorrido.Controls["ucISBN"] as datoUC;
+            datoUC ucTitulo = recorrido.Controls["ucTitulo"] as datoUC;
+            datoUC ucAutor = recorrido.Controls["ucAutor"] as datoUC;
+            datoUC ucEditorial = recorrido.Controls["ucEditorial"] as datoUC;
+
+            Ejemplar ej = recorrido.BindingNavigator.BindingSource.Current as Ejemplar;
+            string codigo = "";
+            bool prestado = false;
+            string isbn = "";
+            string titulo = "";
+            string autor = "";
+            string editorial = "";
+            if (ej != null)
+            {
+                codigo = ej.Codigo;
+                prestado = ej.Prestado;
+                isbn = ej.Libro.Isbn;
+                titulo = ej.Libro.Autor;
+                autor = ej.Libro.Titulo;
+                editorial = ej.Libro.Editorial;
+            }
+            ucCodigo.ClaveTbUC.Text = codigo;
+            if (prestado) ucPrestado.DatoTbUC.Text = "Si" ;
+            else ucPrestado.DatoTbUC.Text = "No";
+            ucISBN.DatoTbUC.Text = isbn;
+            ucAutor.DatoTbUC.Text = autor;
+            ucTitulo.DatoTbUC.Text = titulo;
+            ucEditorial.DatoTbUC.Text = editorial;
         }
     }
 }

@@ -43,7 +43,7 @@ namespace Presentacion
 
         private void bTitulo_Click(object sender, EventArgs e)
         {
-            ordenarPorISBN();
+            ordenarPorTitulo();
             this.eliminarDatos();
             this.aniadirDatos();
         }
