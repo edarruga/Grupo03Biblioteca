@@ -222,10 +222,6 @@
       <Project>{A3ED2BC5-3FB5-48EA-A8DB-FE800B50DDF8}</Project>
       <Name>ModeloDeNegocio</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Persistencia\Persistencia.csproj">
-      <Project>{8EB5F428-EB2D-4714-8465-3881E24EBE90}</Project>
-      <Name>Persistencia</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
