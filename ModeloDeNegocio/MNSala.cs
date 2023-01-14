@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ModeloDeNegocio
 {
-    public class MNSala
+    public static class MNSala
     {
         /// <summary>
         /// Da de alta el prestamo 
