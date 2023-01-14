@@ -843,6 +843,7 @@ namespace Presentacion
             string editorial = "";
             if (p != null)
             {
+                MNBiblioteca.calcularEstadoPrestamo(p);
                 codigos = p.EjemPrestados.Select(pr => pr.Codigo).ToList();
                 fecha=p.Fecha.ToString("yyyy-MM-dd HH:mm:ss");
                 dni = p.Usuario.Dni;
