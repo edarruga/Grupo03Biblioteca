@@ -173,6 +173,11 @@ namespace Presentacion
             this.recorridoUnoAUnoEjemplaresTsmi.Click += new System.EventHandler(this.recorridoUnoAUnoEjemplaresTsmi_Click);
         }
 
+        /// <summary>
+        /// Muestra el formulario para dar de alta un libro
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void altaLibrosTsmi_Click(object sender, EventArgs e)
         {
             Introducir introducir = new Introducir();
@@ -264,6 +269,11 @@ namespace Presentacion
             introducir.Dispose();
         }
 
+        /// <summary>
+        /// Muestra el formulario para dar de baja un libro
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bajaLibrosTsmi_Click(object sender, EventArgs e)
         {
             Introducir introducir = new Introducir();
@@ -339,7 +349,11 @@ namespace Presentacion
             }
             introducir.Dispose();
         }
-
+        /// <summary>
+        /// Muestra el formulario para ver los datos de un libro introduciendo su isbn manualmente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void insertarLibrosTsmi_Click(object sender, EventArgs e)
         {
             Introducir introducir = new Introducir();
@@ -400,6 +414,11 @@ namespace Presentacion
             introducir.Dispose();
         }
 
+        /// <summary>
+        /// Muestra el formulario para ver los datos de un libro selecionando su isbn
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void seleccionarLibrosTsmi_Click(object sender, EventArgs e)
         {
             List<string> ISBNs = MNAdquisiciones.listaISBNLibros();
@@ -437,13 +456,22 @@ namespace Presentacion
             datosLibros.Controls.Add(ucEditorial);
             DialogResult usuario = datosLibros.ShowDialog();
         }
-
+        /// <summary>
+        /// Muestra el formulario con el listado de todos los libros y sus datos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void listadoDeLibrosTsmi_Click(object sender, EventArgs e)
         {
             ListadoLibros listado = new ListadoLibros(MNAdquisiciones.listaLibros());
             listado.ShowDialog();
         }
 
+        /// <summary>
+        /// Muestra el formulario que permite ver los datos todos los libros, recorriendolos de uno en uno
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void recorridoUnoAUnoLibrosTsmi_Click(object sender, EventArgs e)
         {
             rocorridoUnoaUno recorrido = new rocorridoUnoaUno();
@@ -475,6 +503,12 @@ namespace Presentacion
             recorrido.ShowDialog();
         }
 
+        /// <summary>
+        /// Actualiza los datos de libro del formulario recorrido
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <param name="recorrido">recorrido !=null</param>
         private void cambiarDatosLibroUnoaUno(object sender, EventArgs e, rocorridoUnoaUno recorrido)
         {
             claveUC ucISBN = recorrido.Controls["ucISBN"] as claveUC;
@@ -500,6 +534,11 @@ namespace Presentacion
             ucEditorial.DatoTbUC.Text = editorial.ToString();
         }
 
+        /// <summary>
+        /// Muestra el formulario para dar de alta a un ejempalar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void altaEjemplaresTsmi_Click(object sender, EventArgs e)
         {
             Introducir introducir = new Introducir();
@@ -568,6 +607,12 @@ namespace Presentacion
             introducir.Dispose();
         }
 
+
+        /// <summary>
+        /// Muestra el formulario para dar de baja a un ejemplar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bajaEjemplaresTsmi_Click(object sender, EventArgs e)
         {
             Introducir introducir = new Introducir();
@@ -656,6 +701,12 @@ namespace Presentacion
             introducir.Dispose();
         }
 
+
+        /// <summary>
+        /// Muestra el formulario para ver los datos de un ejemplar introduciendo su código manualmente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void introducirEjemplaresTsmi_Click(object sender, EventArgs e)
         {
             Introducir introducir = new Introducir();
@@ -727,6 +778,12 @@ namespace Presentacion
             introducir.Dispose();
         }
 
+        /// <summary>
+        /// Muestra el formulario para ver los datos de un ejemplar selecionando su código
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
         private void seleccionarEjemplaresTsmi_Click(object sender, EventArgs e)
         {
             List<string> codigos = MNAdquisiciones.listaCodigosEjemplares();
@@ -781,11 +838,22 @@ namespace Presentacion
             DialogResult usuario = datosEjemplares.ShowDialog();
         }
 
+        /// <summary>
+        /// Muestra el formulario con el listado de todos los ejemplares y sus datos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void listadoDeEjemplaresTsmi_Click(object sender, EventArgs e)
         {
             ListadoEjemplares listado = new ListadoEjemplares(MNAdquisiciones.listaEjemplares());
             listado.ShowDialog();
         }
+
+        /// <summary>
+        /// Muestra el formulario que permite ver los datos todos los ejemplares, recorriendolos de uno en uno
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void recorridoUnoAUnoEjemplaresTsmi_Click(object sender, EventArgs e)
         {
@@ -825,6 +893,13 @@ namespace Presentacion
 
             recorrido.ShowDialog();
         }
+
+        /// <summary>
+        /// Actualiza los datos de ejemplar del formulario recorrido
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <param name="recorrido">recorrido!=null</param>
 
         public void cambiarDatosEjemplarUnoaUno(object sender, EventArgs e, rocorridoUnoaUno recorrido)
         {

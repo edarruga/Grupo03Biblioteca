@@ -26,7 +26,11 @@ namespace Presentacion
             InitializeComponent();
             this.aniadirDatos();
         }
-
+        /// <summary>
+        /// Ordena los valores de los libros por su ISBN, y actualiza todas las listas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bISBN_Click(object sender, EventArgs e)
         {
             ordenarPorISBN();
@@ -34,6 +38,11 @@ namespace Presentacion
             this.aniadirDatos();
         }
 
+        /// <summary>
+        /// Ordena los valores de los libros por su titulo, y actualiza todas las listas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bTitulo_Click(object sender, EventArgs e)
         {
             ordenarPorTitulo();
@@ -41,6 +50,11 @@ namespace Presentacion
             this.aniadirDatos();
         }
 
+        /// <summary>
+        /// Ordena los valores de los libros por su autor, y actualiza todas las listas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bAutor_Click(object sender, EventArgs e)
         {
             ordenarPorAutor();
@@ -48,6 +62,11 @@ namespace Presentacion
             this.aniadirDatos();
         }
 
+        /// <summary>
+        /// Ordena los valores de los libros por su editorial, y actualiza todas las listas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bEditorial_Click(object sender, EventArgs e)
         {
             ordenarPorEditorial();
@@ -55,6 +74,9 @@ namespace Presentacion
             this.aniadirDatos();
         }
 
+        /// <summary>
+        /// Elimina los datos de los libros de todas las listas
+        /// </summary>
         private void eliminarDatos()
         {
             this.lbAutor.Items.Clear();
@@ -62,6 +84,10 @@ namespace Presentacion
             this.lbISBN.Items.Clear();
             this.lbTitulo.Items.Clear();
         }
+
+        /// <summary>
+        /// Añade los datos de los elibros especificos a sus respectivas listas
+        /// </summary>
         private void aniadirDatos()
         {
             foreach (Libro l in this.lista)
@@ -73,23 +99,36 @@ namespace Presentacion
             }
         }
 
+        /// <summary>
+        /// Ordena los valores de los libros por su ISBN
+        /// </summary>
         private void ordenarPorISBN()
         {
             List<Libro> ordenada = this.lista.OrderBy(l => l.Isbn).ToList();
             this.lista = ordenada;
         }
 
+        /// <summary>
+        /// Ordena los valores de los libros por su titulo
+        /// </summary>
         private void ordenarPorTitulo()
         {
             List<Libro> ordenada = this.lista.OrderBy(l => l.Titulo).ToList();
             this.lista = ordenada;
         }
 
+        /// <summary>
+        /// Ordena los valores de los libros por su autor
+        /// </summary>
         private void ordenarPorAutor()
         {
             List<Libro> ordenada = this.lista.OrderBy(l => l.Autor).ToList();
             this.lista = ordenada;
         }
+
+        /// <summary>
+        /// Ordena los valores de los libros por su editorial
+        /// </summary>
 
         private void ordenarPorEditorial()
         {
@@ -97,6 +136,11 @@ namespace Presentacion
             this.lista = ordenada;
         }
 
+        /// <summary>
+        /// Cierra el formulario de listado de libros
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cerrarb_Click(object sender, EventArgs e)
         {
             this.Close();

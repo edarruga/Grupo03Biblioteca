@@ -27,6 +27,11 @@ namespace Presentacion
             this.Text= texto;
         }
 
+        /// <summary>
+        /// Carga los datos de los prestamos del objeto prestamosDg en un DataGridView
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void prestamosDg_Load(object sender, EventArgs e)
         {
             if (this.prestamos.Count > 0)

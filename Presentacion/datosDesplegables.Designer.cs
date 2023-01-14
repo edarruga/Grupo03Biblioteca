@@ -46,7 +46,6 @@
             this.aceptarAlB.TabIndex = 1;
             this.aceptarAlB.Text = "Aceptar";
             this.aceptarAlB.UseVisualStyleBackColor = true;
-            this.aceptarAlB.Click += new System.EventHandler(this.aceptarAlB_Click);
             // 
             // claveL
             // 

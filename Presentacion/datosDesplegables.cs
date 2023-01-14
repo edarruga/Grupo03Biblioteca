@@ -31,9 +31,5 @@ namespace Presentacion
             get { return this.aceptarAlB; }
         }
 
-        private void aceptarAlB_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
     }
 }

@@ -125,6 +125,11 @@ namespace Presentacion
 
         }
 
+        /// <summary>
+        /// Muestra el formulario para dar de alta un prestamo
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void altaPrestamosTsmi_Click(object sender, EventArgs e)
         {
             Introducir introducir = new Introducir();
@@ -353,6 +358,11 @@ namespace Presentacion
             introducir.Dispose();
         }
 
+        /// <summary>
+        /// Muestra el formulario para dar de baja un prestamo
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bajaPrestamosTsmi_Click(object sender, EventArgs e)
         {
             Introducir introducir = new Introducir();
@@ -487,6 +497,12 @@ namespace Presentacion
             }
             introducir.Dispose();
         }
+
+        /// <summary>
+        /// Muestra el formulario para realizar la busqueda de un prestamo
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void busquedaPrestamosTsmi_Click(object sender, EventArgs e)
         {
             Introducir introducir = new Introducir();
@@ -586,6 +602,13 @@ namespace Presentacion
             }
             introducir.Dispose();
         }
+
+        /// <summary>
+        /// Actualiza los datos del prestamo representados en el formulario datosPrestamos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <param name="datosPrestamos">datosPrestamos!=null</param>
         private void cambiarDatosBusquedaPorFecha(object sender, EventArgs e, datosDesplegables datosPrestamos)
         {
             claveUC estadoUC = (claveUC)datosPrestamos.Controls["estadoUC"];
@@ -630,6 +653,13 @@ namespace Presentacion
                 editorialUC.ClaveTbUC.Text = "";
             }
         }
+
+        /// <summary>
+        /// Actualiza los datos de ejemplar del prestamo representados en el formulario datosPrestamos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <param name="datosPrestamos">datosPrestamos !=null</param>
         private void cambiarDatosBusquedaPorEjemplar(object sender, EventArgs e, datosDesplegables datosPrestamos)
         {
             claveUC estadoEjemplarUC = (claveUC)datosPrestamos.Controls["estadoEjemplarUC"];
@@ -659,13 +689,23 @@ namespace Presentacion
             }
         }
         
-
+        /// <summary>
+        /// Muestra el formulario con los datos de los prestamos ya finalizados
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void prestamosFinalizadosTsmi_Click(object sender, EventArgs e)
         {
             List<Prestamo> prestamos = MNSala.getPrestamosFinalizados();
             prestamosDg form = new prestamosDg(prestamos, "Listado de préstamos finalizados");
             form.ShowDialog();
         }
+
+        /// <summary>
+        /// Muestra el formulario con los datos de los prestamos en proceso
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void prestamosEnProcesoTsmi_Click(object sender, EventArgs e)
         {
             List<Prestamo> prestamos = MNSala.getPrestamosEnProceso();
@@ -673,6 +713,11 @@ namespace Presentacion
             form.ShowDialog();
         }
 
+        /// <summary>
+        /// Muestra el formulario con los datos de todos los prestamos pudiendo recorrerlos de uno en uno
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void recorridoUnoAUnoPrestamosTsmi_Click(object sender, EventArgs e)
         {
             rocorridoUnoaUno recorrido = new rocorridoUnoaUno();
@@ -728,6 +773,13 @@ namespace Presentacion
 
             recorrido.ShowDialog();
         }
+
+        /// <summary>
+        /// Actualiza los datos de ejemplar del prestamo representados en el formulario recorrido
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <param name="recorrido">recorrido!=null</param>
         private void cambiarDatosPrestamoPorEjemplarUnoAUno(object sender, EventArgs e, rocorridoUnoaUno recorrido)
         {
             claveUC estadoEjemplarUC = (claveUC)recorrido.Controls["estadoEjemplarUC"];
@@ -757,6 +809,12 @@ namespace Presentacion
             }
         }
 
+        /// <summary>
+        /// Actualiza los datos del prestamo representados en el formulario recorrido
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <param name="recorrido">recorrido !=null</param>
         private void cambiarDatosPrestamoUnoaUno(object sender, EventArgs e, rocorridoUnoaUno recorrido)
         {
             claveUC fechaUC = (claveUC)recorrido.Controls["fechaUC"];
@@ -811,6 +869,12 @@ namespace Presentacion
 
 
         }
+
+        /// <summary>
+        /// Muestra el formulario con los datos de los ejemplares no devueltos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void verEjemplaresNoDevueltosTsmi_Click(object sender, EventArgs e)
         {
             List<Ejemplar> ejemplares = MNBiblioteca.getEjemplaresNoDevueltos();
@@ -850,6 +914,13 @@ namespace Presentacion
             datosEjemplar.ClaveDesplegableCb.SelectedIndexChanged += (s, ev) => cambiarEjemplaresNoDevueltos(sender, e, datosEjemplar);
             datosEjemplar.ShowDialog();
         }
+
+        /// <summary>
+        /// Actualiza los datos de ejemplar del prestamo no devuelto representados en el formulario datosPrestamos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <param name="datosEjemplar">datosEjemplar!=null</param>
         private void cambiarEjemplaresNoDevueltos(object sender, EventArgs e, datosDesplegables datosEjemplar)
         {
             claveUC isbnUC = (claveUC)datosEjemplar.Controls["isbnUC"];
@@ -869,6 +940,12 @@ namespace Presentacion
                 editorialUC.ClaveTbUC.Text = libro.Editorial;
             }
         }
+
+        /// <summary>
+        /// Muestra el formulario para devolver un ejemplar prestado
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void devolverEjemplarTsmi_Click(object sender, EventArgs e)
         {
             Introducir introducir = new Introducir();
