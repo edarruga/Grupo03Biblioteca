@@ -446,10 +446,8 @@ namespace Persistencia
         /// </summary>
         public static void poblarBaseDeDatos()
         {
-            PersonalServicioAdquisiciones p = new PersonalServicioAdquisiciones("aaa", "123");
             PersonalServicioAdquisiciones p2 = new PersonalServicioAdquisiciones("daarmas", "daarmas");
 
-            PersonalSala p3 = new PersonalSala("bbb", "123");
             PersonalSala p4 = new PersonalSala("edarruga", "edarruga");
 
             Libro l = new Libro("111", "Berserk", "Kentaro Miura", "Panini");
@@ -482,9 +480,7 @@ namespace Persistencia
             GestorBD.AltaUsuario(u2);
             GestorBD.AltaUsuario(u3);
             GestorBD.AltaUsuario(u4);
-            GestorBD.AltaPersonal(p);
             GestorBD.AltaPersonal(p2);
-            GestorBD.AltaPersonal(p3);
             GestorBD.AltaPersonal(p4);
             GestorBD.AltaLibro(l);
             GestorBD.AltaLibro(l2);
